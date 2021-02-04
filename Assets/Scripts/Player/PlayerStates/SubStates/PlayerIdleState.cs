@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerIdleState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
 
@@ -19,7 +19,7 @@ public class PlayerIdleState : PlayerGroundedState
 
         // Stop movement when enter idle state
         player.SetVelocityX(0.0f);
-        player.Anim.Play("Idle");
+        //player.Anim.Play("Idle");
 
     }
 

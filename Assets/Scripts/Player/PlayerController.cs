@@ -5,31 +5,36 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region State Variables
     public PlayerStateMachine StateMachine { get; private set; }
 
     // Initialize Player States 
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
 
-
-    public PlayerInputActions RawPlayerInput { get; private set; }
-    // public int NormInputX { get; private set; }
-   // public int NormInputY { get; private set; }
-    
-    public Rigidbody2D RB { get; private set; }
-
-    // Have a getter so states has access 
-    public Animator Anim { get; private set; }
-
-    
     [SerializeField]
     private PlayerData playerData;
+    #endregion
 
-    private Vector2 tempVelocity;
+    #region Components
+    public Rigidbody2D RB { get; private set; }
+    // Have a getter so states has access 
+    public Animator Anim { get; private set; }
+    public PlayerInputActions RawPlayerInput { get; private set; }
+    #endregion
 
+    #region Other Variables 
+    public int NormInputX { get; private set; }
+    public int NormInputY { get; private set; }
+    
     //Storing to avoid going to RB everytime we want RB velocity 
     public Vector2 CurrVelocity { get; private set; }
+    private Vector2 tempVelocity;
 
+    public int FacingDirection { get; private set; }
+    #endregion
+
+    #region Unity Callback Functions
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
@@ -60,7 +65,7 @@ public class PlayerController : MonoBehaviour
         // Player is in idle state upon game start 
         StateMachine.Initialize(IdleState);
 
-        //TODO: Normalizing input data so player does not move faster on controller
+        FacingDirection = 1;
 
     }
 
@@ -76,11 +81,42 @@ public class PlayerController : MonoBehaviour
     {
         StateMachine.CurrentState.ExecutePhysics();
     }
+    #endregion
 
+    #region SetFunctions
     public void SetVelocityX(float velocity)
     {
         tempVelocity.Set(velocity, CurrVelocity.y);
         RB.velocity = tempVelocity;
         CurrVelocity = tempVelocity; 
     }
+
+    // Normalize input so player moves with same speed on different input types
+    public Vector2 SetNormInput()
+    {
+        NormInputX = (int)(RawPlayerInput.Gameplay.Move.ReadValue<Vector2>() * Vector2.right).normalized.x;
+        NormInputY = (int)(RawPlayerInput.Gameplay.Move.ReadValue<Vector2>() * Vector2.up).normalized.y;
+
+        return new Vector2(NormInputX, NormInputY);
+    }
+    #endregion
+
+    #region Check Functions
+    public void CheckIfShouldFlip(int xInput)
+    {
+        if(xInput != 0 && xInput != FacingDirection)
+        {
+            Flip();
+        }
+    }
+    #endregion
+
+    #region Other Functions
+    private void Flip()
+    {
+        FacingDirection *= -1;
+        transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+    #endregion
+    
 }

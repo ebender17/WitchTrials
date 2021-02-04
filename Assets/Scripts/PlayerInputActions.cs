@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Player.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Player/Player.inputactions'
 
 using System;
 using System.Collections;
@@ -41,7 +41,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""id"": ""f0483e66-a14d-4c03-bb6a-37d39bdd147b"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Move"",
                     ""isComposite"": false,

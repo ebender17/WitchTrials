@@ -11,28 +11,29 @@ public class PlayerState
 
     protected float startTime;
 
-    private string animBoolName; 
+    private string animName; 
 
-    public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
+    public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName)
     {
         this.player = player;
         this.stateMachine = stateMachine;
         this.playerData = playerData;
-        this.animBoolName = animBoolName; 
+        this.animName = animName; 
 
     }
 
     public virtual void Enter()
     {
         DoChecks();
-        //player.Anim.SetBool(animBoolName, true);
+        player.Anim.Play(animName);
         startTime = Time.time;
-        //Debug.Log(animBoolName);
+        //Debug.Log(animName);
     }
 
     public virtual void Exit()
     {
         //player.Anim.SetBool(animBoolName, false);
+        //player.Anim.StopPlayback();
     }
 
     public virtual void Execute()

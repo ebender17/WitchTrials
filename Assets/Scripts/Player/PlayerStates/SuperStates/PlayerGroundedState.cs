@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerGroundedState : PlayerState
 {
     protected Vector2 input; 
-    public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
 
@@ -27,7 +27,9 @@ public class PlayerGroundedState : PlayerState
     public override void ExecutePhysics()
     {
         base.ExecutePhysics();
-        input = player.RawPlayerInput.Gameplay.Move.ReadValue<Vector2>();
+       
+        //player.RawPlayerInput.Gameplay.Move.ReadValue<Vector2>()
+        input = player.SetNormInput();
     }
 
     public override void Exit()

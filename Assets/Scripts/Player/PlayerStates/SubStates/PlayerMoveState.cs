@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerMoveState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
 
@@ -16,7 +16,7 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        player.Anim.Play("Move");
+        //player.Anim.Play("Move");
 
     }
 
@@ -24,7 +24,7 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Execute();
 
-        player.SetVelocityX(playerData.movementVelocity * input.x);
+        player.CheckIfShouldFlip((int)input.x); 
 
         if(input.x == 0f)
         {
@@ -35,6 +35,8 @@ public class PlayerMoveState : PlayerGroundedState
     public override void ExecutePhysics()
     {
         base.ExecutePhysics();
+
+        player.SetVelocityX(playerData.movementVelocity * input.x);
     }
 
     public override void Exit()
