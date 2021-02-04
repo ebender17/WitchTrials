@@ -11,7 +11,9 @@ public class PlayerState
 
     protected float startTime;
 
-    private string animName; 
+    private string animName;
+
+    protected bool isAnimationFinished;
 
     public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName)
     {
@@ -25,14 +27,15 @@ public class PlayerState
     public virtual void Enter()
     {
         DoChecks();
-        player.Anim.Play(animName);
+        player.Anim.SetBool(animName, true);
         startTime = Time.time;
         Debug.Log(animName);
+        isAnimationFinished = false;
     }
 
     public virtual void Exit()
     {
-        //player.Anim.SetBool(animBoolName, false);
+        player.Anim.SetBool(animName, false);
         //player.Anim.StopPlayback();
     }
 
@@ -46,10 +49,14 @@ public class PlayerState
         DoChecks();
     }
 
-    public virtual void DoChecks()
-    {
+    /*
+     * Used for checks such as looking for ground or wall. 
+     * Placed in Enter() and ExecutePhysics() once so we do 
+     * not have to do so in every state.
+     */
+    public virtual void DoChecks() { }
+    public virtual void AnimationTrigger() { }
 
-    }
-
+    public virtual void AnimationFinishTrigger() => isAnimationFinished = true;
 
 }

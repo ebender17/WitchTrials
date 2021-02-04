@@ -19,7 +19,6 @@ public class PlayerIdleState : PlayerGroundedState
 
         // Stop movement when enter idle state
         player.SetVelocityX(0.0f);
-        //player.Anim.Play("Idle");
 
     }
 
@@ -27,9 +26,9 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Execute();
 
-        if(input.x != 0)
+        if(xInput != 0)
         {
-            stateMachine.RequestState(player.MoveState);
+            stateMachine.ChangeState(player.MoveState);
         }
     }
 

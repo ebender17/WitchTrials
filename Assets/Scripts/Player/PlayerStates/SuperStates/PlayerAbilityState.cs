@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAbilityState : PlayerState
 {
     protected bool IsAbilityDone;
+
     private bool IsGrounded; 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -13,6 +14,7 @@ public class PlayerAbilityState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
+
         IsGrounded = player.CheckIfGrounded(); 
     }
 
@@ -26,6 +28,7 @@ public class PlayerAbilityState : PlayerState
     public override void Execute()
     {
         base.Execute();
+
         if(IsAbilityDone)
         {
             /*
@@ -36,11 +39,11 @@ public class PlayerAbilityState : PlayerState
            
             if (IsGrounded && player.CurrVelocity.y < 0.01f )
             {
-                stateMachine.RequestState(player.IdleState);
+                stateMachine.ChangeState(player.IdleState);
             }
             else
             {
-                stateMachine.RequestState(player.InAirState);
+                stateMachine.ChangeState(player.InAirState);
             }
         }
     }

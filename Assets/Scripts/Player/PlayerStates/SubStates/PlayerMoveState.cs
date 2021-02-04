@@ -16,7 +16,6 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        //player.Anim.Play("Move");
 
     }
 
@@ -24,11 +23,13 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Execute();
 
-        player.CheckIfShouldFlip((int)input.x); 
+        player.CheckIfShouldFlip(xInput);
 
-        if(input.x == 0f)
+        player.SetVelocityX(playerData.movementVelocity * xInput);
+
+        if (xInput == 0)
         {
-            stateMachine.RequestState(player.IdleState);
+            stateMachine.ChangeState(player.IdleState);
         }
     }
 
@@ -36,7 +37,9 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.ExecutePhysics();
 
-        player.SetVelocityX(playerData.movementVelocity * input.x);
+
+       // player.SetVelocityX(playerData.movementVelocity * xInput);
+
     }
 
     public override void Exit()

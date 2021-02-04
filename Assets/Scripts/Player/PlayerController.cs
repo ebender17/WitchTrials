@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerController : MonoBehaviour
@@ -24,17 +25,20 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D BoxCollider;
     // Have a getter so states has access 
     public Animator Anim { get; private set; }
-    public PlayerInputActions RawPlayerInput { get; private set; }
+    public PlayerInputActions PlayerInputHandler { get; private set; }
     #endregion
 
-    #region Check Transform 
-    //private Transform groundCheck;
+    #region Check Transforms
+
+    [SerializeField]
+    private Transform groundCheck;
+    #endregion
+
+    #region Input Variables 
+    /*public bool JumpInput { get; private set; }*/
     #endregion
 
     #region Other Variables 
-    public int NormInputX { get; private set; }
-    public int NormInputY { get; private set; }
-    
     //Storing to avoid going to RB everytime we want RB velocity 
     public Vector2 CurrVelocity { get; private set; }
     private Vector2 tempVelocity;
@@ -54,17 +58,20 @@ public class PlayerController : MonoBehaviour
         LandState = new PlayerLandState(this, StateMachine, playerData, "Land"); 
 
         // Initatiate player inputs
-        RawPlayerInput = new PlayerInputActions();
+        PlayerInputHandler = new PlayerInputActions();
+
+        //Jump Callback
+        /*PlayerInputHandler.Gameplay.Jump.performed += OnJumpInput;*/
     }
 
     private void OnEnable()
     {
-        RawPlayerInput.Enable(); 
+        PlayerInputHandler.Enable(); 
     }
 
     public void OnDisable()
     {
-        RawPlayerInput.Disable(); 
+        PlayerInputHandler.Disable(); 
     }
 
     // Start is called before the first frame update
@@ -95,6 +102,30 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region InputFunctions
+    // Normalize input so player moves with same speed on different input types
+    public int NormalizeInputX()
+    {
+        return (int)(PlayerInputHandler.Gameplay.Move.ReadValue<Vector2>() * Vector2.right).normalized.x;
+    }
+
+    public int NormalizeInputY()
+    {
+        return (int)(PlayerInputHandler.Gameplay.Move.ReadValue<Vector2>() * Vector2.up).normalized.y;
+    }
+
+    /*public void OnJumpInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            JumpInput = true;
+
+        }
+    }
+
+    public void UseJumpInput() => JumpInput = false;*/
+    #endregion
+
     #region SetFunctions
     public void SetVelocityX(float velocity)
     {
@@ -109,16 +140,7 @@ public class PlayerController : MonoBehaviour
         RB.velocity = tempVelocity;
         CurrVelocity = tempVelocity;
     }
-    // Normalize input so player moves with same speed on different input types
-    public Vector2 SetNormInput()
-    {
-        NormInputX = (int)(RawPlayerInput.Gameplay.Move.ReadValue<Vector2>() * Vector2.right).normalized.x;
-        NormInputY = (int)(RawPlayerInput.Gameplay.Move.ReadValue<Vector2>() * Vector2.up).normalized.y;
-
-        return new Vector2(NormInputX, NormInputY);
-    }
-
-  
+    
     #endregion
 
     #region Check Functions
@@ -132,11 +154,22 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckIfGrounded()
     {
-        return Physics2D.BoxCast(BoxCollider.bounds.center, BoxCollider.bounds.size, 0.0f, Vector2.down, playerData.groundCheckDistance, playerData.whatIsGround);
+        //Physics2D.BoxCast(BoxCollider.bounds.center, BoxCollider.bounds.size, 0.0f, Vector2.down, playerData.groundCheckDistance, playerData.whatIsGround);
+        return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
+
     #endregion
 
     #region Other Functions
+    private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
+
+    /*
+     * Used to create events with animations in Unity editor. 
+     * For example, after land animation this function is triggered. 
+     * Do so here as animations only have access to functions in script
+     * attached to object of animations. 
+     */
+    private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger(); 
     private void Flip()
     {
         FacingDirection *= -1;
