@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     // Initialize Player States 
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerInAirState InAirState { get; private set; }
+    public PlayerLandState LandState { get; private set; }
 
     [SerializeField]
     private PlayerData playerData;
@@ -18,9 +21,14 @@ public class PlayerController : MonoBehaviour
 
     #region Components
     public Rigidbody2D RB { get; private set; }
+    private BoxCollider2D BoxCollider;
     // Have a getter so states has access 
     public Animator Anim { get; private set; }
     public PlayerInputActions RawPlayerInput { get; private set; }
+    #endregion
+
+    #region Check Transform 
+    //private Transform groundCheck;
     #endregion
 
     #region Other Variables 
@@ -41,6 +49,9 @@ public class PlayerController : MonoBehaviour
 
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "Idle");
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "Move");
+        JumpState = new PlayerJumpState(this, StateMachine, playerData, "InAir");
+        InAirState = new PlayerInAirState(this, StateMachine, playerData, "InAir"); 
+        LandState = new PlayerLandState(this, StateMachine, playerData, "Land"); 
 
         // Initatiate player inputs
         RawPlayerInput = new PlayerInputActions();
@@ -60,7 +71,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Anim = GetComponent<Animator>();
-        RB = GetComponent<Rigidbody2D>(); 
+        RB = GetComponent<Rigidbody2D>();
+        BoxCollider = GetComponent<BoxCollider2D>();
 
         // Player is in idle state upon game start 
         StateMachine.Initialize(IdleState);
@@ -91,6 +103,12 @@ public class PlayerController : MonoBehaviour
         CurrVelocity = tempVelocity; 
     }
 
+    public void SetVelocityY(float velocity)
+    {
+        tempVelocity.Set(CurrVelocity.x, velocity);
+        RB.velocity = tempVelocity;
+        CurrVelocity = tempVelocity;
+    }
     // Normalize input so player moves with same speed on different input types
     public Vector2 SetNormInput()
     {
@@ -99,6 +117,8 @@ public class PlayerController : MonoBehaviour
 
         return new Vector2(NormInputX, NormInputY);
     }
+
+  
     #endregion
 
     #region Check Functions
@@ -108,6 +128,11 @@ public class PlayerController : MonoBehaviour
         {
             Flip();
         }
+    }
+
+    public bool CheckIfGrounded()
+    {
+        return Physics2D.BoxCast(BoxCollider.bounds.center, BoxCollider.bounds.size, 0.0f, Vector2.down, playerData.groundCheckDistance, playerData.whatIsGround);
     }
     #endregion
 

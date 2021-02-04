@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerGroundedState : PlayerState
 {
     protected Vector2 input; 
+
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
@@ -17,6 +18,8 @@ public class PlayerGroundedState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        player.RawPlayerInput.Gameplay.Jump.performed += _ => stateMachine.RequestState(player.JumpState);
     }
 
     public override void Execute()

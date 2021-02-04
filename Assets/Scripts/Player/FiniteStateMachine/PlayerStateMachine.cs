@@ -17,6 +17,7 @@ public class PlayerStateMachine
     }
 
     // Takes place of blend tree 
+    // TODO: Do we need requeststate? May not due to how FMS is structed. Only correct states will be called from within functions. 
     public void RequestState(PlayerState requestedState)
     {
         //Idle 
@@ -28,7 +29,34 @@ public class PlayerStateMachine
         //Move (Walk)
         if (requestedState is PlayerMoveState)
         {
-            if(CurrentState is PlayerIdleState)
+            if(CurrentState is PlayerIdleState || CurrentState is PlayerAbilityState)
+            {
+                ChangeState(requestedState);
+            }
+        }
+
+        //Jump
+        if(requestedState is PlayerJumpState)
+        {
+            if(CurrentState is PlayerGroundedState)
+            {
+                ChangeState(requestedState);
+            }
+        }
+
+        //InAir 
+        if(requestedState is PlayerInAirState)
+        {
+            if(CurrentState is PlayerAbilityState)
+            {
+                ChangeState(requestedState);
+            }
+        }
+
+        //Land 
+        if(requestedState is PlayerLandState)
+        {
+            if(CurrentState is PlayerInAirState)
             {
                 ChangeState(requestedState);
             }
