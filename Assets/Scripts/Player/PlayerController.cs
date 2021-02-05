@@ -35,7 +35,11 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Input Variables 
-    /*public bool JumpInput { get; private set; }*/
+    public bool JumpInput { get; private set; }
+    [SerializeField]
+    private float jumpInputHoldTime = 0.2f;
+    private float jumpInputStartTime; 
+    public bool JumpInputStop { get; private set; }
     #endregion
 
     #region Other Variables 
@@ -61,7 +65,8 @@ public class PlayerController : MonoBehaviour
         PlayerInputHandler = new PlayerInputActions();
 
         //Jump Callback
-        /*PlayerInputHandler.Gameplay.Jump.performed += OnJumpInput;*/
+        PlayerInputHandler.Gameplay.Jump.started += ctx => OnJumpInput(ctx);
+        PlayerInputHandler.Gameplay.Jump.canceled += ctx => OnJumpInput(ctx);
     }
 
     private void OnEnable()
@@ -92,8 +97,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CurrVelocity = RB.velocity; 
-        StateMachine.CurrentState.Execute(); 
-     
+        StateMachine.CurrentState.Execute();
+
+        CheckJumpInputHoldTime();
     }
 
     private void FixedUpdate()
@@ -104,6 +110,7 @@ public class PlayerController : MonoBehaviour
 
     #region InputFunctions
     // Normalize input so player moves with same speed on different input types
+    // TODO: Check with controller. Also possible to do with input system.
     public int NormalizeInputX()
     {
         return (int)(PlayerInputHandler.Gameplay.Move.ReadValue<Vector2>() * Vector2.right).normalized.x;
@@ -114,16 +121,33 @@ public class PlayerController : MonoBehaviour
         return (int)(PlayerInputHandler.Gameplay.Move.ReadValue<Vector2>() * Vector2.up).normalized.y;
     }
 
-    /*public void OnJumpInput(InputAction.CallbackContext context)
+    public void OnJumpInput(InputAction.CallbackContext context)
     {
+
         if (context.started)
         {
             JumpInput = true;
+            JumpInputStop = false;
+            jumpInputStartTime = Time.time;
+        }
 
+        if (context.canceled)
+        {
+            JumpInputStop = true;
         }
     }
 
-    public void UseJumpInput() => JumpInput = false;*/
+    public void UseJumpInput() => JumpInput = false;
+
+   
+    //input is held at false until we use jump button or time runs out 
+    private void CheckJumpInputHoldTime()
+    {
+        if(Time.time >= jumpInputStartTime + jumpInputHoldTime)
+        {
+            JumpInput = false; 
+        }
+    }
     #endregion
 
     #region SetFunctions

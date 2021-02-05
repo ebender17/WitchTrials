@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
-    private bool JumpInput; 
+    private bool JumpInput;
+    private bool isGrounded;
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -14,14 +15,17 @@ public class PlayerGroundedState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
+
+        isGrounded = player.CheckIfGrounded();
+
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        //Jump Callback
-        player.PlayerInputHandler.Gameplay.Jump.performed += _ => stateMachine.ChangeState(player.JumpState);
+        player.JumpState.ResetNumJumpsLeft();
+
     }
 
     public override void Execute()
@@ -32,12 +36,18 @@ public class PlayerGroundedState : PlayerState
         xInput = player.NormalizeInputX();
 
         //Jump 
-        /*JumpInput = player.JumpInput;
-        if (JumpInput)
+        JumpInput = player.JumpInput;
+        if (JumpInput && player.JumpState.CanJump())
         {
             player.UseJumpInput();
             stateMachine.ChangeState(player.JumpState);
-        }*/
+        } 
+        // Player falls off ground
+        else if(!isGrounded)
+        {
+            player.InAirState.StartCoyoteTime();
+            stateMachine.ChangeState(player.InAirState);
+        }
     }
 
     public override void ExecutePhysics()
@@ -50,4 +60,5 @@ public class PlayerGroundedState : PlayerState
     {
         base.Exit();
     }
+
 }

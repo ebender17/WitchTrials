@@ -6,7 +6,13 @@ public class PlayerInAirState : PlayerState
 {
     private int xInput; 
 
-    private bool isGrounded; 
+    private bool isGrounded;
+
+    private bool jumpInput;
+    private bool jumpInputStop;
+    private bool coyoteTime;
+    private bool isJumping; 
+
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
@@ -27,20 +33,34 @@ public class PlayerInAirState : PlayerState
     {
         base.Execute();
 
-        xInput = player.NormalizeInputX();
+        CheckCoyoteTime();
 
-        /*
-        * Because jump ability is instantly over player will still be on ground when first jumping
-        * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
-        * move to in air state
-        */
+        xInput = player.NormalizeInputX();
+        jumpInput = player.JumpInput;
+        jumpInputStop = player.JumpInputStop;
+
+        CheckJumpMultiplier();
+
+       /*
+       * Because jump ability is instantly over player will still be on ground when first jumping
+       * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
+       * move to in air state
+       */
         if (isGrounded && player.CurrVelocity.y < 0.01f)
         {
             stateMachine.ChangeState(player.LandState);
             Debug.Log("Landed!");
         }
+        else if(jumpInput && player.JumpState.CanJump())
+        {
+            stateMachine.ChangeState(player.JumpState);
+        }
         else
         {
+            // Subtract fallMultiplier by 1 because Unity's Physics Engine is already aplying one multiple 
+            // of gravity (normal gravity)
+            // player.SetVelocityY(playerData.jumpVelocity * Physics2D.gravity.y * (playerData.fallMultiplier - 1) * Time.deltaTime);
+
             //Flips sprite in air 
             player.CheckIfShouldFlip(xInput);
 
@@ -62,4 +82,36 @@ public class PlayerInAirState : PlayerState
     {
         base.Exit();
     }
+    private void CheckJumpMultiplier()
+    {
+        if (isJumping)
+        {
+            // If player let go of jump key early (short jump) apply jump multiplier
+            if (jumpInputStop)
+            {
+                player.SetVelocityY(player.CurrVelocity.y * playerData.jumpHeightMultiplier);
+                // So we only go through this code block once
+                isJumping = false;
+            }
+            // If we were jumping but now we are just falling. Do not decrease velocity.
+            else if (player.CurrVelocity.y <= 0f)
+            {
+                isJumping = false;
+            }
+        }
+
+    }
+
+    public void SetIsJumping() => isJumping = true; 
+
+    private void CheckCoyoteTime()
+    {
+        if (coyoteTime && Time.time > startTime + playerData.coyoteTime)
+        {
+            coyoteTime = false;
+            player.JumpState.DecreaseNumJumpsLeft();
+        }
+    }
+
+    public void StartCoyoteTime() => coyoteTime = true;
 }
