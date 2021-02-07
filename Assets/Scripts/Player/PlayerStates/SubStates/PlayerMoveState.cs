@@ -37,9 +37,6 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.ExecutePhysics();
 
-
-       // player.SetVelocityX(playerData.movementVelocity * xInput);
-
     }
 
     public override void Exit()

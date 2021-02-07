@@ -123,12 +123,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-
         if (context.started)
         {
             JumpInput = true;
             JumpInputStop = false;
             jumpInputStartTime = Time.time;
+
+            Debug.Log("Jump input pressed!");
         }
 
         if (context.canceled)

@@ -41,15 +41,16 @@ public class PlayerInAirState : PlayerState
 
         CheckJumpMultiplier();
 
-       /*
-       * Because jump ability is instantly over player will still be on ground when first jumping
-       * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
-       * move to in air state
-       */
+        /*
+        * Because jump ability is instantly over player will still be on ground when first jumping
+        * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
+        * move to in air state
+        */
+
+        Debug.Log(player.JumpState.CanJump());
         if (isGrounded && player.CurrVelocity.y < 0.01f)
         {
             stateMachine.ChangeState(player.LandState);
-            Debug.Log("Landed!");
         }
         else if(jumpInput && player.JumpState.CanJump())
         {

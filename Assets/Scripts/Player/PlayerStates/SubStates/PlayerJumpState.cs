@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Jump is simplied used to set Y Velocity. 
+ * Jump is simply used to set Y Velocity. 
  */
 public class PlayerJumpState : PlayerAbilityState
 {
