@@ -36,15 +36,15 @@ public class PlayerGroundedState : PlayerState
         base.Execute();
 
        
-        xInput = player.NormalizeInputX();
-        jumpInput = player.JumpInput;
-        dashInput = player.DashInput; 
+        xInput = player.InputHandler.NormInputX;
+        jumpInput = player.InputHandler.JumpInput;
+        dashInput = player.InputHandler.DashInput; 
 
 
         //Jump 
         if (jumpInput && player.JumpState.CanJump())
         {
-            player.UseJumpInput();
+            //player.UseJumpInput();
             stateMachine.ChangeState(player.JumpState);
         } 
         // Player falls off ground

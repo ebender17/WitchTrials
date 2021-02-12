@@ -18,7 +18,7 @@ public class PlayerDashState : PlayerAbilityState
         base.Enter();
 
         CanDash = false;
-        player.UseDashInput();
+        player.InputHandler.UseDashInput();
 
         isHolding = true;
         dashDirection = Vector2.right * player.FacingDirection;
@@ -37,8 +37,8 @@ public class PlayerDashState : PlayerAbilityState
         {
             if(isHolding)
             {
-                dashDirectionInput = player.GetDashDirectionInput();
-                dashInputStop = player.DashInputStop;
+                dashDirectionInput = player.InputHandler.DashDirectionInput;
+                dashInputStop = player.InputHandler.DashInputStop;
                 //Dash input states the same direction if not giving
                 if(dashDirectionInput != Vector2.zero)
                 {
