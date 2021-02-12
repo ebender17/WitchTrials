@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }
     public PlayerInAirState InAirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
+    public PlayerDashState DashState { get; private set; }
+    public PlayerPrimAtkState PrimAtkState { get; private set; }
 
     [SerializeField]
     private PlayerData playerData;
@@ -23,9 +25,9 @@ public class PlayerController : MonoBehaviour
     #region Components
     public Rigidbody2D RB { get; private set; }
     private BoxCollider2D BoxCollider;
-    // Have a getter so states has access 
     public Animator Anim { get; private set; }
     public PlayerInputActions PlayerInputHandler { get; private set; }
+    public Transform DashDirectionIndicator { get; private set; }
     #endregion
 
     #region Check Transforms
@@ -35,13 +37,32 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Input Variables 
-    public bool JumpInput { get; private set; }
     [SerializeField]
-    private float jumpInputHoldTime = 0.2f;
-    private float jumpInputStartTime; 
-    public bool JumpInputStop { get; private set; }
-    #endregion
+    private float inputHoldTime = 0.2f;
 
+    //Jump
+    public bool JumpInput { get; private set; }
+    public bool JumpInputStop { get; private set; }
+    private float jumpInputStartTime; 
+
+    //Dash 
+    public bool DashInput { get; private set; }
+    public bool DashInputStop { get; private set; }
+    private float dashInputStartTime;
+
+    //Dash Direction 
+    public Vector2 RawDashDirectionInput { get; private set; }
+    public Vector2Int DashDirectionInput { get; private set; }
+    private Camera MainCam; 
+
+    //PrimaryAttack 
+    public bool PrimAtkInput { get; private set; }
+    #endregion
+    #region Control Schemes 
+    //Gamepad 
+
+
+    #endregion
     #region Other Variables 
     //Storing to avoid going to RB everytime we want RB velocity 
     public Vector2 CurrVelocity { get; private set; }
@@ -59,7 +80,9 @@ public class PlayerController : MonoBehaviour
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "Move");
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "InAir");
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "InAir"); 
-        LandState = new PlayerLandState(this, StateMachine, playerData, "Land"); 
+        LandState = new PlayerLandState(this, StateMachine, playerData, "Land");
+        DashState = new PlayerDashState(this, StateMachine, playerData, "InAir");
+        PrimAtkState = new PlayerPrimAtkState(this, StateMachine, playerData, "PrimAtk");
 
         // Initatiate player inputs
         PlayerInputHandler = new PlayerInputActions();
@@ -67,6 +90,15 @@ public class PlayerController : MonoBehaviour
         //Jump Callback
         PlayerInputHandler.Gameplay.Jump.started += ctx => OnJumpInput(ctx);
         PlayerInputHandler.Gameplay.Jump.canceled += ctx => OnJumpInput(ctx);
+
+        //Dash Callback 
+        PlayerInputHandler.Gameplay.Dash.started += ctx => OnDashInput(ctx);
+        PlayerInputHandler.Gameplay.Dash.canceled += ctx => OnDashInput(ctx);
+
+        //Primary Attack Callback 
+        PlayerInputHandler.Gameplay.PrimaryAttack.started += ctx => OnPrimAtkInput(ctx);
+        PlayerInputHandler.Gameplay.PrimaryAttack.canceled += ctx => OnPrimAtkInput(ctx);
+
     }
 
     private void OnEnable()
@@ -85,6 +117,9 @@ public class PlayerController : MonoBehaviour
         Anim = GetComponent<Animator>();
         RB = GetComponent<Rigidbody2D>();
         BoxCollider = GetComponent<BoxCollider2D>();
+        DashDirectionIndicator = transform.Find("DashDirectionIndicator");
+
+        MainCam = Camera.main; 
 
         // Player is in idle state upon game start 
         StateMachine.Initialize(IdleState);
@@ -100,6 +135,7 @@ public class PlayerController : MonoBehaviour
         StateMachine.CurrentState.Execute();
 
         CheckJumpInputHoldTime();
+        CheckDashInputHoldTime();
     }
 
     private void FixedUpdate()
@@ -128,8 +164,6 @@ public class PlayerController : MonoBehaviour
             JumpInput = true;
             JumpInputStop = false;
             jumpInputStartTime = Time.time;
-
-            Debug.Log("Jump input pressed!");
         }
 
         if (context.canceled)
@@ -144,14 +178,68 @@ public class PlayerController : MonoBehaviour
     //input is held at false until we use jump button or time runs out 
     private void CheckJumpInputHoldTime()
     {
-        if(Time.time >= jumpInputStartTime + jumpInputHoldTime)
+        if (Time.time >= jumpInputStartTime + inputHoldTime) JumpInput = false;
+    }
+
+    public void OnDashInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
         {
-            JumpInput = false; 
+            DashInput = true;
+            DashInputStop = false;
+            dashInputStartTime = Time.time;
+        }
+
+        if (context.canceled)
+        {
+            DashInputStop = true; 
+        }
+
+    }
+
+    public Vector2 GetDashDirectionInput()
+    {
+        RawDashDirectionInput = PlayerInputHandler.Gameplay.DashDirection.ReadValue<Vector2>();
+
+        //Convert from screen cords to vector from player to mouse
+        //Need to check if current control scheme is keyboard somehow 
+        RawDashDirectionInput = MainCam.ScreenToWorldPoint((Vector3)RawDashDirectionInput) - transform.position; 
+        DashDirectionInput = Vector2Int.RoundToInt(RawDashDirectionInput.normalized);
+        return DashDirectionInput; 
+        /*if(PlayerInputHandler.currentControlScheme == "Keyboard")
+        {
+            RawDashDirectionInput = MainCam.ScreenToWorldPoint((Vector3)RawDashDirectionInput) - transform.position;
+        }*/
+    }
+
+    public void UseDashInput() => DashInput = false;
+    public void CheckDashInputHoldTime()
+    {
+        if (Time.time >= dashInputStartTime + inputHoldTime) DashInput = false;
+    }
+
+    public void OnPrimAtkInput(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            PrimAtkInput = true; 
+            Debug.Log("Primary Attack Started"); 
+        }
+
+        if(context.canceled)
+        {
+            Debug.Log("Primary Attack Cancelled");
         }
     }
     #endregion
 
     #region SetFunctions
+    public void SetVelocity(float velocity, Vector2 direction)
+    {
+        tempVelocity = direction * velocity;
+        RB.velocity = tempVelocity;
+        CurrVelocity = tempVelocity;
+    }
     public void SetVelocityX(float velocity)
     {
         tempVelocity.Set(velocity, CurrVelocity.y);

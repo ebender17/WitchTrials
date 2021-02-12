@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
-    private bool JumpInput;
+    private bool jumpInput;
+    private bool dashInput; 
     private bool isGrounded;
+    private bool primAtkInput; 
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -25,6 +27,7 @@ public class PlayerGroundedState : PlayerState
         base.Enter();
 
         player.JumpState.ResetNumJumpsLeft();
+        player.DashState.ResetCanDash(); 
 
     }
 
@@ -32,12 +35,14 @@ public class PlayerGroundedState : PlayerState
     {
         base.Execute();
 
-        //Move
+       
         xInput = player.NormalizeInputX();
+        jumpInput = player.JumpInput;
+        dashInput = player.DashInput; 
+
 
         //Jump 
-        JumpInput = player.JumpInput;
-        if (JumpInput && player.JumpState.CanJump())
+        if (jumpInput && player.JumpState.CanJump())
         {
             player.UseJumpInput();
             stateMachine.ChangeState(player.JumpState);
@@ -48,6 +53,16 @@ public class PlayerGroundedState : PlayerState
             player.InAirState.StartCoyoteTime();
             stateMachine.ChangeState(player.InAirState);
         }
+        else if (dashInput && player.DashState.CheckIfCanDash())
+        {
+            stateMachine.ChangeState(player.DashState);
+        }
+
+        //Primary Attack
+        /*if (primAtkInput)
+        {
+            stateMachine.ChangeState(player.PrimAtkState); 
+        }*/
     }
 
     public override void ExecutePhysics()

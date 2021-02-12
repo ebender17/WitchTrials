@@ -17,6 +17,13 @@ MonoBehaviour:
   jumpHeightMultiplier: 0.8
   numJumps: 2
   coyoteTime: 0.2
+  dashCoolDown: 0.5
+  maxHoldTime: 1
+  holdTimeScale: 2
+  dashTime: 0.2
+  dashVelocity: 25
+  drag: 10
+  dashEndYMultiplier: 0.2
   groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2

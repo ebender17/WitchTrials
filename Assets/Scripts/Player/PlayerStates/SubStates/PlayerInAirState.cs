@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerInAirState : PlayerState
 {
-    private int xInput; 
-
+    //Check
     private bool isGrounded;
 
+    //Input 
+    private int xInput; 
     private bool jumpInput;
-    private bool jumpInputStop;
+    private bool dashInput; 
+    private bool isJumping;
+
     private bool coyoteTime;
-    private bool isJumping; 
+    private bool jumpInputStop;
 
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -38,6 +41,7 @@ public class PlayerInAirState : PlayerState
         xInput = player.NormalizeInputX();
         jumpInput = player.JumpInput;
         jumpInputStop = player.JumpInputStop;
+        dashInput = player.DashInput; 
 
         CheckJumpMultiplier();
 
@@ -46,8 +50,6 @@ public class PlayerInAirState : PlayerState
         * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
         * move to in air state
         */
-
-        Debug.Log(player.JumpState.CanJump());
         if (isGrounded && player.CurrVelocity.y < 0.01f)
         {
             stateMachine.ChangeState(player.LandState);
@@ -55,6 +57,10 @@ public class PlayerInAirState : PlayerState
         else if(jumpInput && player.JumpState.CanJump())
         {
             stateMachine.ChangeState(player.JumpState);
+        }
+        else if(dashInput && player.DashState.CheckIfCanDash())
+        {
+            stateMachine.ChangeState(player.DashState);
         }
         else
         {

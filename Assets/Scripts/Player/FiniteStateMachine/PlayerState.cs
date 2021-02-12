@@ -14,6 +14,7 @@ public class PlayerState
     private string animName;
 
     protected bool isAnimationFinished;
+    protected bool isExitingState; 
 
     public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName)
     {
