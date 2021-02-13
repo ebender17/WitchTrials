@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public PlayerInAirState InAirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerDashState DashState { get; private set; }
+    public PlayerCrouchIdleState CrouchIdleState { get; private set; }
+    public PlayerCrouchState CrouchMoveState { get; private set; }
     public PlayerPrimAtkState PrimAtkState { get; private set; }
 
     [SerializeField]
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
     #region Components
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
-    private BoxCollider2D BoxCollider;
+    public BoxCollider2D BoxCollider { get; private set; }
     public Animator Anim { get; private set; }
     public Transform DashDirectionIndicator { get; private set; }
 
@@ -36,13 +38,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Transform groundCheck;
+    [SerializeField]
+    private Transform ceilingCheck;
 
     #endregion
 
     #region Other Variables 
     //Storing to avoid going to RB everytime we want RB velocity 
     public Vector2 CurrVelocity { get; private set; }
-    private Vector2 tempVelocity;
+    private Vector2 tempValue;
 
     public int FacingDirection { get; private set; }
     #endregion
@@ -58,6 +62,8 @@ public class PlayerController : MonoBehaviour
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "InAir"); 
         LandState = new PlayerLandState(this, StateMachine, playerData, "Land");
         DashState = new PlayerDashState(this, StateMachine, playerData, "InAir");
+        CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "IdleCrouch");
+        CrouchMoveState = new PlayerCrouchState(this, StateMachine, playerData, "MoveCrouch");
         PrimAtkState = new PlayerPrimAtkState(this, StateMachine, playerData, "PrimAtk");
 
     }
@@ -92,24 +98,30 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region SetFunctions
+
+    public void SetVelocityZero()
+    {
+        RB.velocity = Vector2.zero;
+        CurrVelocity = Vector2.zero;
+    }
     public void SetVelocity(float velocity, Vector2 direction)
     {
-        tempVelocity = direction * velocity;
-        RB.velocity = tempVelocity;
-        CurrVelocity = tempVelocity;
+        tempValue = direction * velocity;
+        RB.velocity = tempValue;
+        CurrVelocity = tempValue;
     }
     public void SetVelocityX(float velocity)
     {
-        tempVelocity.Set(velocity, CurrVelocity.y);
-        RB.velocity = tempVelocity;
-        CurrVelocity = tempVelocity; 
+        tempValue.Set(velocity, CurrVelocity.y);
+        RB.velocity = tempValue;
+        CurrVelocity = tempValue; 
     }
 
     public void SetVelocityY(float velocity)
     {
-        tempVelocity.Set(CurrVelocity.x, velocity);
-        RB.velocity = tempVelocity;
-        CurrVelocity = tempVelocity;
+        tempValue.Set(CurrVelocity.x, velocity);
+        RB.velocity = tempValue;
+        CurrVelocity = tempValue;
     }
     
     #endregion
@@ -128,6 +140,11 @@ public class PlayerController : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
+    public bool CheckForCeiling()
+    {
+        return Physics2D.OverlapCircle(ceilingCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+    }
+
     #endregion
 
     #region Other Functions
@@ -144,6 +161,17 @@ public class PlayerController : MonoBehaviour
     {
         FacingDirection *= -1;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+
+    public void SetColliderHeight(float height)
+    {
+        Vector2 center = BoxCollider.offset;
+        tempValue.Set(BoxCollider.size.x, height);
+        // For every 2 units our size decreases, the offset decrease 1 unit 
+        center.y += (height - BoxCollider.size.y) / 2;
+
+        BoxCollider.size = tempValue;
+        BoxCollider.offset = center;
     }
     #endregion
     

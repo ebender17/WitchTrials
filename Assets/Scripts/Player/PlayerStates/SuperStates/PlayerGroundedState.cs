@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
+    protected int yInput;
     private bool jumpInput;
     private bool dashInput; 
     private bool isGrounded;
-    private bool primAtkInput; 
+    private bool primAtkInput;
+
+    protected bool isTouchingCeiling;
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -19,6 +22,7 @@ public class PlayerGroundedState : PlayerState
         base.DoChecks();
 
         isGrounded = player.CheckIfGrounded();
+        isTouchingCeiling = player.CheckForCeiling();
 
     }
 
@@ -37,6 +41,7 @@ public class PlayerGroundedState : PlayerState
 
        
         xInput = player.InputHandler.NormInputX;
+        yInput = player.InputHandler.NormInputY;
         jumpInput = player.InputHandler.JumpInput;
         dashInput = player.InputHandler.DashInput; 
 
@@ -53,7 +58,7 @@ public class PlayerGroundedState : PlayerState
             player.InAirState.StartCoyoteTime();
             stateMachine.ChangeState(player.InAirState);
         }
-        else if (dashInput && player.DashState.CheckIfCanDash())
+        else if (dashInput && player.DashState.CheckIfCanDash() && !isTouchingCeiling)
         {
             stateMachine.ChangeState(player.DashState);
         }

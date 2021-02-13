@@ -17,14 +17,17 @@ public class PlayerJumpState : PlayerAbilityState
     {
         base.Enter();
 
+        player.InputHandler.UseJumpInput();
         player.SetVelocityY(playerData.jumpVelocity);
         IsAbilityDone = true;
         numJumpsLeft--;
+        Debug.Log("Entered jump state and decreased jumps!");
         player.InAirState.SetIsJumping();
     }
 
     public bool CanJump()
     {
+        Debug.Log("Can Jump! " + numJumpsLeft);
         if (numJumpsLeft > 0) return true;
         else return false; 
     }
