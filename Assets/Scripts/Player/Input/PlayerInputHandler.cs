@@ -19,12 +19,15 @@ public class PlayerInputHandler : MonoBehaviour
     public bool JumpInputStop { get; private set; }
     public bool DashInput { get; private set; }
     public bool DashInputStop { get; private set; }
+    public bool PrimAtkInput { get; private set; }
+    public bool PrimAtkInputStop { get; private set; }
 
     [SerializeField]
     private float inputHoldTime = 0.2f;
 
     private float jumpInputStartTime;
     private float dashInputStartTime;
+    private float primAtkInputStartTime;
 
     private void Start()
     {
@@ -124,7 +127,27 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnPrimAtkInput(InputAction.CallbackContext context)
     {
+        if(context.started)
+        {
+            PrimAtkInput = true;
+            PrimAtkInputStop = false;
+            primAtkInputStartTime = Time.time;
+        }
+        else if (context.canceled)
+        {
+            PrimAtkInputStop = true;
+        }
         
+    }
+
+    public void UsePrimAtkInput() => PrimAtkInput = false;
+
+    private void CheckPrimAtkInputHoldTime()
+    {
+        if(Time.time >= primAtkInputStartTime + inputHoldTime)
+        {
+            PrimAtkInput = false;
+        }
     }
 
 }

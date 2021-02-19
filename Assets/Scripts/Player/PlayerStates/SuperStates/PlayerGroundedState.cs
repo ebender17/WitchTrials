@@ -43,7 +43,8 @@ public class PlayerGroundedState : PlayerState
         xInput = player.InputHandler.NormInputX;
         yInput = player.InputHandler.NormInputY;
         jumpInput = player.InputHandler.JumpInput;
-        dashInput = player.InputHandler.DashInput; 
+        dashInput = player.InputHandler.DashInput;
+        primAtkInput = player.InputHandler.PrimAtkInput;
 
 
         //Jump 
@@ -62,12 +63,10 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.DashState);
         }
-
-        //Primary Attack
-        /*if (primAtkInput)
+        else if(primAtkInput && player.PrimAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling)
         {
-            stateMachine.ChangeState(player.PrimAtkState); 
-        }*/
+            stateMachine.ChangeState(player.PrimAtkState);
+        }
     }
 
     public override void ExecutePhysics()

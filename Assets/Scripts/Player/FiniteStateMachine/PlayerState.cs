@@ -36,7 +36,6 @@ public class PlayerState
     public virtual void Exit()
     {
         player.Anim.SetBool(animName, false);
-        //player.Anim.StopPlayback();
     }
 
     public virtual void Execute()
