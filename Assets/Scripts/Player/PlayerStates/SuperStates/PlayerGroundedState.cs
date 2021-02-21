@@ -39,7 +39,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.Execute();
 
-       
+        //Get inputs
         xInput = player.InputHandler.NormInputX;
         yInput = player.InputHandler.NormInputY;
         jumpInput = player.InputHandler.JumpInput;
@@ -59,10 +59,12 @@ public class PlayerGroundedState : PlayerState
             player.InAirState.StartCoyoteTime();
             stateMachine.ChangeState(player.InAirState);
         }
+        //Dash
         else if (dashInput && player.DashState.CheckIfCanDash() && !isTouchingCeiling)
         {
             stateMachine.ChangeState(player.DashState);
         }
+        //Primary Attack
         else if(primAtkInput && player.PrimAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling)
         {
             stateMachine.ChangeState(player.PrimAtkState);

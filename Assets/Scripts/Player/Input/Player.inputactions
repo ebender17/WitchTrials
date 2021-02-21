@@ -259,7 +259,7 @@
                     "isOR": false
                 },
                 {
-                    "devicePath": "<VirtualMouse>",
+                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }

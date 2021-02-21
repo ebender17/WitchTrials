@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlayerInAirState : PlayerState
 {
-    //Check
+    //CheckS
     private bool isGrounded;
+    private bool isJumping;
 
     //Input 
     private int xInput; 
+    private bool jumpInputStop;
     private bool jumpInput;
     private bool dashInput; 
-    private bool isJumping;
 
     private bool coyoteTime;
-    private bool jumpInputStop;
 
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -38,6 +38,7 @@ public class PlayerInAirState : PlayerState
 
         CheckCoyoteTime();
 
+        //Get input
         xInput = player.InputHandler.NormInputX;
         jumpInput = player.InputHandler.JumpInput;
         jumpInputStop = player.InputHandler.JumpInputStop;
@@ -64,9 +65,10 @@ public class PlayerInAirState : PlayerState
         }
         else
         {
-            // Subtract fallMultiplier by 1 because Unity's Physics Engine is already aplying one multiple 
-            // of gravity (normal gravity)
-            // player.SetVelocityY(playerData.jumpVelocity * Physics2D.gravity.y * (playerData.fallMultiplier - 1) * Time.deltaTime);
+            /* Subtract fallMultiplier by 1 because Unity's Physics Engine is already aplying one multiple 
+            * of gravity (normal gravity)
+            * player.SetVelocityY(playerData.jumpVelocity * Physics2D.gravity.y * (playerData.fallMultiplier - 1) * Time.deltaTime);
+            */
 
             //Flips sprite in air 
             player.CheckIfShouldFlip(xInput);
@@ -74,6 +76,7 @@ public class PlayerInAirState : PlayerState
             //Allows x movement in air 
             player.SetVelocityX(playerData.movementVelocity * xInput);
 
+            // Changes sprite based on velocity values
             player.Anim.SetFloat("yVelocity", player.CurrVelocity.y);
             //Pass in Abs value of x Velocity as Blend Tree does not account for negative direction
             player.Anim.SetFloat("xVelocity", Mathf.Abs(player.CurrVelocity.x));

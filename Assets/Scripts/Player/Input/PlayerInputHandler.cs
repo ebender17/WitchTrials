@@ -109,9 +109,11 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (playerInput.currentControlScheme == "Keyboard")
         {
-            RawDashDirectionInput = cam.ScreenToWorldPoint((Vector3)RawDashDirectionInput) - transform.position;
+            // subtract player's transform to get vector pointing from player to world point
+            RawDashDirectionInput = cam.ScreenToWorldPoint(RawDashDirectionInput) - transform.position;
         }
 
+        // normalize as magnitude does not matter, just direction
         DashDirectionInput = Vector2Int.RoundToInt(RawDashDirectionInput.normalized);
     }
 

@@ -9,7 +9,7 @@ public class PlayerData : ScriptableObject
     public float movementVelocity = 10.0f;
 
     [Header("Jump State")]
-    public float jumpVelocity = 5.0f;
+    public float jumpVelocity = 10.0f;
     public float jumpHeightMultiplier = 0.5f;
     public int numJumps = 2;
 
