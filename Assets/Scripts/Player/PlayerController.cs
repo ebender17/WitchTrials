@@ -15,37 +15,38 @@ public class PlayerController : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }
     public PlayerInAirState InAirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
+    public PlayerDashState DashState { get; private set; }
+    public PlayerCrouchIdleState CrouchIdleState { get; private set; }
+    public PlayerCrouchState CrouchMoveState { get; private set; }
+    public PlayerPrimAtkState PrimAtkState { get; private set; }
 
     [SerializeField]
     private PlayerData playerData;
+
     #endregion
 
     #region Components
+    public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
-    private BoxCollider2D BoxCollider;
-    // Have a getter so states has access 
+    public BoxCollider2D BoxCollider { get; private set; }
     public Animator Anim { get; private set; }
-    public PlayerInputActions PlayerInputHandler { get; private set; }
+    public Transform DashDirectionIndicator { get; private set; }
+
     #endregion
 
     #region Check Transforms
 
     [SerializeField]
     private Transform groundCheck;
-    #endregion
-
-    #region Input Variables 
-    public bool JumpInput { get; private set; }
     [SerializeField]
-    private float jumpInputHoldTime = 0.2f;
-    private float jumpInputStartTime; 
-    public bool JumpInputStop { get; private set; }
+    private Transform ceilingCheck;
+
     #endregion
 
     #region Other Variables 
     //Storing to avoid going to RB everytime we want RB velocity 
     public Vector2 CurrVelocity { get; private set; }
-    private Vector2 tempVelocity;
+    private Vector2 tempValue;
 
     public int FacingDirection { get; private set; }
     #endregion
@@ -59,32 +60,22 @@ public class PlayerController : MonoBehaviour
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "Move");
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "InAir");
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "InAir"); 
-        LandState = new PlayerLandState(this, StateMachine, playerData, "Land"); 
+        LandState = new PlayerLandState(this, StateMachine, playerData, "Land");
+        DashState = new PlayerDashState(this, StateMachine, playerData, "InAir");
+        CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "IdleCrouch");
+        CrouchMoveState = new PlayerCrouchState(this, StateMachine, playerData, "MoveCrouch");
+        PrimAtkState = new PlayerPrimAtkState(this, StateMachine, playerData, "PrimAtk");
 
-        // Initatiate player inputs
-        PlayerInputHandler = new PlayerInputActions();
-
-        //Jump Callback
-        PlayerInputHandler.Gameplay.Jump.started += ctx => OnJumpInput(ctx);
-        PlayerInputHandler.Gameplay.Jump.canceled += ctx => OnJumpInput(ctx);
-    }
-
-    private void OnEnable()
-    {
-        PlayerInputHandler.Enable(); 
-    }
-
-    public void OnDisable()
-    {
-        PlayerInputHandler.Disable(); 
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        InputHandler = GetComponent<PlayerInputHandler>();
         Anim = GetComponent<Animator>();
         RB = GetComponent<Rigidbody2D>();
         BoxCollider = GetComponent<BoxCollider2D>();
+        DashDirectionIndicator = transform.Find("DashDirectionIndicator");
 
         // Player is in idle state upon game start 
         StateMachine.Initialize(IdleState);
@@ -98,8 +89,6 @@ public class PlayerController : MonoBehaviour
     {
         CurrVelocity = RB.velocity; 
         StateMachine.CurrentState.Execute();
-
-        CheckJumpInputHoldTime();
     }
 
     private void FixedUpdate()
@@ -108,62 +97,31 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region InputFunctions
-    // Normalize input so player moves with same speed on different input types
-    // TODO: Check with controller. Also possible to do with input system.
-    public int NormalizeInputX()
-    {
-        return (int)(PlayerInputHandler.Gameplay.Move.ReadValue<Vector2>() * Vector2.right).normalized.x;
-    }
-
-    public int NormalizeInputY()
-    {
-        return (int)(PlayerInputHandler.Gameplay.Move.ReadValue<Vector2>() * Vector2.up).normalized.y;
-    }
-
-    public void OnJumpInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            JumpInput = true;
-            JumpInputStop = false;
-            jumpInputStartTime = Time.time;
-
-            Debug.Log("Jump input pressed!");
-        }
-
-        if (context.canceled)
-        {
-            JumpInputStop = true;
-        }
-    }
-
-    public void UseJumpInput() => JumpInput = false;
-
-   
-    //input is held at false until we use jump button or time runs out 
-    private void CheckJumpInputHoldTime()
-    {
-        if(Time.time >= jumpInputStartTime + jumpInputHoldTime)
-        {
-            JumpInput = false; 
-        }
-    }
-    #endregion
-
     #region SetFunctions
+
+    public void SetVelocityZero()
+    {
+        RB.velocity = Vector2.zero;
+        CurrVelocity = Vector2.zero;
+    }
+    public void SetVelocity(float velocity, Vector2 direction)
+    {
+        tempValue = direction * velocity;
+        RB.velocity = tempValue;
+        CurrVelocity = tempValue;
+    }
     public void SetVelocityX(float velocity)
     {
-        tempVelocity.Set(velocity, CurrVelocity.y);
-        RB.velocity = tempVelocity;
-        CurrVelocity = tempVelocity; 
+        tempValue.Set(velocity, CurrVelocity.y);
+        RB.velocity = tempValue;
+        CurrVelocity = tempValue; 
     }
 
     public void SetVelocityY(float velocity)
     {
-        tempVelocity.Set(CurrVelocity.x, velocity);
-        RB.velocity = tempVelocity;
-        CurrVelocity = tempVelocity;
+        tempValue.Set(CurrVelocity.x, velocity);
+        RB.velocity = tempValue;
+        CurrVelocity = tempValue;
     }
     
     #endregion
@@ -179,8 +137,12 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckIfGrounded()
     {
-        //Physics2D.BoxCast(BoxCollider.bounds.center, BoxCollider.bounds.size, 0.0f, Vector2.down, playerData.groundCheckDistance, playerData.whatIsGround);
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+    }
+
+    public bool CheckForCeiling()
+    {
+        return Physics2D.OverlapCircle(ceilingCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
     #endregion
@@ -199,6 +161,17 @@ public class PlayerController : MonoBehaviour
     {
         FacingDirection *= -1;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+    }
+
+    public void SetColliderHeight(float height)
+    {
+        Vector2 center = BoxCollider.offset;
+        tempValue.Set(BoxCollider.size.x, height);
+        // For every 2 units our size decreases, the offset decrease 1 unit 
+        center.y += (height - BoxCollider.size.y) / 2;
+
+        BoxCollider.size = tempValue;
+        BoxCollider.offset = center;
     }
     #endregion
     

@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerInAirState : PlayerState
 {
-    private int xInput; 
-
+    //CheckS
     private bool isGrounded;
+    private bool isJumping;
 
-    private bool jumpInput;
+    //Input 
+    private int xInput; 
     private bool jumpInputStop;
+    private bool jumpInput;
+    private bool dashInput; 
+
     private bool coyoteTime;
-    private bool isJumping; 
 
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -35,9 +38,11 @@ public class PlayerInAirState : PlayerState
 
         CheckCoyoteTime();
 
-        xInput = player.NormalizeInputX();
-        jumpInput = player.JumpInput;
-        jumpInputStop = player.JumpInputStop;
+        //Get input
+        xInput = player.InputHandler.NormInputX;
+        jumpInput = player.InputHandler.JumpInput;
+        jumpInputStop = player.InputHandler.JumpInputStop;
+        dashInput = player.InputHandler.DashInput; 
 
         CheckJumpMultiplier();
 
@@ -46,8 +51,6 @@ public class PlayerInAirState : PlayerState
         * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
         * move to in air state
         */
-
-        Debug.Log(player.JumpState.CanJump());
         if (isGrounded && player.CurrVelocity.y < 0.01f)
         {
             stateMachine.ChangeState(player.LandState);
@@ -56,11 +59,16 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.JumpState);
         }
+        else if(dashInput && player.DashState.CheckIfCanDash())
+        {
+            stateMachine.ChangeState(player.DashState);
+        }
         else
         {
-            // Subtract fallMultiplier by 1 because Unity's Physics Engine is already aplying one multiple 
-            // of gravity (normal gravity)
-            // player.SetVelocityY(playerData.jumpVelocity * Physics2D.gravity.y * (playerData.fallMultiplier - 1) * Time.deltaTime);
+            /* Subtract fallMultiplier by 1 because Unity's Physics Engine is already aplying one multiple 
+            * of gravity (normal gravity)
+            * player.SetVelocityY(playerData.jumpVelocity * Physics2D.gravity.y * (playerData.fallMultiplier - 1) * Time.deltaTime);
+            */
 
             //Flips sprite in air 
             player.CheckIfShouldFlip(xInput);
@@ -68,6 +76,7 @@ public class PlayerInAirState : PlayerState
             //Allows x movement in air 
             player.SetVelocityX(playerData.movementVelocity * xInput);
 
+            // Changes sprite based on velocity values
             player.Anim.SetFloat("yVelocity", player.CurrVelocity.y);
             //Pass in Abs value of x Velocity as Blend Tree does not account for negative direction
             player.Anim.SetFloat("xVelocity", Mathf.Abs(player.CurrVelocity.x));
