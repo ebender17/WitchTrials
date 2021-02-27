@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * Jump is simply used to set Y Velocity. 
- */
+/// <summary>
+/// Player transitions to Jump for a split second before moving to InAir state. 
+/// Used to set Y Velocity. 
+/// </summary>
 public class PlayerJumpState : PlayerAbilityState
 {
     private int numJumpsLeft;

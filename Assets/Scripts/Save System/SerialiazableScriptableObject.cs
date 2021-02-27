@@ -7,10 +7,9 @@ using UnityEditor;
 public class SerialiazableScriptableObject : ScriptableObject
 {
     [SerializeField, HideInInspector]
-    private string _guid; //TODO: documentation on guid 
+    private string _guid; //Globally Unique ID 
     public string Guid => _guid;
 
-    //TODO: documentation
 #if UNITY_EDITOR
     private void OnValidate()
     {

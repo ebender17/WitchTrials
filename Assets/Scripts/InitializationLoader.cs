@@ -4,16 +4,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-/*
- * Summary:
- * This class is responsible for starting the game by loading the persistent managers scene 
- * and raising the event to laod the Main Menu. 
- */
+/// <summary>
+/// This class is responsible for starting the game by loading the persistent managers scene 
+/// and raising the event to load the Main Menu. 
+/// </summary>
 public class InitializationLoader : MonoBehaviour
 {
 
     [Header("Persistent managers Scene")]
-    [SerializeField] private GameSceneSO _persistenManagersScene = default;
+    [SerializeField] private GameSceneSO _persistentManagersScene = default;
 
     [Header("Loading setttings")]
     [SerializeField] private GameSceneSO[] _menuToLoad = default;
@@ -24,7 +23,7 @@ public class InitializationLoader : MonoBehaviour
     void Start()
     {
         //Load the persistent managers scene 
-        _persistenManagersScene.sceneRefernce.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
+        _persistentManagersScene.sceneRefernce.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
 
     }
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Player controller. Stores and executes player's state. 
+/// </summary>
 
 public class PlayerController : MonoBehaviour
 {

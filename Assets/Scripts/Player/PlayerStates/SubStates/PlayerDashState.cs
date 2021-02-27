@@ -24,15 +24,11 @@ public class PlayerDashState : PlayerAbilityState
         isHolding = true;
         //dash direction points in direction player is facing by default
         dashDirection = Vector2.right * player.FacingDirection;
-        Debug.Log("Enter Dash State");
-        Debug.Log(Time.time);
         // go into slow motion mode by setting time scale
         Time.timeScale = playerData.holdTimeScale;
-        Debug.Log(Time.timeScale);
-        /*
-         * Want to keep track of how long we have been in hold state
-         * so that we dash when time is up
-         */
+        
+        // Want to keep track of how long we have been in hold state
+        //so that we dash when time is up
         startTime = Time.unscaledTime;
 
         player.DashDirectionIndicator.gameObject.SetActive(true);
@@ -63,7 +59,7 @@ public class PlayerDashState : PlayerAbilityState
                 // Subtract 45 as sprite starts at 45 degree angle
                 player.DashDirectionIndicator.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 45.0f); 
 
-                
+                //begin dash action
                 if(dashInputStop || Time.unscaledTime >= startTime + playerData.maxHoldTime)
                 {
                     //go into actual dash movement
@@ -79,12 +75,11 @@ public class PlayerDashState : PlayerAbilityState
                     player.CheckIfShouldFlip(Mathf.RoundToInt(dashDirection.x));
                     player.RB.drag = playerData.drag;
                     player.SetVelocity(playerData.dashVelocity, dashDirection);
-                    Debug.Log("Set Velocity!");
                     player.DashDirectionIndicator.gameObject.SetActive(false);
                 }
 
             }
-            //Sustaining the dash action that started
+            //Sustain the dash action that was started
             else
             {
                 player.SetVelocity(playerData.dashVelocity, dashDirection);

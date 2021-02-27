@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// The generated C# class have no built-in support for control schemes ATM. 
-// Therefore, decided to utilize Unity's Player Input component.  
+/// <summary>
+/// Handles events from Player Input component. 
+/// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerInput playerInput;
