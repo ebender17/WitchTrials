@@ -153,4 +153,9 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    public void EnableGameplayInput()
+    {
+        //enable gameplay input
+        //playerInput.ActivateInput();
+    }
 }
