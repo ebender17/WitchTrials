@@ -19,7 +19,7 @@ public class PlayerDashState : PlayerAbilityState
 
         //Cannot dash again until touched the ground
         canDash = false;
-        player.inputHandler.UseDashInput();
+        player.UseDashInput();
 
         _isHolding = true;
         //dash direction points in direction player is facing by default
@@ -43,8 +43,8 @@ public class PlayerDashState : PlayerAbilityState
 
             if(_isHolding)
             {
-                _dashDirectionInput = player.inputHandler.dashDirectionInput;
-                _dashInputStop = player.inputHandler.dashInputStop;
+                _dashDirectionInput = player.dashDirectionInput;
+                _dashInputStop = player.dashInputStop;
                 
                 //If we are not giving any input, dash direction will stay the same it was last dash
                 if(_dashDirectionInput != Vector2.zero)

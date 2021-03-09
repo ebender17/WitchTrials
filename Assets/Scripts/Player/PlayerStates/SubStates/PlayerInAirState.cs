@@ -39,10 +39,10 @@ public class PlayerInAirState : PlayerState
         CheckCoyoteTime();
 
         //Get input
-        _xInput = player.inputHandler.normInputX;
-        _jumpInput = player.inputHandler.jumpInput;
-        _jumpInputStop = player.inputHandler.jumpInputStop;
-        _dashInput = player.inputHandler.dashInput; 
+        _xInput = player.normInputX;
+        _jumpInput = player.jumpInput;
+        _jumpInputStop = player.jumpInputStop;
+        _dashInput = player.dashInput; 
 
         CheckJumpMultiplier();
 

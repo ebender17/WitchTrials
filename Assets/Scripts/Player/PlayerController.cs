@@ -29,12 +29,37 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Components
-    public PlayerInputHandler inputHandler { get; private set; }
+
+    private Camera _cam;
+
+    public InputReader inputReader = default;
+    //public PlayerInputHandler inputHandler { get; private set; }
     public Rigidbody2D rigidBody { get; private set; }
     public BoxCollider2D boxCollider { get; private set; }
     public Animator anim { get; private set; }
     public Transform dashDirectionIndicator { get; private set; }
 
+    #endregion
+
+    #region Input 
+    public Vector2 rawMovementInput { get; private set; }
+    public Vector2 rawDashDirectionInput { get; private set; }
+    public Vector2Int dashDirectionInput { get; private set; }
+    public int normInputX { get; private set; }
+    public int normInputY { get; private set; }
+    public bool jumpInput { get; private set; }
+    public bool jumpInputStop { get; private set; }
+    public bool dashInput { get; private set; }
+    public bool dashInputStop { get; private set; }
+    public bool primAtkInput { get; private set; }
+    public bool primAtkInputStop { get; private set; }
+
+    [SerializeField]
+    private float inputHoldTime = 0.2f;
+
+    private float jumpInputStartTime;
+    private float dashInputStartTime;
+    private float primAtkInputStartTime;
     #endregion
 
     #region Check Transforms
@@ -71,10 +96,36 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        inputReader.moveEvent += OnMove;
+        inputReader.jumpEvent += OnJump;
+        inputReader.jumpCanceledEvent += OnJumpCanceled;
+        inputReader.dashEvent += OnDash;
+        inputReader.dashCanceledEvent += OnDashCanceled;
+        inputReader.dashDirectionEvent += OnDashDirection;
+        inputReader.attackEvent += OnAttack;
+        inputReader.attackCanceledEvent += OnAttackCanceled;
+        
+    }
+
+    private void OnDisable()
+    {
+        inputReader.moveEvent -= OnMove;
+        inputReader.jumpEvent -= OnJump;
+        inputReader.jumpCanceledEvent -= OnJumpCanceled;
+        inputReader.dashEvent -= OnDash;
+        inputReader.dashCanceledEvent -= OnDashCanceled;
+        inputReader.dashDirectionEvent -= OnDashDirection;
+        inputReader.attackEvent -= OnAttack;
+        inputReader.attackCanceledEvent -= OnAttackCanceled;
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
-        inputHandler = GetComponent<PlayerInputHandler>();
+        _cam = Camera.main;
+        //inputHandler = GetComponent<PlayerInputHandler>();
         anim = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -92,12 +143,111 @@ public class PlayerController : MonoBehaviour
     {
         currVelocity = rigidBody.velocity; 
         stateMachine.currentState.Execute();
+
+        CheckJumpInputHoldTime();
+        CheckDashInputHoldTime();
     }
 
     private void FixedUpdate()
     {
         stateMachine.currentState.ExecutePhysics();
     }
+    #endregion
+
+    #region Event Listeners
+    private void OnMove(Vector2 movement)
+    {
+        rawMovementInput = movement;
+
+        // Normalize input so player moves with same speed on different input types
+        // TODO: Check with controller. Also possible to do with input system.
+        if (Mathf.Abs(rawMovementInput.x) > 0.5f)
+        {
+            normInputX = (int)(rawMovementInput * Vector2.right).normalized.x;
+        }
+        else
+        {
+            normInputX = 0;
+        }
+
+        if (Mathf.Abs(rawMovementInput.y) > 0.5f)
+        {
+            normInputY = (int)(rawMovementInput * Vector2.up).normalized.y;
+        }
+        else
+        {
+            normInputY = 0;
+        }
+
+    }
+
+    private void OnJump()
+    {
+        jumpInput = true;
+        jumpInputStop = false;
+        jumpInputStartTime = Time.time;
+    }
+
+    void OnJumpCanceled() => jumpInputStop = true;
+
+    public void UseJumpInput() => jumpInput = false;
+    private void CheckJumpInputHoldTime()
+    {
+        if (Time.time >= jumpInputStartTime + inputHoldTime)
+        {
+            jumpInput = false;
+        }
+    }
+
+    private void OnDash()
+    {
+        dashInput = true;
+        dashInputStop = false;
+        dashInputStartTime = Time.time;
+    }
+
+    private void OnDashCanceled() => dashInputStop = true;
+
+    private void OnDashDirection(Vector2 rawDashDirection, bool isDeviceMouse)
+    {
+        rawDashDirectionInput = rawDashDirection;
+
+        if (isDeviceMouse)
+        {
+            // subtract player's transform to get vector pointing from player to world point
+            rawDashDirectionInput = _cam.ScreenToWorldPoint(rawDashDirectionInput) - transform.position;
+        }
+
+        // normalize as magnitude does not matter, just direction
+        dashDirectionInput = Vector2Int.RoundToInt(rawDashDirectionInput.normalized);
+    }
+
+    public void UseDashInput() => dashInput = false;
+
+    private void CheckDashInputHoldTime()
+    {
+        if (Time.time >= dashInputStartTime + inputHoldTime)
+        {
+            dashInput = false;
+        }
+    }
+
+    private void OnAttack()
+    {
+        //TODO
+        primAtkInput = true;
+        primAtkInputStop = false;
+        primAtkInputStartTime = Time.time;
+    }
+
+    private void OnAttackCanceled()
+    {
+        //TODO
+        primAtkInputStop = true;
+    }
+
+    public void UseAtkInput() => primAtkInput = false;
+
     #endregion
 
     #region SetFunctions

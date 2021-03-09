@@ -40,11 +40,11 @@ public class PlayerGroundedState : PlayerState
         base.Execute();
 
         //Get inputs
-        xInput = player.inputHandler.normInputX;
-        yInput = player.inputHandler.normInputY;
-        _jumpInput = player.inputHandler.jumpInput;
-        _dashInput = player.inputHandler.dashInput;
-        _primAtkInput = player.inputHandler.primAtkInput;
+        xInput = player.normInputX;
+        yInput = player.normInputY;
+        _jumpInput = player.jumpInput;
+        _dashInput = player.dashInput;
+        _primAtkInput = player.primAtkInput;
 
 
         //Jump 

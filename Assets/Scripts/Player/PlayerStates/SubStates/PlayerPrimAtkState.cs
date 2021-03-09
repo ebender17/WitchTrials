@@ -16,7 +16,7 @@ public class PlayerPrimAtkState : PlayerAbilityState
         base.Enter();
 
         canPrimAtk = false;
-        player.inputHandler.UsePrimAtkInput();
+        player.UseAtkInput();
 
         Debug.Log("Entered Attack State!");
         
