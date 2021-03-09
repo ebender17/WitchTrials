@@ -5,16 +5,16 @@ using UnityEngine;
 public class PlayerInAirState : PlayerState
 {
     //CheckS
-    private bool isGrounded;
-    private bool isJumping;
+    private bool _isGrounded;
+    private bool _isJumping;
 
     //Input 
-    private int xInput; 
-    private bool jumpInputStop;
-    private bool jumpInput;
-    private bool dashInput; 
+    private int _xInput; 
+    private bool _jumpInputStop;
+    private bool _jumpInput;
+    private bool _dashInput; 
 
-    private bool coyoteTime;
+    private bool _coyoteTime;
 
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
@@ -24,7 +24,7 @@ public class PlayerInAirState : PlayerState
     {
         base.DoChecks();
 
-        isGrounded = player.CheckIfGrounded();
+        _isGrounded = player.CheckIfGrounded();
     }
 
     public override void Enter()
@@ -39,10 +39,10 @@ public class PlayerInAirState : PlayerState
         CheckCoyoteTime();
 
         //Get input
-        xInput = player.InputHandler.NormInputX;
-        jumpInput = player.InputHandler.JumpInput;
-        jumpInputStop = player.InputHandler.JumpInputStop;
-        dashInput = player.InputHandler.DashInput; 
+        _xInput = player.inputHandler.normInputX;
+        _jumpInput = player.inputHandler.jumpInput;
+        _jumpInputStop = player.inputHandler.jumpInputStop;
+        _dashInput = player.inputHandler.dashInput; 
 
         CheckJumpMultiplier();
 
@@ -51,17 +51,17 @@ public class PlayerInAirState : PlayerState
         * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
         * move to in air state
         */
-        if (isGrounded && player.CurrVelocity.y < 0.01f)
+        if (_isGrounded && player.currVelocity.y < 0.01f)
         {
-            stateMachine.ChangeState(player.LandState);
+            stateMachine.ChangeState(player.landState);
         }
-        else if(jumpInput && player.JumpState.CanJump())
+        else if(_jumpInput && player.jumpState.CanJump())
         {
-            stateMachine.ChangeState(player.JumpState);
+            stateMachine.ChangeState(player.jumpState);
         }
-        else if(dashInput && player.DashState.CheckIfCanDash())
+        else if(_dashInput && player.dashState.CheckIfCanDash())
         {
-            stateMachine.ChangeState(player.DashState);
+            stateMachine.ChangeState(player.dashState);
         }
         else
         {
@@ -71,15 +71,15 @@ public class PlayerInAirState : PlayerState
             */
 
             //Flips sprite in air 
-            player.CheckIfShouldFlip(xInput);
+            player.CheckIfShouldFlip(_xInput);
 
             //Allows x movement in air 
-            player.SetVelocityX(playerData.movementVelocity * xInput);
+            player.SetVelocityX(playerData.movementVelocity * _xInput);
 
             // Changes sprite based on velocity values
-            player.Anim.SetFloat("yVelocity", player.CurrVelocity.y);
+            player.anim.SetFloat("yVelocity", player.currVelocity.y);
             //Pass in Abs value of x Velocity as Blend Tree does not account for negative direction
-            player.Anim.SetFloat("xVelocity", Mathf.Abs(player.CurrVelocity.x));
+            player.anim.SetFloat("xVelocity", Mathf.Abs(player.currVelocity.x));
         }
     }
 
@@ -94,34 +94,34 @@ public class PlayerInAirState : PlayerState
     }
     private void CheckJumpMultiplier()
     {
-        if (isJumping)
+        if (_isJumping)
         {
             // If player let go of jump key early (short jump) apply jump multiplier
-            if (jumpInputStop)
+            if (_jumpInputStop)
             {
-                player.SetVelocityY(player.CurrVelocity.y * playerData.jumpHeightMultiplier);
+                player.SetVelocityY(player.currVelocity.y * playerData.jumpHeightMultiplier);
                 // So we only go through this code block once
-                isJumping = false;
+                _isJumping = false;
             }
             // If we were jumping but now we are just falling. Do not decrease velocity.
-            else if (player.CurrVelocity.y <= 0f)
+            else if (player.currVelocity.y <= 0f)
             {
-                isJumping = false;
+                _isJumping = false;
             }
         }
 
     }
 
-    public void SetIsJumping() => isJumping = true; 
+    public void SetIsJumping() => _isJumping = true; 
 
     private void CheckCoyoteTime()
     {
-        if (coyoteTime && Time.time > startTime + playerData.coyoteTime)
+        if (_coyoteTime && Time.time > startTime + playerData.coyoteTime)
         {
-            coyoteTime = false;
-            player.JumpState.DecreaseNumJumpsLeft();
+            _coyoteTime = false;
+            player.jumpState.DecreaseNumJumpsLeft();
         }
     }
 
-    public void StartCoyoteTime() => coyoteTime = true;
+    public void StartCoyoteTime() => _coyoteTime = true;
 }

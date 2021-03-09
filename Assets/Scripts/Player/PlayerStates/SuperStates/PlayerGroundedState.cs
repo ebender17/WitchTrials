@@ -6,10 +6,10 @@ public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
     protected int yInput;
-    private bool jumpInput;
-    private bool dashInput; 
-    private bool isGrounded;
-    private bool primAtkInput;
+    private bool _jumpInput;
+    private bool _dashInput; 
+    private bool _isGrounded;
+    private bool _primAtkInput;
 
     protected bool isTouchingCeiling;
 
@@ -21,7 +21,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.DoChecks();
 
-        isGrounded = player.CheckIfGrounded();
+        _isGrounded = player.CheckIfGrounded();
         isTouchingCeiling = player.CheckForCeiling();
 
     }
@@ -30,8 +30,8 @@ public class PlayerGroundedState : PlayerState
     {
         base.Enter();
 
-        player.JumpState.ResetNumJumpsLeft();
-        player.DashState.ResetCanDash(); 
+        player.jumpState.ResetNumJumpsLeft();
+        player.dashState.ResetCanDash(); 
 
     }
 
@@ -40,34 +40,34 @@ public class PlayerGroundedState : PlayerState
         base.Execute();
 
         //Get inputs
-        xInput = player.InputHandler.NormInputX;
-        yInput = player.InputHandler.NormInputY;
-        jumpInput = player.InputHandler.JumpInput;
-        dashInput = player.InputHandler.DashInput;
-        primAtkInput = player.InputHandler.PrimAtkInput;
+        xInput = player.inputHandler.normInputX;
+        yInput = player.inputHandler.normInputY;
+        _jumpInput = player.inputHandler.jumpInput;
+        _dashInput = player.inputHandler.dashInput;
+        _primAtkInput = player.inputHandler.primAtkInput;
 
 
         //Jump 
-        if (jumpInput && player.JumpState.CanJump())
+        if (_jumpInput && player.jumpState.CanJump())
         {
             //player.UseJumpInput();
-            stateMachine.ChangeState(player.JumpState);
+            stateMachine.ChangeState(player.jumpState);
         } 
         // Player falls off ground
-        else if(!isGrounded)
+        else if(!_isGrounded)
         {
-            player.InAirState.StartCoyoteTime();
-            stateMachine.ChangeState(player.InAirState);
+            player.inAirState.StartCoyoteTime();
+            stateMachine.ChangeState(player.inAirState);
         }
         //Dash
-        else if (dashInput && player.DashState.CheckIfCanDash() && !isTouchingCeiling)
+        else if (_dashInput && player.dashState.CheckIfCanDash() && !isTouchingCeiling)
         {
-            stateMachine.ChangeState(player.DashState);
+            stateMachine.ChangeState(player.dashState);
         }
         //Primary Attack
-        else if(primAtkInput && player.PrimAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling)
+        else if(_primAtkInput && player.primAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling)
         {
-            stateMachine.ChangeState(player.PrimAtkState);
+            stateMachine.ChangeState(player.primAtkState);
         }
     }
 

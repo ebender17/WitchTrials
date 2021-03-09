@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2091a0edccf39478a1968d059e6ffd, type: 3}
+  m_Name: LevelOne
+  m_EditorClassIdentifier: 
+  _guid: 2952c4111ccee5d4494eb702f5274594
+  description: 'The first level of the game. Loaded on start button press. '
+  sceneType: 0
+  sceneRefernce:
+    m_AssetGUID: f3bd3e503fe3037499bab680334698ee
+    m_SubObjectName: 
+    m_SubObjectType: 
+  locationName: Level One
+  musicTrack: {fileID: 0}
+  enemiesCount: 0

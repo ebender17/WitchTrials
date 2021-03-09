@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c0012150c66a74e8bd0a82b4f954a7, type: 3}
+  m_Name: PersistentManagers
+  m_EditorClassIdentifier: 
+  _guid: 68b30056fa930304a9b388e633c48d18
+  description: 'The scene that contains all the persistent managers in the game like
+    scene loader, Audio manager, etc. '
+  sceneType: 3
+  sceneRefernce:
+    m_AssetGUID: a81c289e78f48444ea36bb0edd09c11b
+    m_SubObjectName: 
+    m_SubObjectType: 

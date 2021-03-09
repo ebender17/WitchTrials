@@ -23,12 +23,12 @@ public class PlayerCrouchIdleState : PlayerGroundedState
         {
             if(xInput != 0)
             {
-                stateMachine.ChangeState(player.CrouchMoveState);
+                stateMachine.ChangeState(player.crouchMoveState);
             }
             // No longer holding down key
             else if(yInput != -1 && !isTouchingCeiling)
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(player.idleState);
             }
         }
     }

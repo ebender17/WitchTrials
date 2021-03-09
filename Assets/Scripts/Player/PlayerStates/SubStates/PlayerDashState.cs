@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerAbilityState
 {
-    public bool CanDash { get; private set; }
-    private bool isHolding;
-    private Vector2 dashDirection; 
-    private Vector2 dashDirectionInput;
-    private bool dashInputStop; 
-    private float lastDashTime;
+    public bool canDash { get; private set; }
+    private bool _isHolding;
+    private Vector2 _dashDirection; 
+    private Vector2 _dashDirectionInput;
+    private bool _dashInputStop; 
+    private float _lastDashTime;
     public PlayerDashState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
@@ -18,24 +18,20 @@ public class PlayerDashState : PlayerAbilityState
         base.Enter();
 
         //Cannot dash again until touched the ground
-        CanDash = false;
-        player.InputHandler.UseDashInput();
+        canDash = false;
+        player.inputHandler.UseDashInput();
 
-        isHolding = true;
+        _isHolding = true;
         //dash direction points in direction player is facing by default
-        dashDirection = Vector2.right * player.FacingDirection;
-        Debug.Log("Enter Dash State");
-        Debug.Log(Time.time);
+        _dashDirection = Vector2.right * player.facingDirection;
         // go into slow motion mode by setting time scale
         Time.timeScale = playerData.holdTimeScale;
-        Debug.Log(Time.timeScale);
-        /*
-         * Want to keep track of how long we have been in hold state
-         * so that we dash when time is up
-         */
+        
+        // Want to keep track of how long we have been in hold state
+        //so that we dash when time is up
         startTime = Time.unscaledTime;
 
-        player.DashDirectionIndicator.gameObject.SetActive(true);
+        player.dashDirectionIndicator.gameObject.SetActive(true);
     }
 
     public override void Execute()
@@ -45,29 +41,29 @@ public class PlayerDashState : PlayerAbilityState
         if(!isExitingState)
         {
 
-            if(isHolding)
+            if(_isHolding)
             {
-                dashDirectionInput = player.InputHandler.DashDirectionInput;
-                dashInputStop = player.InputHandler.DashInputStop;
+                _dashDirectionInput = player.inputHandler.dashDirectionInput;
+                _dashInputStop = player.inputHandler.dashInputStop;
                 
                 //If we are not giving any input, dash direction will stay the same it was last dash
-                if(dashDirectionInput != Vector2.zero)
+                if(_dashDirectionInput != Vector2.zero)
                 {
-                    dashDirection = dashDirectionInput;
-                    dashDirection.Normalize();
+                    _dashDirection = _dashDirectionInput;
+                    _dashDirection.Normalize();
                 }
 
                 // returns angle in degrees between two angles 
-                float angle = Vector2.SignedAngle(Vector2.right, dashDirection);
+                float angle = Vector2.SignedAngle(Vector2.right, _dashDirection);
 
                 // Subtract 45 as sprite starts at 45 degree angle
-                player.DashDirectionIndicator.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 45.0f); 
+                player.dashDirectionIndicator.rotation = Quaternion.Euler(0.0f, 0.0f, angle - 45.0f); 
 
-                
-                if(dashInputStop || Time.unscaledTime >= startTime + playerData.maxHoldTime)
+                //begin dash action
+                if(_dashInputStop || Time.unscaledTime >= startTime + playerData.maxHoldTime)
                 {
                     //go into actual dash movement
-                    isHolding = false;
+                    _isHolding = false;
                     //Reset time scale to normal
                     Time.timeScale = 1.0f;
                     /* 
@@ -76,24 +72,23 @@ public class PlayerDashState : PlayerAbilityState
                      */
                     startTime = Time.time;
 
-                    player.CheckIfShouldFlip(Mathf.RoundToInt(dashDirection.x));
-                    player.RB.drag = playerData.drag;
-                    player.SetVelocity(playerData.dashVelocity, dashDirection);
-                    Debug.Log("Set Velocity!");
-                    player.DashDirectionIndicator.gameObject.SetActive(false);
+                    player.CheckIfShouldFlip(Mathf.RoundToInt(_dashDirection.x));
+                    player.rigidBody.drag = playerData.drag;
+                    player.SetVelocity(playerData.dashVelocity, _dashDirection);
+                    player.dashDirectionIndicator.gameObject.SetActive(false);
                 }
 
             }
-            //Sustaining the dash action that started
+            //Sustain the dash action that was started
             else
             {
-                player.SetVelocity(playerData.dashVelocity, dashDirection);
+                player.SetVelocity(playerData.dashVelocity, _dashDirection);
 
                 if (Time.time >= startTime + playerData.dashTime)
                 {
-                    player.RB.drag = 0.0f;
-                    IsAbilityDone = true;
-                    lastDashTime = Time.time; 
+                    player.rigidBody.drag = 0.0f;
+                    isAbilityDone = true;
+                    _lastDashTime = Time.time; 
                 }
 
             }
@@ -105,17 +100,17 @@ public class PlayerDashState : PlayerAbilityState
         base.Exit();
 
         //We do not want to descrease our y velocity if we are dashing down
-        if(player.CurrVelocity.y > 0)
+        if(player.currVelocity.y > 0)
         {
-            player.SetVelocityY(player.CurrVelocity.y * playerData.dashEndYMultiplier);
+            player.SetVelocityY(player.currVelocity.y * playerData.dashEndYMultiplier);
         }
     }
 
     public bool CheckIfCanDash()
     {
-        return CanDash && Time.time >= lastDashTime + playerData.dashCoolDown;
+        return canDash && Time.time >= _lastDashTime + playerData.dashCoolDown;
     }
 
-    public void ResetCanDash() => CanDash = true;
+    public void ResetCanDash() => canDash = true;
 
 }

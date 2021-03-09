@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498ea3b9700346c4295899451ea29088, type: 3}
+  m_Name: MainMenu
+  m_EditorClassIdentifier: 
+  _guid: f7dcfee5b0477fc4195a13416e0c5250
+  description: Main menu. Game switches here upon initialization.
+  sceneType: 1
+  sceneRefernce:
+    m_AssetGUID: 041bd79cfbcf05e4cb48ba6fda39c8bf
+    m_SubObjectName: 
+    m_SubObjectType: 
