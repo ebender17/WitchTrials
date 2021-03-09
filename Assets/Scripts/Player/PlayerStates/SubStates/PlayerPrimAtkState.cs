@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerPrimAtkState : PlayerAbilityState
 {
-    public bool CanPrimAtk { get; private set; }
-    private float lastPrimAtkTime;
+    public bool canPrimAtk { get; private set; }
+    private float _lastPrimAtkTime;
     public PlayerPrimAtkState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
         
@@ -15,8 +15,8 @@ public class PlayerPrimAtkState : PlayerAbilityState
     {
         base.Enter();
 
-        CanPrimAtk = false;
-        player.InputHandler.UsePrimAtkInput();
+        canPrimAtk = false;
+        player.inputHandler.UsePrimAtkInput();
 
         Debug.Log("Entered Attack State!");
         
@@ -24,10 +24,10 @@ public class PlayerPrimAtkState : PlayerAbilityState
 
     public bool CheckIfCanPrimAtk()
     {
-        return CanPrimAtk && Time.time >= lastPrimAtkTime + playerData.primAtkCoolDown;
+        return canPrimAtk && Time.time >= _lastPrimAtkTime + playerData.primAtkCoolDown;
     }
 
-    public void ResetCanPrimAtk() => CanPrimAtk = true;
+    public void ResetCanPrimAtk() => canPrimAtk = true;
 
    
 }

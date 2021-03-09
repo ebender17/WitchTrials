@@ -20,17 +20,17 @@ public class PlayerCrouchState : PlayerGroundedState
 
         if(!isExitingState)
         {
-            player.SetVelocityX(playerData.crouchMovementVelocity * player.FacingDirection);
+            player.SetVelocityX(playerData.crouchMovementVelocity * player.facingDirection);
             player.CheckIfShouldFlip(xInput);
 
             if(xInput == 0)
             {
-                stateMachine.ChangeState(player.CrouchIdleState);
+                stateMachine.ChangeState(player.crouchIdleState);
             }
             // No longer holding down key
             else if (yInput != -1 && !isTouchingCeiling)
             {
-                stateMachine.ChangeState(player.MoveState);
+                stateMachine.ChangeState(player.moveState);
             }
         }
     }

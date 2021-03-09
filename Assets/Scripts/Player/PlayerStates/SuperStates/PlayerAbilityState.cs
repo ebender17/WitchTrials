@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerAbilityState : PlayerState
 {
-    protected bool IsAbilityDone;
+    protected bool isAbilityDone;
 
-    private bool IsGrounded; 
+    private bool isGrounded; 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
     }
@@ -15,21 +15,21 @@ public class PlayerAbilityState : PlayerState
     {
         base.DoChecks();
 
-        IsGrounded = player.CheckIfGrounded(); 
+        isGrounded = player.CheckIfGrounded(); 
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        IsAbilityDone = false;
+        isAbilityDone = false;
     }
 
     public override void Execute()
     {
         base.Execute();
 
-        if(IsAbilityDone)
+        if(isAbilityDone)
         {
             /*
              * Because jump ability is instantly over player will still be on ground when first jumping
@@ -37,13 +37,13 @@ public class PlayerAbilityState : PlayerState
              * move to in air state
              */
            
-            if (IsGrounded && player.CurrVelocity.y < 0.01f )
+            if (isGrounded && player.currVelocity.y < 0.01f )
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(player.idleState);
             }
             else
             {
-                stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(player.inAirState);
             }
         }
     }

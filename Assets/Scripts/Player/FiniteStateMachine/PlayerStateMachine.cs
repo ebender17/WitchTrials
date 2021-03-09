@@ -8,18 +8,18 @@ public class PlayerStateMachine
 {
     //Reference to current Player state 
     //Only able to set State in this script
-    public PlayerState CurrentState { get; private set; }
+    public PlayerState currentState { get; private set; }
 
     public void Initialize(PlayerState startingState)
     {
-        CurrentState = startingState;
-        CurrentState.Enter();
+        currentState = startingState;
+        currentState.Enter();
     }
 
     public void ChangeState(PlayerState newState)
     {
-        CurrentState.Exit();
-        CurrentState = newState;
+        currentState.Exit();
+        currentState = newState;
         newState.Enter(); 
     }
 }

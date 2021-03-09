@@ -10,18 +10,18 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region State Variables
-    public PlayerStateMachine StateMachine { get; private set; }
+    public PlayerStateMachine stateMachine { get; private set; }
 
     // Initialize Player States 
-    public PlayerIdleState IdleState { get; private set; }
-    public PlayerMoveState MoveState { get; private set; }
-    public PlayerJumpState JumpState { get; private set; }
-    public PlayerInAirState InAirState { get; private set; }
-    public PlayerLandState LandState { get; private set; }
-    public PlayerDashState DashState { get; private set; }
-    public PlayerCrouchIdleState CrouchIdleState { get; private set; }
-    public PlayerCrouchState CrouchMoveState { get; private set; }
-    public PlayerPrimAtkState PrimAtkState { get; private set; }
+    public PlayerIdleState idleState { get; private set; }
+    public PlayerMoveState moveState { get; private set; }
+    public PlayerJumpState jumpState { get; private set; }
+    public PlayerInAirState inAirState { get; private set; }
+    public PlayerLandState landState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
+    public PlayerCrouchIdleState crouchIdleState { get; private set; }
+    public PlayerCrouchState crouchMoveState { get; private set; }
+    public PlayerPrimAtkState primAtkState { get; private set; }
 
     [SerializeField]
     private PlayerData playerData;
@@ -29,74 +29,74 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Components
-    public PlayerInputHandler InputHandler { get; private set; }
-    public Rigidbody2D RB { get; private set; }
-    public BoxCollider2D BoxCollider { get; private set; }
-    public Animator Anim { get; private set; }
-    public Transform DashDirectionIndicator { get; private set; }
+    public PlayerInputHandler inputHandler { get; private set; }
+    public Rigidbody2D rigidBody { get; private set; }
+    public BoxCollider2D boxCollider { get; private set; }
+    public Animator anim { get; private set; }
+    public Transform dashDirectionIndicator { get; private set; }
 
     #endregion
 
     #region Check Transforms
 
     [SerializeField]
-    private Transform groundCheck;
+    private Transform _groundCheck;
     [SerializeField]
-    private Transform ceilingCheck;
+    private Transform _ceilingCheck;
 
     #endregion
 
     #region Other Variables 
     //Storing to avoid going to RB everytime we want RB velocity 
-    public Vector2 CurrVelocity { get; private set; }
-    private Vector2 tempValue;
+    public Vector2 currVelocity { get; private set; }
+    private Vector2 _tempValue;
 
-    public int FacingDirection { get; private set; }
+    public int facingDirection { get; private set; }
     #endregion
 
     #region Unity Callback Functions
     private void Awake()
     {
-        StateMachine = new PlayerStateMachine();
+        stateMachine = new PlayerStateMachine();
 
-        IdleState = new PlayerIdleState(this, StateMachine, playerData, "Idle");
-        MoveState = new PlayerMoveState(this, StateMachine, playerData, "Move");
-        JumpState = new PlayerJumpState(this, StateMachine, playerData, "InAir");
-        InAirState = new PlayerInAirState(this, StateMachine, playerData, "InAir"); 
-        LandState = new PlayerLandState(this, StateMachine, playerData, "Land");
-        DashState = new PlayerDashState(this, StateMachine, playerData, "InAir");
-        CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "IdleCrouch");
-        CrouchMoveState = new PlayerCrouchState(this, StateMachine, playerData, "MoveCrouch");
-        PrimAtkState = new PlayerPrimAtkState(this, StateMachine, playerData, "PrimAtk");
+        idleState = new PlayerIdleState(this, stateMachine, playerData, "Idle");
+        moveState = new PlayerMoveState(this, stateMachine, playerData, "Move");
+        jumpState = new PlayerJumpState(this, stateMachine, playerData, "InAir");
+        inAirState = new PlayerInAirState(this, stateMachine, playerData, "InAir"); 
+        landState = new PlayerLandState(this, stateMachine, playerData, "Land");
+        dashState = new PlayerDashState(this, stateMachine, playerData, "InAir");
+        crouchIdleState = new PlayerCrouchIdleState(this, stateMachine, playerData, "IdleCrouch");
+        crouchMoveState = new PlayerCrouchState(this, stateMachine, playerData, "MoveCrouch");
+        primAtkState = new PlayerPrimAtkState(this, stateMachine, playerData, "PrimAtk");
 
     }
 
     // Start is called before the first frame update
     private void Start()
     {
-        InputHandler = GetComponent<PlayerInputHandler>();
-        Anim = GetComponent<Animator>();
-        RB = GetComponent<Rigidbody2D>();
-        BoxCollider = GetComponent<BoxCollider2D>();
-        DashDirectionIndicator = transform.Find("DashDirectionIndicator");
+        inputHandler = GetComponent<PlayerInputHandler>();
+        anim = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        dashDirectionIndicator = transform.Find("DashDirectionIndicator");
 
         // Player is in idle state upon game start 
-        StateMachine.Initialize(IdleState);
+        stateMachine.Initialize(idleState);
 
-        FacingDirection = 1;
+        facingDirection = 1;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        CurrVelocity = RB.velocity; 
-        StateMachine.CurrentState.Execute();
+        currVelocity = rigidBody.velocity; 
+        stateMachine.currentState.Execute();
     }
 
     private void FixedUpdate()
     {
-        StateMachine.CurrentState.ExecutePhysics();
+        stateMachine.currentState.ExecutePhysics();
     }
     #endregion
 
@@ -104,27 +104,27 @@ public class PlayerController : MonoBehaviour
 
     public void SetVelocityZero()
     {
-        RB.velocity = Vector2.zero;
-        CurrVelocity = Vector2.zero;
+        rigidBody.velocity = Vector2.zero;
+        currVelocity = Vector2.zero;
     }
     public void SetVelocity(float velocity, Vector2 direction)
     {
-        tempValue = direction * velocity;
-        RB.velocity = tempValue;
-        CurrVelocity = tempValue;
+        _tempValue = direction * velocity;
+        rigidBody.velocity = _tempValue;
+        currVelocity = _tempValue;
     }
     public void SetVelocityX(float velocity)
     {
-        tempValue.Set(velocity, CurrVelocity.y);
-        RB.velocity = tempValue;
-        CurrVelocity = tempValue; 
+        _tempValue.Set(velocity, currVelocity.y);
+        rigidBody.velocity = _tempValue;
+        currVelocity = _tempValue; 
     }
 
     public void SetVelocityY(float velocity)
     {
-        tempValue.Set(CurrVelocity.x, velocity);
-        RB.velocity = tempValue;
-        CurrVelocity = tempValue;
+        _tempValue.Set(currVelocity.x, velocity);
+        rigidBody.velocity = _tempValue;
+        currVelocity = _tempValue;
     }
     
     #endregion
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
     #region Check Functions
     public void CheckIfShouldFlip(int xInput)
     {
-        if(xInput != 0 && xInput != FacingDirection)
+        if(xInput != 0 && xInput != facingDirection)
         {
             Flip();
         }
@@ -140,18 +140,18 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckIfGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+        return Physics2D.OverlapCircle(_groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
     public bool CheckForCeiling()
     {
-        return Physics2D.OverlapCircle(ceilingCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+        return Physics2D.OverlapCircle(_ceilingCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
     #endregion
 
     #region Other Functions
-    private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
+    private void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
 
     /*
      * Used to create events with animations in Unity editor. 
@@ -159,22 +159,22 @@ public class PlayerController : MonoBehaviour
      * Do so here as animations only have access to functions in script
      * attached to object of animations. 
      */
-    private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger(); 
+    private void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger(); 
     private void Flip()
     {
-        FacingDirection *= -1;
+        facingDirection *= -1;
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 
     public void SetColliderHeight(float height)
     {
-        Vector2 center = BoxCollider.offset;
-        tempValue.Set(BoxCollider.size.x, height);
+        Vector2 center = boxCollider.offset;
+        _tempValue.Set(boxCollider.size.x, height);
         // For every 2 units our size decreases, the offset decrease 1 unit 
-        center.y += (height - BoxCollider.size.y) / 2;
+        center.y += (height - boxCollider.size.y) / 2;
 
-        BoxCollider.size = tempValue;
-        BoxCollider.offset = center;
+        boxCollider.size = _tempValue;
+        boxCollider.offset = center;
     }
     #endregion
     

@@ -31,11 +31,11 @@ public class PlayerMoveState : PlayerGroundedState
         {
             if (xInput == 0)
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(player.idleState);
             }
             else if (yInput == -1)
             {
-                stateMachine.ChangeState(player.CrouchMoveState);
+                stateMachine.ChangeState(player.crouchMoveState);
             }
         }
     }

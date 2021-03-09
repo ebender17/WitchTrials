@@ -8,20 +8,20 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
-    private PlayerInput playerInput;
-    private Camera cam;
+    private PlayerInput _playerInput;
+    private Camera _cam;
 
-    public Vector2 RawMovementInput { get; private set; }
-    public Vector2 RawDashDirectionInput { get; private set; }
-    public Vector2Int DashDirectionInput { get; private set; }
-    public int NormInputX { get; private set; }
-    public int NormInputY { get; private set; }
-    public bool JumpInput { get; private set; }
-    public bool JumpInputStop { get; private set; }
-    public bool DashInput { get; private set; }
-    public bool DashInputStop { get; private set; }
-    public bool PrimAtkInput { get; private set; }
-    public bool PrimAtkInputStop { get; private set; }
+    public Vector2 rawMovementInput { get; private set; }
+    public Vector2 rawDashDirectionInput { get; private set; }
+    public Vector2Int dashDirectionInput { get; private set; }
+    public int normInputX { get; private set; }
+    public int normInputY { get; private set; }
+    public bool jumpInput { get; private set; }
+    public bool jumpInputStop { get; private set; }
+    public bool dashInput { get; private set; }
+    public bool dashInputStop { get; private set; }
+    public bool primAtkInput { get; private set; }
+    public bool primAtkInputStop { get; private set; }
 
     [SerializeField]
     private float inputHoldTime = 0.2f;
@@ -32,8 +32,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
-        cam = Camera.main;
+        _playerInput = GetComponent<PlayerInput>();
+        _cam = Camera.main;
     }
 
     private void Update()
@@ -44,26 +44,26 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        RawMovementInput = context.ReadValue<Vector2>();
+        rawMovementInput = context.ReadValue<Vector2>();
 
         // Normalize input so player moves with same speed on different input types
         // TODO: Check with controller. Also possible to do with input system.
-        if (Mathf.Abs(RawMovementInput.x) > 0.5f)
+        if (Mathf.Abs(rawMovementInput.x) > 0.5f)
         {
-            NormInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
+            normInputX = (int)(rawMovementInput * Vector2.right).normalized.x;
         }
         else
         {
-            NormInputX = 0;
+            normInputX = 0;
         }
 
-        if (Mathf.Abs(RawMovementInput.y) > 0.5f)
+        if (Mathf.Abs(rawMovementInput.y) > 0.5f)
         {
-            NormInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
+            normInputY = (int)(rawMovementInput * Vector2.up).normalized.y;
         }
         else
         {
-            NormInputY = 0;
+            normInputY = 0;
         }
     }
 
@@ -71,60 +71,60 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            JumpInput = true;
-            JumpInputStop = false;
+            jumpInput = true;
+            jumpInputStop = false;
             jumpInputStartTime = Time.time;
         }
 
         if (context.canceled)
         {
-            JumpInputStop = true;
+            jumpInputStop = true;
         }
     }
-    public void UseJumpInput() => JumpInput = false;
+    public void UseJumpInput() => jumpInput = false;
 
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)
         {
-            JumpInput = false;
+            jumpInput = false;
         }
     }
     public void OnDashInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            DashInput = true;
-            DashInputStop = false;
+            dashInput = true;
+            dashInputStop = false;
             dashInputStartTime = Time.time;
         }
         else if (context.canceled)
         {
-            DashInputStop = true;
+            dashInputStop = true;
         }
     }
 
     public void OnDashDirectionInput(InputAction.CallbackContext context)
     {
-        RawDashDirectionInput = context.ReadValue<Vector2>();
+        rawDashDirectionInput = context.ReadValue<Vector2>();
 
-        if (playerInput.currentControlScheme == "Keyboard")
+        if (_playerInput.currentControlScheme == "Keyboard")
         {
             // subtract player's transform to get vector pointing from player to world point
-            RawDashDirectionInput = cam.ScreenToWorldPoint(RawDashDirectionInput) - transform.position;
+            rawDashDirectionInput = _cam.ScreenToWorldPoint(rawDashDirectionInput) - transform.position;
         }
 
         // normalize as magnitude does not matter, just direction
-        DashDirectionInput = Vector2Int.RoundToInt(RawDashDirectionInput.normalized);
+        dashDirectionInput = Vector2Int.RoundToInt(rawDashDirectionInput.normalized);
     }
 
-    public void UseDashInput() => DashInput = false;
+    public void UseDashInput() => dashInput = false;
 
     private void CheckDashInputHoldTime()
     {
         if (Time.time >= dashInputStartTime + inputHoldTime)
         {
-            DashInput = false;
+            dashInput = false;
         }
     }
 
@@ -132,24 +132,24 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if(context.started)
         {
-            PrimAtkInput = true;
-            PrimAtkInputStop = false;
+            primAtkInput = true;
+            primAtkInputStop = false;
             primAtkInputStartTime = Time.time;
         }
         else if (context.canceled)
         {
-            PrimAtkInputStop = true;
+            primAtkInputStop = true;
         }
         
     }
 
-    public void UsePrimAtkInput() => PrimAtkInput = false;
+    public void UsePrimAtkInput() => primAtkInput = false;
 
     private void CheckPrimAtkInputHoldTime()
     {
         if(Time.time >= primAtkInputStartTime + inputHoldTime)
         {
-            PrimAtkInput = false;
+            primAtkInput = false;
         }
     }
 
