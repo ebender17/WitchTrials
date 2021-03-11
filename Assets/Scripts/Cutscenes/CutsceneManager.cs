@@ -1,28 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables; 
 
 public class CutsceneManager : MonoBehaviour
 {
-    //Currently no way of retreiving without going into player gameobject which I do not like
-    //[SerializeField] private PlayerInputHandler _inputHandler;
+    [SerializeField] private InputReader _inputReader = default;
+    [SerializeField] private DialogueManager _dialogueManager = default; 
+
     [SerializeField] private PlayableDirectorChannelSO _playCutsceneEvent;
 
-    private PlayableDirector _activePlayableDirector;
+    [SerializeField] private DialogueLineChannelSO _playDialogueEvent = default;
 
-    // Start is called before the first frame update
+    [SerializeField] private VoidEventChannelSO _pauseTimelineEvent = default;
+
+    private PlayableDirector _activePlayableDirector;
+    private bool _isPaused;
+
+    bool IsCutscenePlaying => _activePlayableDirector.playableGraph.GetRootPlayable(0).GetSpeed() != 0d;
+
+    private void OnEnable()
+    {
+        _inputReader.advanceDialogueEvent += OnAdvance;
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.advanceDialogueEvent -= OnAdvance;
+    }
+
     private void Start()
     {
         if (_playCutsceneEvent != null)
             // Play cutscene when event is broadcasted on PlayableDirectorChannel
             _playCutsceneEvent.OnEventRaised += PlayCutscene;
+        if (_playDialogueEvent != null)
+            _playDialogueEvent.OnEventRaised += PlayDialogueFromClip;
+        if (_pauseTimelineEvent != null)
+            _pauseTimelineEvent.OnEventRaised += PauseTimeline;
     }
 
     void PlayCutscene(PlayableDirector activePlayableDirector)
     {
+        _inputReader.EnableDialogueInput();
+
         _activePlayableDirector = activePlayableDirector;
 
+        _isPaused = false;
         _activePlayableDirector.Play();
         //When cutscene ends
         _activePlayableDirector.stopped += HandleDirectorStopped;
@@ -33,11 +55,34 @@ public class CutsceneManager : MonoBehaviour
         if (_activePlayableDirector != null)
             _activePlayableDirector.stopped -= HandleDirectorStopped;
 
-        // Input is currently tightly coupled with player
-        // TODO: look into decoupling
-        //_inputHandler.EnableGameplayInput();
+        _inputReader.EnableGameplayInput();
+        _dialogueManager.DialogueEndedAndCloseDialogueUI();
     }
 
     private void HandleDirectorStopped(PlayableDirector director) => CutsceneEnded();
+
+    private void PlayDialogueFromClip(string dialogueLine, ActorSO actor)
+    {
+        _dialogueManager.DisplayDialogueLine(dialogueLine, actor);
+
+    }
+
+    private void OnAdvance()
+    {
+        if (!_isPaused)
+            ResumeTimeline();
+    }
+
+    private void PauseTimeline()
+    {
+        _isPaused = true;
+        _activePlayableDirector.playableGraph.GetRootPlayable(0).SetSpeed(0);
+    }
+
+    private void ResumeTimeline()
+    {
+        _isPaused = false;
+        _activePlayableDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
+    }
 
 }
