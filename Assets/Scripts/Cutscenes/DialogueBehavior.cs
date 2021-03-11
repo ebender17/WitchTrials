@@ -1,12 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>
+/// Acts as the data for <see cref="DialogueTrack"/>
+/// Instantances of this script represent runtime playables.
+/// </summary>
+[Serializable]
 public class DialogueBehavior : PlayableBehaviour
 {
-    [SerializeField] string _dialogueLine = default;
-    [SerializeField] ActorSO _actor = default;
+    [SerializeField] private string _dialogueLine = default;
+    [SerializeField] private ActorSO _actor = default;
 
     [SerializeField] private bool _pauseWhenClipEnds = default; //This won't work if the clips ends on the very last frame of Timeline
 
@@ -15,6 +19,7 @@ public class DialogueBehavior : PlayableBehaviour
 
     private bool _dialoguePlayed;
 
+    //Called each frame when timeline is played
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
         if (_dialoguePlayed)
@@ -52,7 +57,7 @@ public class DialogueBehavior : PlayableBehaviour
             {
                 if (PauseTimelineEvent != null)
                 {
-                    PauseTimelineEvent.OnEventRaised();
+                    PauseTimelineEvent.RaiseEvent();
                 }
             }
         }

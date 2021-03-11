@@ -8,7 +8,8 @@ public class DialogueClip : PlayableAsset, ITimelineClipAsset
 
     [HideInInspector] public DialogueLineChannelSO PlayDialogueEvent;
     [HideInInspector] public VoidEventChannelSO PauseTimelineEvent; 
-    //Having ClipCaps set to None makes sure the clips cannot be blended, extrapolated, looped, etc. 
+
+    //Set ClipsCaps to None to ensure the clips cannot be blended, extrapolated, looped, etc. 
     public ClipCaps clipCaps
     {
         get { return ClipCaps.None; }
@@ -16,11 +17,14 @@ public class DialogueClip : PlayableAsset, ITimelineClipAsset
 
     public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
     {
+        //To use Behavior as playable, must be encapsulated in ScriptPlayable object
+        //Clones template and encapsulates withing ScriptPlayable object
         ScriptPlayable<DialogueBehavior> playable = ScriptPlayable<DialogueBehavior>.Create(graph, _template);
 
         _template.PlayDialogueEvent = PlayDialogueEvent;
         _template.PauseTimelineEvent = PauseTimelineEvent;
 
+        //Generated clone is returned and used as runtime playable
         return playable;
     }
 }

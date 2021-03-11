@@ -69,8 +69,9 @@ public class CutsceneManager : MonoBehaviour
 
     private void OnAdvance()
     {
-        if (!_isPaused)
+        if (_isPaused)
             ResumeTimeline();
+
     }
 
     private void PauseTimeline()

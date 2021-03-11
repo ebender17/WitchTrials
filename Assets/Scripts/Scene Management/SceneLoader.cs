@@ -180,7 +180,7 @@ public class SceneLoader : MonoBehaviour
 
         LightProbes.TetrahedralizeAsync(); /////////////////////
 
-        _onSceneReady.RaiseEvent(); //Spawn System will spaw the PigChef ????????????????
+        _onSceneReady.RaiseEvent(); //Spawn System will spaw the Player?
     }
 
     private void ExitGame()
