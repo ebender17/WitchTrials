@@ -20,9 +20,9 @@ public class NPCDialogueController : MonoBehaviour
 
     public void InteractWithCharacter()
     {
-        if(_startDialogueEvent != null)
+        if(_dialogue != null)
         {
-            _startDialogueEvent.RaiseEvent(_dialogue);
+            StartDialogue();
             
         }
     }

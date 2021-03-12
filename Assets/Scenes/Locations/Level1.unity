@@ -272,7 +272,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.029045105, y: -0.18565762}
@@ -553,7 +553,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -580,6 +580,7 @@ GameObject:
   - component: {fileID: 664991081}
   - component: {fileID: 664991080}
   - component: {fileID: 664991082}
+  - component: {fileID: 664991083}
   m_Layer: 8
   m_Name: NPC Example
   m_TagString: NPC
@@ -626,7 +627,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -670,6 +671,32 @@ MonoBehaviour:
   _interactionEvent: {fileID: 11400000, guid: 38e006003c95dec4ab4187522cb90fc9, type: 2}
   _startDialogueEvent: {fileID: 11400000, guid: d89187794a519c544b68f8c00aeeeee4,
     type: 2}
+--- !u!61 &664991083
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664991079}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.030369759, y: -0.20921111}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1822147, y: 1.4184222}
+  m_EdgeRadius: 0
 --- !u!1 &945937163
 GameObject:
   m_ObjectHideFlags: 0

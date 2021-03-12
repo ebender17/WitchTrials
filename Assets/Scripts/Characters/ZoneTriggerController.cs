@@ -17,7 +17,7 @@ public class ZoneTriggerController : MonoBehaviour
     [SerializeField] private BoolEvent _enterZone = default;
     [SerializeField] private LayerMask _layers = default;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         //Shift 1 to corresponding bit in layer mask 
         //Compared shifted bit with layer mask 
@@ -29,7 +29,7 @@ public class ZoneTriggerController : MonoBehaviour
                      
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if((1 << other.gameObject.layer & _layers) != 0)
         {

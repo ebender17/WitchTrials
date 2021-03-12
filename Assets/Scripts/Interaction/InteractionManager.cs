@@ -50,6 +50,7 @@ public class InteractionManager : MonoBehaviour
 
     private void OnInteractionButtonPress()
     {
+        Debug.Log("Interaction Button Pressed");
         if (_potentialInteractions.Count == 0)
             return;
 
@@ -61,6 +62,7 @@ public class InteractionManager : MonoBehaviour
             {
                 _potentialInteractions.First.Value.interactableObject.GetComponent<NPCDialogueController>().InteractWithCharacter();
                 _inputReader.EnableDialogueInput();
+                Debug.Log("Dialogue Input Enabled");
             }
         }
     }
@@ -74,6 +76,7 @@ public class InteractionManager : MonoBehaviour
     /// <param name="obj"></param>
     public void OnTriggerChangeDetected(bool isWithin, GameObject obj)
     {
+        Debug.Log("Trigger detected");
         if (isWithin)
             AddPotentialInteraction(obj);
         else
@@ -88,6 +91,7 @@ public class InteractionManager : MonoBehaviour
         if(obj.CompareTag("NPC"))
         {
             newPotentialInteraction.type = InteractionType.Talk;
+            Debug.Log("Added Potential NPC Talk");
         }
 
         if(newPotentialInteraction.type != InteractionType.None)
@@ -114,6 +118,8 @@ public class InteractionManager : MonoBehaviour
 
         //Toggle UI depending on if there are more interactions or not 
         RequestUIUpdate(_potentialInteractions.Count > 0);
+
+        Debug.Log("Removed potential NPC talk.");
     }
     private void RequestUIUpdate(bool isVisible)
     {
