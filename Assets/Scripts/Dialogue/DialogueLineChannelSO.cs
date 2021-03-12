@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "newDialogueLineChannel", menuName = "Events/UI/Dialogue line Channel")]
+/// <summary>
+/// Channel for broadcasting dialogue line events. 
+/// </summary>
+[CreateAssetMenu(fileName = "newDialogueLineChannel", menuName = "Events/UI/Dialogue Line Channel")]
 public class DialogueLineChannelSO : ScriptableObject
 {
     public UnityAction<string, ActorSO> OnEventRaised;

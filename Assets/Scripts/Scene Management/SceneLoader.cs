@@ -7,12 +7,10 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-/*
- * Summary: 
- * This class manages the scene loading and unloading. 
- * 
- */
 
+/// <summary>
+/// This class manages the scene loading and unloading. 
+/// </summary>
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField]

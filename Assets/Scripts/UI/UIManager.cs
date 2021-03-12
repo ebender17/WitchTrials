@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Listens on channels to open and close dialgoue.
+/// </summary>
 public class UIManager : MonoBehaviour
 {
     [Header("Listening on channels")]

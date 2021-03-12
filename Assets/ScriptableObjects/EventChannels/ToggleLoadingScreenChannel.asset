@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cf7feed3b8993148bf697e3493232da, type: 3}
-  m_Name: OnSceneReady
+  m_Script: {fileID: 11500000, guid: bf3da0c5311dd0e4eae4bc897c6257fe, type: 3}
+  m_Name: ToggleLoadingScreenChannel
   m_EditorClassIdentifier: 
-  description: 'Raised when the scene is loaded and set active. '
+  description: 'Raised to turn loading screen on and off. '

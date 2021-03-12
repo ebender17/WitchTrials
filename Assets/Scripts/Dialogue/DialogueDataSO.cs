@@ -4,8 +4,9 @@ using UnityEngine;
 
 public enum DialogueType
 {
+    //Options for other types if extend in future
     startDialogue,
-    windDialogue, 
+    winDialogue, 
     loseDialogue,
     defaultDialogue
 }

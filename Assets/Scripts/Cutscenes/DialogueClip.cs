@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
+/// <summary>
+/// Custome timeline clip. Placed on <see cref="DialogueTrack"/>
+/// </summary>
 public class DialogueClip : PlayableAsset, ITimelineClipAsset
 {
     [SerializeField] private DialogueBehavior _template = default;

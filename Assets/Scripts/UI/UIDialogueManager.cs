@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-//Attach to Dialogue Panel containing dialogue UI
+/// <summary>
+/// Used by <see cref="UIManager"/> to set dialogue for UI.
+/// Attach script to Dialogue Panel containing dialogue textbox.
+/// </summary>
 public class UIDialogueManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _lineText = default;

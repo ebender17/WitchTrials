@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.Playables; 
 
+/// <summary>
+/// Listens on channels to responds to cutscene events.
+/// </summary>
 public class CutsceneManager : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader = default;
-    [SerializeField] private DialogueManager _dialogueManager = default; 
+    [SerializeField] private DialogueManager _dialogueManager = default;
 
+    [Header("Listening on channels")]
     [SerializeField] private PlayableDirectorChannelSO _playCutsceneEvent;
-
     [SerializeField] private DialogueLineChannelSO _playDialogueEvent = default;
-
     [SerializeField] private VoidEventChannelSO _pauseTimelineEvent = default;
 
     private PlayableDirector _activePlayableDirector;
