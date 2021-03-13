@@ -47,4 +47,9 @@ MonoBehaviour:
     type: 2}
   _closeUIDialogueEvent: {fileID: 11400000, guid: ed7e918c95040ff498349291e409ad8a,
     type: 2}
-  _dialogueController: {fileID: 0}
+  _onInteractionEndedEvent: {fileID: 11400000, guid: 78c0a2edc5b40f54fabc7edd47e5d61f,
+    type: 2}
+  _setInteractionEvent: {fileID: 11400000, guid: 0bc9d65c90a1edc4fb758b499a3bc249,
+    type: 2}
+  _dialoguePanel: {fileID: 0}
+  _interactionPanel: {fileID: 0}

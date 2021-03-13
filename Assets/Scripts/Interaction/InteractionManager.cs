@@ -60,6 +60,7 @@ public class InteractionManager : MonoBehaviour
         {
             if(_startTalking != null)
             {
+                //RequestUIUpdate(false);
                 _potentialInteractions.First.Value.interactableObject.GetComponent<NPCDialogueController>().InteractWithCharacter();
                 _inputReader.EnableDialogueInput();
                 Debug.Log("Dialogue Input Enabled");
@@ -131,7 +132,7 @@ public class InteractionManager : MonoBehaviour
     private void OnInteractionEnd()
     {
         if (currentInteractionType == InteractionType.Talk)
-            RequestUIUpdate(true);
+            RequestUIUpdate(false);
 
         _inputReader.EnableGameplayInput();
 
