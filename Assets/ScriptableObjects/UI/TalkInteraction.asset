@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb7ea78246bcf849876f6ca55ef7620, type: 3}
   m_Name: TalkInteraction
   m_EditorClassIdentifier: 
-  _interactioName: Talk
+  _interactionName: Talk
   _interactionType: 2

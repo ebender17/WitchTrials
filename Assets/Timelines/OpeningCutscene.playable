@@ -335,7 +335,7 @@ MonoBehaviour:
   _template:
     _dialogueLine: I must try!
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
-    _pauseWhenClipEnds: 1
+    _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
     PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
@@ -820,7 +820,7 @@ MonoBehaviour:
   _template:
     _dialogueLine: How will I ever make it through this forest?
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
-    _pauseWhenClipEnds: 1
+    _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
     PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,

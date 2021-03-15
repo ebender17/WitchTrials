@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
     {
         if (isOpen)
             _interactionPanel.FillInteractionPanel(interactionType);
+        
         _interactionPanel.gameObject.SetActive(isOpen);
     }
 }

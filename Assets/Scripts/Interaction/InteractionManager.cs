@@ -132,7 +132,8 @@ public class InteractionManager : MonoBehaviour
     private void OnInteractionEnd()
     {
         if (currentInteractionType == InteractionType.Talk)
-            RequestUIUpdate(false);
+            //Show UI in case player wants to interact again 
+            RequestUIUpdate(true);
 
         _inputReader.EnableGameplayInput();
 
