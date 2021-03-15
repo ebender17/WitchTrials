@@ -77,7 +77,6 @@ public class InteractionManager : MonoBehaviour
     /// <param name="obj"></param>
     public void OnTriggerChangeDetected(bool isWithin, GameObject obj)
     {
-        Debug.Log("Trigger detected");
         if (isWithin)
             AddPotentialInteraction(obj);
         else
@@ -119,8 +118,6 @@ public class InteractionManager : MonoBehaviour
 
         //Toggle UI depending on if there are more interactions or not 
         RequestUIUpdate(_potentialInteractions.Count > 0);
-
-        Debug.Log("Removed potential NPC talk.");
     }
     private void RequestUIUpdate(bool isVisible)
     {

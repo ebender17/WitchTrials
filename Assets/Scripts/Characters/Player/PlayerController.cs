@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private float primAtkInputStartTime;
     #endregion
 
+
     #region Check Transforms
 
     [SerializeField]
@@ -77,6 +78,18 @@ public class PlayerController : MonoBehaviour
     private Vector2 _tempValue;
 
     public int facingDirection { get; private set; }
+    public bool knockBack { get; private set; } = false;
+    public float knockBackStartTime { get; private set; }
+
+    public float currentHealth { get; private set; }
+
+    public float playerScore { get; private set; }
+    #endregion
+
+    #region EventChannels
+    [Header("Broadcasting on channels")]
+    [SerializeField] private GameResultChannelSO _playerResults;
+
     #endregion
 
     #region Unity Callback Functions
@@ -136,6 +149,9 @@ public class PlayerController : MonoBehaviour
 
         facingDirection = 1;
 
+        currentHealth = playerData.health;
+        playerScore = playerData.score;
+
     }
 
     // Update is called once per frame
@@ -146,6 +162,8 @@ public class PlayerController : MonoBehaviour
 
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
+        CheckKnockback();
+        CheckPlayerFall();
     }
 
     private void FixedUpdate()
@@ -276,6 +294,24 @@ public class PlayerController : MonoBehaviour
         rigidBody.velocity = _tempValue;
         currVelocity = _tempValue;
     }
+
+    public void TakeDamage(float enemyXPos, int damage)
+    {
+        if(stateMachine.currentState.stateName == StateNames.Dash)
+        {
+            int knockbackDirection;
+
+            DecreaseHealth(damage);
+
+            if (enemyXPos < transform.position.x)
+                knockbackDirection = 1;
+            else
+                knockbackDirection = -1;
+
+            KnockBack(knockbackDirection);
+
+        }
+    }
     
     #endregion
 
@@ -298,6 +334,21 @@ public class PlayerController : MonoBehaviour
         return Physics2D.OverlapCircle(_ceilingCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
+    public void CheckKnockback()
+    {
+        if(Time.time >= knockBackStartTime + playerData.knockBackDuration && knockBack)
+        {
+            knockBack = false;
+            SetVelocityX(0.0f);
+        }
+    }
+
+    public void CheckPlayerFall()
+    {
+        if (rigidBody.position.y < -100.0f)
+            DecreaseHealth(50);
+    }
+
     #endregion
 
     #region Other Functions
@@ -312,8 +363,11 @@ public class PlayerController : MonoBehaviour
     private void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger(); 
     private void Flip()
     {
-        facingDirection *= -1;
-        transform.Rotate(0.0f, 180.0f, 0.0f);
+        if(!knockBack)
+        {
+            facingDirection *= -1;
+            transform.Rotate(0.0f, 180.0f, 0.0f);
+        }
     }
 
     public void SetColliderHeight(float height)
@@ -327,5 +381,32 @@ public class PlayerController : MonoBehaviour
         boxCollider.offset = center;
     }
     #endregion
+
+    private void KnockBack(int knockbackDirection)
+    {
+        knockBack = true;
+        knockBackStartTime = Time.time;
+
+        SetVelocity(knockbackDirection, playerData.knockBackSpeed);
+    }
+
+    private void DecreaseHealth(int damage)
+    {
+        currentHealth -= damage; 
+
+        //TODO: damage anim 
+
+        if(currentHealth <= 0.0f)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        //TODO: player death particles
+        _playerResults.RaiseEvent(false, playerScore.ToString());
+        Destroy(gameObject);
+    }
     
 }

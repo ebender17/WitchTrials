@@ -18,6 +18,7 @@ public class PlayerInAirState : PlayerState
 
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.InAir;
     }
 
     public override void DoChecks()

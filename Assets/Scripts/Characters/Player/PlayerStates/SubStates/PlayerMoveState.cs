@@ -6,6 +6,7 @@ public class PlayerMoveState : PlayerGroundedState
 {
     public PlayerMoveState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Move;
     }
 
     public override void DoChecks()

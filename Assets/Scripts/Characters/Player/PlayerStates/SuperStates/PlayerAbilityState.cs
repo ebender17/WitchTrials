@@ -9,6 +9,7 @@ public class PlayerAbilityState : PlayerState
     private bool isGrounded; 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Ability;
     }
 
     public override void DoChecks()
@@ -37,7 +38,7 @@ public class PlayerAbilityState : PlayerState
              * move to in air state
              */
            
-            if (isGrounded && player.currVelocity.y < 0.01f )
+            if (isGrounded && player.currVelocity.y < 0.01f)
             {
                 stateMachine.ChangeState(player.idleState);
             }

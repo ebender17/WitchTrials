@@ -12,6 +12,7 @@ public class PlayerDashState : PlayerAbilityState
     private float _lastDashTime;
     public PlayerDashState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Dash;
     }
     public override void Enter()
     {

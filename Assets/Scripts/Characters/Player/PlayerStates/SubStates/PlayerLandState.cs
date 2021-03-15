@@ -6,6 +6,7 @@ public class PlayerLandState : PlayerGroundedState
 {
     public PlayerLandState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Land;
     }
 
     public override void Execute()

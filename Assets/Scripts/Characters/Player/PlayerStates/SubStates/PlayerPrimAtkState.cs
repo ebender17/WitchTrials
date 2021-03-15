@@ -8,7 +8,7 @@ public class PlayerPrimAtkState : PlayerAbilityState
     private float _lastPrimAtkTime;
     public PlayerPrimAtkState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
-        
+        this.stateName = StateNames.PrimAtk;
     }
 
     public override void Enter()

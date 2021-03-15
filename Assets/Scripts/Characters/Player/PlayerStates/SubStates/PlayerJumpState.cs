@@ -12,6 +12,7 @@ public class PlayerJumpState : PlayerAbilityState
     public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
         _numJumpsLeft = playerData.numJumps;
+        this.stateName = StateNames.Jump;
     }
 
     public override void Enter()

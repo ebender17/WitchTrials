@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StateNames { CrouchIdle, Crouch, Dash, Idle, InAir, Jump, Land, Move, PrimAtk, Ability, Grounded }
 //Base class for all states, any state we create inherits from this class
 public class PlayerState 
 {
     protected PlayerController player;
     protected PlayerStateMachine stateMachine;
     protected PlayerData playerData;
+    public StateNames stateName { get; protected set; }
 
     protected float startTime;
 
@@ -21,7 +23,7 @@ public class PlayerState
         this.player = player;
         this.stateMachine = stateMachine;
         this.playerData = playerData;
-        this._animName = animName; 
+        this._animName = animName;
 
     }
 
