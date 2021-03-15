@@ -24,6 +24,7 @@ public class CutsceneTrigger : MonoBehaviour
             Destroy(this);
     }
 
+    //Trigger if attached to game object with collision and IsTrigger checked
     private void OnTriggerEnter(Collider other)
     {
         if (_playCutsceneEvent != null)

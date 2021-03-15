@@ -7,12 +7,10 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-/*
- * Summary: 
- * This class manages the scene loading and unloading. 
- * 
- */
 
+/// <summary>
+/// This class manages the scene loading and unloading. 
+/// </summary>
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField]
@@ -180,7 +178,7 @@ public class SceneLoader : MonoBehaviour
 
         LightProbes.TetrahedralizeAsync(); /////////////////////
 
-        _onSceneReady.RaiseEvent(); //Spawn System will spaw the PigChef ????????????????
+        _onSceneReady.RaiseEvent(); //Spawn System will spaw the Player?
     }
 
     private void ExitGame()
