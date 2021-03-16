@@ -34,9 +34,11 @@ public class InitializationLoader : MonoBehaviour
 
     private void LoadMainMenu(AsyncOperationHandle<LoadEventChannelSO> obj)
     {
+        //cast to LoadEventChannelSO
         LoadEventChannelSO loadEventChannelSO = (LoadEventChannelSO)_menuLoadChannel.Asset;
         loadEventChannelSO.RaiseEvent(_menuToLoad);
 
+        //Unload initialization as we do not need it anymore
         SceneManager.UnloadSceneAsync(0); //Initialization is the only scene in BuildSettings, thus it has index 0 
     }
 }

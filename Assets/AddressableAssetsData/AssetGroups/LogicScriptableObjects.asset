@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: LogicScriptableObjects
+  m_EditorClassIdentifier: 
+  m_GroupName: LogicScriptableObjects
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 04ae00bc19664114c9130bca6ef529ca
+  m_SerializeEntries:
+  - m_GUID: d6b1d96708a29434ab567fa3f26f33a5
+    m_Address: Assets/ScriptableObjects/EventChannels
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 02f7f1a0382f64d408e098dc951d4772
+    m_Address: Assets/ScriptableObjects/Input
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 04d79176a49957c45aabdc8871e52261
+    m_Address: Assets/ScriptableObjects/Events
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 695d0a37636574a48aa3d5a05014b5ec
+    m_Address: Assets/ScriptableObjects/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 54d1eb70b1a142c44989c728e5ae3cce
+    m_Address: Assets/ScriptableObjects/Interactions
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d80c63b3980dc864a90a0fd1303d44ca, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9e09c85eb19c99449ba82d3826028117, type: 2}
+    - {fileID: 11400000, guid: 094aa1d07f2406e4ca04857840928ec0, type: 2}
