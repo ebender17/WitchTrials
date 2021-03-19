@@ -43,9 +43,4 @@ public class EntityMoveState : EntityState
         base.Exit();
     }
 
-
-    public override string ToString()
-    {
-        return base.ToString();
-    }
 }

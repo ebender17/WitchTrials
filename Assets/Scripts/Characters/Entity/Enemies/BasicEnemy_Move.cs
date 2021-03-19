@@ -24,7 +24,7 @@ public class BasicEnemy_Move : EntityMoveState
     {
         base.ExecutePhysics();
 
-        if(isDetectingWall || !isDetectingLedge)
+        if (!isDetectingLedge || isDetectingWall)
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);

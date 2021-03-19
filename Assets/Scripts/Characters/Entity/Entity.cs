@@ -38,6 +38,7 @@ public class Entity : MonoBehaviour
 
     public virtual void FixedUpdate()
     {
+
         stateMachine.currentState.ExecutePhysics();
     }
 
@@ -54,7 +55,7 @@ public class Entity : MonoBehaviour
 
     public virtual bool CheckLedge()
     {
-        return Physics2D.Raycast(_wallCheck.position, Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);
+        return Physics2D.Raycast(_ledgeCheck.position, Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);
 
     }
 

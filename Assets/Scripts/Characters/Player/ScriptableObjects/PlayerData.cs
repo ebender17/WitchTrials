@@ -32,6 +32,11 @@ public class PlayerData : ScriptableObject
 
     [Header("Primary Attack State")]
     public float primAtkCoolDown = 0.5f;
+    public float primAtkRange = 0.5f;
+    public LayerMask whatIsDamagable;
+    public float attackDamage = 20.0f;
+
+    [Header("Knockback")]
     public float knockBackDuration = 0.2f;
     public Vector2 knockBackSpeed = new Vector2(10.0f, 5.0f);
 

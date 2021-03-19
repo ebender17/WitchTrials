@@ -63,12 +63,14 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-    #region Check Transforms
+    #region Check & Attack Transforms
 
     [SerializeField]
     private Transform _groundCheck;
     [SerializeField]
     private Transform _ceilingCheck;
+
+    public Transform attackPoint;
 
     #endregion
 
@@ -105,7 +107,7 @@ public class PlayerController : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, playerData, "InAir");
         crouchIdleState = new PlayerCrouchIdleState(this, stateMachine, playerData, "IdleCrouch");
         crouchMoveState = new PlayerCrouchState(this, stateMachine, playerData, "MoveCrouch");
-        primAtkState = new PlayerPrimAtkState(this, stateMachine, playerData, "PrimAtk");
+        primAtkState = new PlayerPrimAtkState(this, stateMachine, playerData, "PrimAttack");
 
     }
 
@@ -117,8 +119,8 @@ public class PlayerController : MonoBehaviour
         inputReader.dashEvent += OnDash;
         inputReader.dashCanceledEvent += OnDashCanceled;
         inputReader.dashDirectionEvent += OnDashDirection;
-        inputReader.attackEvent += OnAttack;
-        inputReader.attackCanceledEvent += OnAttackCanceled;
+        inputReader.attackEvent += OnPrimAttack;
+        inputReader.attackCanceledEvent += OnPrimAttackCanceled;
         
     }
 
@@ -130,8 +132,8 @@ public class PlayerController : MonoBehaviour
         inputReader.dashEvent -= OnDash;
         inputReader.dashCanceledEvent -= OnDashCanceled;
         inputReader.dashDirectionEvent -= OnDashDirection;
-        inputReader.attackEvent -= OnAttack;
-        inputReader.attackCanceledEvent -= OnAttackCanceled;
+        inputReader.attackEvent -= OnPrimAttack;
+        inputReader.attackCanceledEvent -= OnPrimAttackCanceled;
     }
 
     // Start is called before the first frame update
@@ -250,21 +252,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnAttack()
+    private void OnPrimAttack()
     {
-        //TODO
         primAtkInput = true;
         primAtkInputStop = false;
         primAtkInputStartTime = Time.time;
     }
 
-    private void OnAttackCanceled()
-    {
-        //TODO
-        primAtkInputStop = true;
-    }
+    private void OnPrimAttackCanceled() => primAtkInput = true; 
 
-    public void UseAtkInput() => primAtkInput = false;
+    public void UsePrimAtkInput() => primAtkInput = false;
 
     #endregion
 
@@ -382,6 +379,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Damage Functions
     private void KnockBack(int knockbackDirection)
     {
         knockBack = true;
@@ -408,5 +406,17 @@ public class PlayerController : MonoBehaviour
         _playerResults.RaiseEvent(false, playerScore.ToString());
         Destroy(gameObject);
     }
-    
+    #endregion
+
+    #region Gizmos 
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return; 
+
+        Gizmos.DrawWireSphere(attackPoint.position, playerData.primAtkRange);
+
+    }
+    #endregion
+
 }

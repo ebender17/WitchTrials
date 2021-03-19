@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicEnemy_Base
   m_EditorClassIdentifier: 
   walkCheckDistance: 0.2
-  ledgeCheckDistance: 0.4
+  ledgeCheckDistance: 0.8
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8

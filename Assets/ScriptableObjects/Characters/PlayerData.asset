@@ -28,7 +28,16 @@ MonoBehaviour:
   crouchColliderHeight: 0.8
   standColliderHeight: 1.8
   primAtkCoolDown: 0.5
+  primAtkRange: 0.35
+  whatIsDamagable:
+    serializedVersion: 2
+    m_Bits: 512
+  attackDamage: 20
+  knockBackDuration: 0.2
+  knockBackSpeed: {x: 10, y: 5}
   groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  score: 0
+  health: 100

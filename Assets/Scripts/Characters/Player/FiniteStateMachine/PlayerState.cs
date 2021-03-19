@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StateNames { CrouchIdle, Crouch, Dash, Idle, InAir, Jump, Land, Move, PrimAtk, Ability, Grounded }
+public enum StateNames { CrouchIdle, Crouch, Dash, Idle, InAir, Jump, Land, Move, PrimAttack, Ability, Grounded }
 //Base class for all states, any state we create inherits from this class
 public class PlayerState 
 {
@@ -15,6 +15,8 @@ public class PlayerState
 
     private string _animName;
 
+    //Used to signal when Anim is finished
+    //Behaves similar to unchecking HasExitTime in Unity Animator
     protected bool isAnimationFinished;
     protected bool isExitingState; 
 

@@ -42,6 +42,7 @@ public class PlayerAbilityState : PlayerState
             {
                 stateMachine.ChangeState(player.idleState);
             }
+            //TODO: Transition to move state?
             else
             {
                 stateMachine.ChangeState(player.inAirState);

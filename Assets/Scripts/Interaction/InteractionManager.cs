@@ -60,10 +60,8 @@ public class InteractionManager : MonoBehaviour
         {
             if(_startTalking != null)
             {
-                //RequestUIUpdate(false);
                 _potentialInteractions.First.Value.interactableObject.GetComponent<NPCDialogueController>().InteractWithCharacter();
                 _inputReader.EnableDialogueInput();
-                Debug.Log("Dialogue Input Enabled");
             }
         }
     }
@@ -91,7 +89,6 @@ public class InteractionManager : MonoBehaviour
         if(obj.CompareTag("NPC"))
         {
             newPotentialInteraction.type = InteractionType.Talk;
-            Debug.Log("Added Potential NPC Talk");
         }
 
         if(newPotentialInteraction.type != InteractionType.None)

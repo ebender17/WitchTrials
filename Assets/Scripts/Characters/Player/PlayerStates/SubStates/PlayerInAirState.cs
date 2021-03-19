@@ -64,6 +64,7 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.dashState);
         }
+        //TODO: transition to attack state
         else
         {
             /* Subtract fallMultiplier by 1 because Unity's Physics Engine is already aplying one multiple 

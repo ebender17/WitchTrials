@@ -62,6 +62,7 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.inAirState);
         }
         //Dash
+        //TODO: do we want to dash from ground?
         else if (_dashInput && player.dashState.CheckIfCanDash() && !isTouchingCeiling && !player.knockBack)
         {
             stateMachine.ChangeState(player.dashState);
@@ -69,6 +70,7 @@ public class PlayerGroundedState : PlayerState
         //Primary Attack
         else if(_primAtkInput && player.primAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling && !player.knockBack)
         {
+            Debug.Log("Switching to primary Attack State");
             stateMachine.ChangeState(player.primAtkState);
         }
     }
