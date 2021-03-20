@@ -24,7 +24,11 @@ public class BasicEnemy_Move : EntityMoveState
     {
         base.ExecutePhysics();
 
-        if (!isDetectingLedge || isDetectingWall)
+        if(isPlayerInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.detectionState);
+        }
+        else if (!isDetectingLedge || isDetectingWall)
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);

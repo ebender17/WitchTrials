@@ -15,7 +15,9 @@ public class Entity : MonoBehaviour
    public GameObject aliveGO { get; private set; }
 
     [SerializeField] private Transform _wallCheck;
-    [SerializeField] private Transform _ledgeCheck; 
+    [SerializeField] private Transform _ledgeCheck;
+
+    [SerializeField] private Transform _playerCheck;
 
     public int facingDirection { get; private set; }
     private Vector2 tempVelocity; 
@@ -57,6 +59,16 @@ public class Entity : MonoBehaviour
     {
         return Physics2D.Raycast(_ledgeCheck.position, Vector2.down, entityData.ledgeCheckDistance, entityData.whatIsGround);
 
+    }
+
+    public virtual bool CheckPlayerInMinAgroRange()
+    {
+        return Physics2D.Raycast(_playerCheck.position, aliveGO.transform.right, entityData.minAgroDistance, entityData.whatIsPlayer);
+    }
+
+    public virtual bool CheckPlayerInMaxAgroRange()
+    {
+        return Physics2D.Raycast(_playerCheck.position, aliveGO.transform.right, entityData.maxAgroDistance, entityData.whatIsPlayer);
     }
 
     public virtual void Flip()

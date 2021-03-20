@@ -15,6 +15,8 @@ public class EntityIdleState : EntityState
     protected bool isIdleTimeOver;
 
     protected float idleTime;
+
+    protected bool isPlayerInMinAgroRange;
     public EntityIdleState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityIdleStateSO stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
@@ -27,6 +29,8 @@ public class EntityIdleState : EntityState
         entity.SetVelocityX(0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
+
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Execute()
@@ -40,6 +44,8 @@ public class EntityIdleState : EntityState
     public override void ExecutePhysics()
     {
         base.ExecutePhysics();
+
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Exit()

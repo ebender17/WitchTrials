@@ -19,7 +19,9 @@ public class BasicEnemy_Idle : EntityIdleState
     {
         base.Execute();
 
-        if (isIdleTimeOver)
+        if (isPlayerInMinAgroRange)
+            stateMachine.ChangeState(enemy.detectionState);
+        else if (isIdleTimeOver)
             stateMachine.ChangeState(enemy.moveState);
     }
 
