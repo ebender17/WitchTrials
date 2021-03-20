@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "newEntityData", menuName = "Data/Entity/Entity Data")]
+[CreateAssetMenu(fileName = "newEntityData", menuName = "Entity Data/Entity/Entity Data")]
 public class EntitySO : ScriptableObject
 {
     public float walkCheckDistance = 0.2f;

@@ -15,6 +15,16 @@ public class EntityMoveState : EntityState
         this.stateData = stateData;
     }
 
+    //Called in EntityState parent class in enter and executephysics
+    public override void DoChecks()
+    {
+        base.DoChecks();
+
+        isDetectingLedge = entity.CheckLedge();
+        isDetectingWall = entity.CheckWall();
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+    }
+
     public override void Enter()
     {
         //Remove if you do not want functionality in Enter() fun in base class
@@ -22,10 +32,6 @@ public class EntityMoveState : EntityState
 
         entity.SetVelocityX(stateData.movementSpeed);
 
-        isDetectingLedge = entity.CheckLedge();
-        isDetectingWall = entity.CheckWall();
-
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Execute()
@@ -37,10 +43,6 @@ public class EntityMoveState : EntityState
     {
         base.ExecutePhysics();
 
-        isDetectingLedge = entity.CheckLedge();
-        isDetectingWall = entity.CheckWall();
-
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Exit()

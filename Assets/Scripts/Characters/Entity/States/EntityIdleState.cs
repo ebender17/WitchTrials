@@ -22,6 +22,14 @@ public class EntityIdleState : EntityState
         this.stateData = stateData;
     }
 
+    //Called in EntityState parent class in enter and executephysics
+    public override void DoChecks()
+    {
+        base.DoChecks();
+
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -29,8 +37,6 @@ public class EntityIdleState : EntityState
         entity.SetVelocityX(0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
-
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Execute()
@@ -44,8 +50,6 @@ public class EntityIdleState : EntityState
     public override void ExecutePhysics()
     {
         base.ExecutePhysics();
-
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
     }
 
     public override void Exit()

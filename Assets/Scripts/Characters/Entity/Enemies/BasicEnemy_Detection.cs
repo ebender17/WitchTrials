@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Charge state for basic enemy. 
+/// Handles transitions to different basic enemy states 
+/// from basic enemy detection state. 
+/// </summary>
 public class BasicEnemy_Detection : EntityDetectionState
 {
     private BasicEnemy enemy; 
@@ -19,10 +24,13 @@ public class BasicEnemy_Detection : EntityDetectionState
     {
         base.Execute();
 
-        if (!isPlayerInMaxAgroRange)
+        if (performLongRangeAction)
         {
-            enemy.idleState.SetFlipAfterIdle(false);
-            stateMachine.ChangeState(enemy.idleState);
+            stateMachine.ChangeState(enemy.chargeState);
+        }
+        else if(!isPlayerInMaxAgroRange)
+        {
+            stateMachine.ChangeState(enemy.lookForPlayerState);
         }
     }
 

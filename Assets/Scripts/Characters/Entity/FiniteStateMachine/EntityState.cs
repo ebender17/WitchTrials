@@ -21,6 +21,8 @@ public class EntityState
     {
         startTime = Time.time;
         entity.anim.SetBool(animBoolName, true);
+
+        DoChecks();
     }
 
     public virtual void Exit()
@@ -35,6 +37,14 @@ public class EntityState
     }
 
     public virtual void ExecutePhysics()
+    {
+        DoChecks();
+    }
+
+    /// <summary>
+    /// Place checks to be performed in Enter and ExecutePhysics here. 
+    /// </summary>
+    public virtual void DoChecks()
     {
 
     }

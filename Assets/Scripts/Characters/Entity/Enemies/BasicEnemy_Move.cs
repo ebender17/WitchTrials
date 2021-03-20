@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Charge state for basic enemy. 
+/// Handles transitions to different basic enemy states 
+/// from basic enemy move state. 
+/// </summary>
 public class BasicEnemy_Move : EntityMoveState
 {
     private BasicEnemy enemy; 
