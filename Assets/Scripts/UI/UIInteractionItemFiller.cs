@@ -9,7 +9,6 @@ public class UIInteractionItemFiller : MonoBehaviour
     public void FillInteractionPanel(InteractionSO interactionItem)
     {
         _interactionName.text = interactionItem.InteractionName;
-        Debug.Log("Interaction Name " + interactionItem.InteractionName);
-        _interactionKeyButton.text = KeyCode.E.ToString(); //Change later for different schemes, gamepad, keyboard, etc. 
+        _interactionKeyButton.text = KeyCode.Q.ToString(); //TODO: Change later for different schemes, gamepad, keyboard, etc. 
     }
 }

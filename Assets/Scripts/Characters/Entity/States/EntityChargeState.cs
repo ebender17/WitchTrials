@@ -7,14 +7,26 @@ public class EntityChargeState : EntityState
     EntityChargeStateSO stateData;
 
     protected bool isPlayerInMinAgroRange;
+    protected bool isChargeTimeOver;
+    protected bool performCloseRangeAction; 
 
     protected bool isDetectingLedge;
     protected bool isDetectingWall;
-    protected bool isChargeTimeOver; 
 
     public EntityChargeState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityChargeStateSO stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData; 
+    }
+
+    //Called in EntityState parent class in enter and executephysics
+    public override void DoChecks()
+    {
+        base.DoChecks();
+
+        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
+        performCloseRangeAction = entity.CheckPlayerInCloseRangeAction();
+        isDetectingLedge = entity.CheckLedge();
+        isDetectingWall = entity.CheckWall();
     }
 
     public override void Enter()
@@ -45,13 +57,4 @@ public class EntityChargeState : EntityState
         base.Exit();
     }
 
-    //Called in EntityState parent class in enter and executephysics
-    public override void DoChecks()
-    {
-        base.DoChecks();
-
-        isPlayerInMinAgroRange = entity.CheckPlayerInMinAgroRange();
-        isDetectingLedge = entity.CheckLedge();
-        isDetectingWall = entity.CheckWall();
-    }
 }

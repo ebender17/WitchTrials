@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f73a8bac599e2843968d69de189a291, type: 3}
-  m_Name: BasicEnemy_Base
+  m_Name: BasicEnemy_BaseData
   m_EditorClassIdentifier: 
-  walkCheckDistance: 0.2
+  wallCheckDistance: 0.2
   ledgeCheckDistance: 0.8
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  minAgroDistance: 3
-  maxAgroDistance: 4
+  minAgroDistance: 7
+  maxAgroDistance: 8
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  closeRangeActionDistance: 1.9

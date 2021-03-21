@@ -24,14 +24,12 @@ public class BasicEnemy_Detection : EntityDetectionState
     {
         base.Execute();
 
-        if (performLongRangeAction)
-        {
+        if (performCloseRangeAction)
+            stateMachine.ChangeState(enemy.meleeAttackState);
+        else if (performLongRangeAction)
             stateMachine.ChangeState(enemy.chargeState);
-        }
-        else if(!isPlayerInMaxAgroRange)
-        {
+        else if (!isPlayerInMaxAgroRange)
             stateMachine.ChangeState(enemy.lookForPlayerState);
-        }
     }
 
     public override void ExecutePhysics()

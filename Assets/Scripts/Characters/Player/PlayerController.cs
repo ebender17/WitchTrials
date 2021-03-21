@@ -292,23 +292,6 @@ public class PlayerController : MonoBehaviour
         currVelocity = _tempValue;
     }
 
-    public void TakeDamage(float enemyXPos, int damage)
-    {
-        if(stateMachine.currentState.stateName == StateNames.Dash)
-        {
-            int knockbackDirection;
-
-            DecreaseHealth(damage);
-
-            if (enemyXPos < transform.position.x)
-                knockbackDirection = 1;
-            else
-                knockbackDirection = -1;
-
-            KnockBack(knockbackDirection);
-
-        }
-    }
     
     #endregion
 
@@ -380,6 +363,23 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Damage Functions
+    public void TakeDamage(float enemyXPos, int damage)
+    {
+        if (stateMachine.currentState.stateName != StateNames.Dash)
+        {
+            int knockbackDirection;
+
+            DecreaseHealth(damage);
+
+            if (enemyXPos < transform.position.x)
+                knockbackDirection = 1;
+            else
+                knockbackDirection = -1;
+
+            KnockBack(knockbackDirection);
+
+        }
+    }
     private void KnockBack(int knockbackDirection)
     {
         knockBack = true;
@@ -390,8 +390,9 @@ public class PlayerController : MonoBehaviour
 
     private void DecreaseHealth(int damage)
     {
-        currentHealth -= damage; 
+        currentHealth -= damage;
 
+        Debug.Log(currentHealth);
         //TODO: damage anim 
 
         if(currentHealth <= 0.0f)

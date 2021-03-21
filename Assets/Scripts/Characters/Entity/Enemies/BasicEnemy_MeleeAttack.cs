@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Charge state for basic enemy. 
-/// Handles transitions to different basic enemy states 
-/// from basic enemy charge state. 
-/// </summary>
-public class BasicEnemy_Charge : EntityChargeState
+public class BasicEnemy_MeleeAttack : EntityMeleeAttackState
 {
     private BasicEnemy enemy; 
-
-    public BasicEnemy_Charge(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityChargeStateSO stateData, BasicEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public BasicEnemy_MeleeAttack(Entity entity, EntityStateMachine stateMachine, string animBoolName, Transform attackPosition, EntityMeleeAttackStateSO stateData, BasicEnemy enemy) : base(entity, stateMachine, animBoolName, attackPosition, stateData)
     {
         this.enemy = enemy; 
     }
@@ -30,15 +24,7 @@ public class BasicEnemy_Charge : EntityChargeState
     {
         base.Execute();
 
-        if (performCloseRangeAction)
-        {
-            stateMachine.ChangeState(enemy.meleeAttackState);
-        }
-        else if (!isDetectingLedge || isDetectingWall)
-        {
-            stateMachine.ChangeState(enemy.lookForPlayerState);
-        }
-        else if(isChargeTimeOver)
+        if(isAnimationFinished)
         {
             if (isPlayerInMinAgroRange)
                 stateMachine.ChangeState(enemy.detectionState);
@@ -55,5 +41,15 @@ public class BasicEnemy_Charge : EntityChargeState
     public override void Exit()
     {
         base.Exit();
+    }
+
+    public override void FinishAttack()
+    {
+        base.FinishAttack();
+    }
+
+    public override void TriggerAttack()
+    {
+        base.TriggerAttack();
     }
 }

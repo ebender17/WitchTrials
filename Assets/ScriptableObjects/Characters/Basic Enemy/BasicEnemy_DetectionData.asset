@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 363600043a7ea7e4397be8588e5a63f4, type: 3}
-  m_Name: BasicEnemy_ChargeState
+  m_Script: {fileID: 11500000, guid: d51d9b340cec0274486260d20753012d, type: 3}
+  m_Name: BasicEnemy_DetectionData
   m_EditorClassIdentifier: 
-  chargeSpeed: 6
-  chargeTime: 0.5
+  longRangeActionTime: 1.5

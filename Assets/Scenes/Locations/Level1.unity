@@ -18752,23 +18752,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasicEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 3456379689185647659, guid: 7c1d8ed23c6e34241b286374b9defe46,
-        type: 3}
-      propertyPath: _chargeStateData
-      value: 
-      objectReference: {fileID: 11400000, guid: 998a6a1a0cff6b04aa97934687b9327c,
-        type: 2}
-    - target: {fileID: 3456379689185647659, guid: 7c1d8ed23c6e34241b286374b9defe46,
-        type: 3}
-      propertyPath: _lookForPlayerStateData
-      value: 
-      objectReference: {fileID: 11400000, guid: 3fdc465f5a771184da03a065cedb7efc,
-        type: 2}
-    - target: {fileID: 3456379689649915706, guid: 7c1d8ed23c6e34241b286374b9defe46,
-        type: 3}
-      propertyPath: m_BodyType
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c1d8ed23c6e34241b286374b9defe46, type: 3}
 --- !u!1001 &3864697776020413342

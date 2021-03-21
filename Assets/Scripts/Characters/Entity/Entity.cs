@@ -12,15 +12,16 @@ public class Entity : MonoBehaviour
     public EntitySO entityData;
    public Rigidbody2D rb { get; private set; }
    public Animator anim { get; private set; }
-   public GameObject aliveGO { get; private set; }
+    public GameObject aliveGO { get; private set; } = default;
+   public AnimationToStateMachine atsm { get; private set; }
 
-    [SerializeField] private Transform _wallCheck;
-    [SerializeField] private Transform _ledgeCheck;
+   [SerializeField] private Transform _wallCheck = default;
+   [SerializeField] private Transform _ledgeCheck = default;
 
-    [SerializeField] private Transform _playerCheck;
+   [SerializeField] private Transform _playerCheck;
 
-    public int facingDirection { get; private set; }
-    private Vector2 tempVelocity; 
+   public int facingDirection { get; private set; }
+   private Vector2 tempVelocity; 
 
     public virtual void Start()
     {
@@ -29,6 +30,7 @@ public class Entity : MonoBehaviour
         aliveGO = transform.Find("Alive").gameObject;
         rb = aliveGO.GetComponent<Rigidbody2D>();
         anim = aliveGO.GetComponent<Animator>();
+        atsm = aliveGO.GetComponent<AnimationToStateMachine>();
 
         stateMachine = new EntityStateMachine();
     }
@@ -52,7 +54,7 @@ public class Entity : MonoBehaviour
 
     public virtual bool CheckWall()
     {
-        return Physics2D.Raycast(_wallCheck.position, aliveGO.transform.right, entityData.walkCheckDistance, entityData.whatIsGround);
+        return Physics2D.Raycast(_wallCheck.position, aliveGO.transform.right, entityData.wallCheckDistance, entityData.whatIsGround);
     }
 
     public virtual bool CheckLedge()
@@ -77,12 +79,25 @@ public class Entity : MonoBehaviour
         aliveGO.transform.Rotate(0f, 180f, 0f);
     }
 
-
+#if UNITY_EDITOR 
     public virtual void OnDrawGizmos()
     {
+        //Wall and ledge checks 
         //Can only see when came is running and facingDirection is set at Start
-        Gizmos.DrawLine(_wallCheck.position, _wallCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.walkCheckDistance));
+        Gizmos.DrawLine(_wallCheck.position, _wallCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.wallCheckDistance));
         Gizmos.DrawLine(_ledgeCheck.position, _ledgeCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.ledgeCheckDistance));
+
+        //Close range action distance, min agro distance and max agro distance
+        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * entityData.closeRangeActionDistance), 0.2f);
+        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * entityData.minAgroDistance), 0.2f);
+        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * entityData.maxAgroDistance), 0.2f);
+        
+    }
+#endif
+
+    public bool CheckPlayerInCloseRangeAction()
+    {
+        return Physics2D.Raycast(_playerCheck.position, aliveGO.transform.right, entityData.closeRangeActionDistance, entityData.whatIsPlayer);
     }
 
 }
