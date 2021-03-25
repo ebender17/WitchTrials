@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
     public int facingDirection { get; private set; }
     public bool knockBack { get; private set; } = false;
     public float knockBackStartTime { get; private set; }
+    public bool canFlip { get; private set; }
 
     public float currentHealth { get; private set; }
 
@@ -153,6 +154,7 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = playerData.health;
         playerScore = playerData.score;
+        canFlip = true;
 
     }
 
@@ -259,7 +261,7 @@ public class PlayerController : MonoBehaviour
         primAtkInputStartTime = Time.time;
     }
 
-    private void OnPrimAttackCanceled() => primAtkInput = true; 
+    private void OnPrimAttackCanceled() => primAtkInput = false; 
 
     public void UsePrimAtkInput() => primAtkInput = false;
 
@@ -298,12 +300,15 @@ public class PlayerController : MonoBehaviour
     #region Check Functions
     public void CheckIfShouldFlip(int xInput)
     {
-        if(xInput != 0 && xInput != facingDirection)
+        if(canFlip && xInput != 0 && xInput != facingDirection)
         {
             Flip();
         }
     }
 
+    public void EnableFlip() => canFlip = true;
+
+    public void DisableFlip() => canFlip = false;
     public bool CheckIfGrounded()
     {
         return Physics2D.OverlapCircle(_groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
@@ -329,6 +334,21 @@ public class PlayerController : MonoBehaviour
             DecreaseHealth(50);
     }
 
+    //Called during primAtk anim in editor
+    private void CheckAttackHitBox()
+    {
+        //Detect enemies in range of attack
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, playerData.primAtkRange, playerData.whatIsDamagable);
+
+        //Damage enemies
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Entity entity = enemy.GetComponentInParent<Entity>();
+            if (entity != null)
+                entity.TakeDamage(gameObject.transform.position.x, playerData.attackDamage);
+        }
+    }
+
     #endregion
 
     #region Other Functions
@@ -343,7 +363,7 @@ public class PlayerController : MonoBehaviour
     private void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger(); 
     private void Flip()
     {
-        if(!knockBack)
+        if(canFlip && !knockBack)
         {
             facingDirection *= -1;
             transform.Rotate(0.0f, 180.0f, 0.0f);

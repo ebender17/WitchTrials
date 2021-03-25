@@ -21,11 +21,15 @@ public class Entity : MonoBehaviour
    [SerializeField] private Transform _playerCheck;
 
    public int facingDirection { get; private set; }
-   private Vector2 tempVelocity; 
+   private Vector2 tempVelocity;
+
+   private int currentHealth;
+    private int lastDamageDirection; 
 
     public virtual void Start()
     {
         facingDirection = 1;
+        currentHealth = entityData.health;
 
         aliveGO = transform.Find("Alive").gameObject;
         rb = aliveGO.GetComponent<Rigidbody2D>();
@@ -77,6 +81,29 @@ public class Entity : MonoBehaviour
     {
         facingDirection *= -1;
         aliveGO.transform.Rotate(0f, 180f, 0f);
+    }
+
+    public virtual void DamageHop(float velocity)
+    {
+        tempVelocity.Set(rb.velocity.x, velocity);
+        rb.velocity = tempVelocity;
+    }
+    public virtual void TakeDamage(float playerXPox, int damage)
+    {
+        currentHealth -= damage;
+        Debug.Log("Current enemy health: " + currentHealth);
+
+        DamageHop(entityData.damageHopSpeed);
+
+        if(playerXPox > aliveGO.transform.position.x)
+        {
+            lastDamageDirection = -1;
+        }
+        else
+        {
+            lastDamageDirection = 1;
+        }
+
     }
 
 #if UNITY_EDITOR 

@@ -6,6 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newEntityData", menuName = "Entity Data/Entity/Entity Data")]
 public class EntitySO : ScriptableObject
 {
+    public int health = 30;
+    public float damageHopSpeed = 3f;
+
     [Header("Check Variables")]
     public float wallCheckDistance = 0.2f;
     public float ledgeCheckDistance = 0.4f;

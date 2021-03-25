@@ -34,7 +34,7 @@ public class PlayerData : ScriptableObject
     public float primAtkCoolDown = 0.5f;
     public float primAtkRange = 0.5f;
     public LayerMask whatIsDamagable;
-    public float attackDamage = 20.0f;
+    public int attackDamage = 20;
 
     [Header("Knockback")]
     public float knockBackDuration = 0.2f;

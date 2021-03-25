@@ -70,7 +70,6 @@ public class PlayerGroundedState : PlayerState
         //Primary Attack
         else if(_primAtkInput && player.primAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling && !player.knockBack)
         {
-            Debug.Log("Switching to primary Attack State");
             stateMachine.ChangeState(player.primAtkState);
         }
     }

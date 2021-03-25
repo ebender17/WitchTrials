@@ -26,23 +26,10 @@ public class PlayerPrimAtkState : PlayerAbilityState
     {
         base.Execute();
 
-        //able to move while in attack animation 
-
-        //isAbilityDone = true; when animation is done playing -> similar to LandState?
         if (isAnimationFinished)
         {
             isAbilityDone = true;
             _lastPrimAtkTime = Time.time;
-
-        }
-
-        //Detect enemies in range of attack
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(player.attackPoint.position, playerData.primAtkRange, playerData.whatIsDamagable); 
-
-        //Damage enemies
-        foreach(Collider2D enemy in hitEnemies)
-        {
-            Debug.Log("We hit " + enemy.name);
         }
     }
 
@@ -60,7 +47,6 @@ public class PlayerPrimAtkState : PlayerAbilityState
 
     public bool CheckIfCanPrimAtk()
     {
-        //return canPrimAtk && Time.time >= _lastPrimAtkTime + playerData.primAtkCoolDown;
         return Time.time >= _lastPrimAtkTime + playerData.primAtkCoolDown;
     }
 
