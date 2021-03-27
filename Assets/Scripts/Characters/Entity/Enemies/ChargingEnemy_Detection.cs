@@ -7,10 +7,10 @@ using UnityEngine;
 /// Handles transitions to different basic enemy states 
 /// from basic enemy detection state. 
 /// </summary>
-public class BasicEnemy_Detection : EntityDetectionState
+public class ChargingEnemy_Detection : EntityDetectionState
 {
-    private BasicEnemy enemy; 
-    public BasicEnemy_Detection(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData, BasicEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    private ChargingEnemy enemy; 
+    public ChargingEnemy_Detection(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData, ChargingEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
     }
@@ -24,12 +24,18 @@ public class BasicEnemy_Detection : EntityDetectionState
     {
         base.Execute();
 
+        //TODO: Check
         if (performCloseRangeAction)
             stateMachine.ChangeState(enemy.meleeAttackState);
         else if (performLongRangeAction)
             stateMachine.ChangeState(enemy.chargeState);
         else if (!isPlayerInMaxAgroRange)
             stateMachine.ChangeState(enemy.lookForPlayerState);
+        else if (!isDetectingLedge)
+        {
+            entity.Flip();
+            stateMachine.ChangeState(enemy.moveState);
+        }
     }
 
     public override void ExecutePhysics()

@@ -7,10 +7,10 @@ using UnityEngine;
 /// Handles transitions to different basic enemy states 
 /// from basic enemy idle state. 
 /// </summary>
-public class BasicEnemy_Idle : EntityIdleState
+public class ChargingEnemy_Idle : EntityIdleState
 {
-    private BasicEnemy enemy;
-    public BasicEnemy_Idle(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityIdleStateSO stateData, BasicEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    private ChargingEnemy enemy;
+    public ChargingEnemy_Idle(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityIdleStateSO stateData, ChargingEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
     }

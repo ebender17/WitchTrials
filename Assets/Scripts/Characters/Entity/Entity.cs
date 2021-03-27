@@ -9,27 +9,34 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
    public EntityStateMachine stateMachine;
-    public EntitySO entityData;
+   public EntitySO entityData;
    public Rigidbody2D rb { get; private set; }
    public Animator anim { get; private set; }
-    public GameObject aliveGO { get; private set; } = default;
+   public GameObject aliveGO { get; private set; }
    public AnimationToStateMachine atsm { get; private set; }
 
-   [SerializeField] private Transform _wallCheck = default;
-   [SerializeField] private Transform _ledgeCheck = default;
+   [SerializeField] private Transform _wallCheck;
+   [SerializeField] private Transform _ledgeCheck;
 
    [SerializeField] private Transform _playerCheck;
+   [SerializeField] private Transform _groundCheck;
 
    public int facingDirection { get; private set; }
    private Vector2 tempVelocity;
 
    private int currentHealth;
-    private int lastDamageDirection; 
+   private float currentStunResistance;
+   private float lastDamageTime;
+   protected bool isStunned; //flag used to transition in enemy specific stun state
+   protected bool isDead; //flag used to transition in enemy specific dead state
+    public int lastDamageDirection { get; private set; }
+
 
     public virtual void Start()
     {
         facingDirection = 1;
         currentHealth = entityData.health;
+        currentStunResistance = entityData.stunResistance;
 
         aliveGO = transform.Find("Alive").gameObject;
         rb = aliveGO.GetComponent<Rigidbody2D>();
@@ -42,6 +49,9 @@ public class Entity : MonoBehaviour
     public virtual void Update()
     {
         stateMachine.currentState.Execute();
+
+        if (Time.time >= lastDamageTime + entityData.stunRecoveryTime && isStunned)
+            ResetStunResistance();
     }
 
     public virtual void FixedUpdate()
@@ -54,6 +64,14 @@ public class Entity : MonoBehaviour
     {
         tempVelocity.Set(facingDirection * velocity, rb.velocity.y);
         rb.velocity = tempVelocity;
+    }
+
+    public virtual void SetVelocityAndAngle(float speed, Vector2 angle, int direction)
+    {
+        angle.Normalize();
+        tempVelocity.Set(angle.x * speed * direction, angle.y * speed);
+        rb.velocity = tempVelocity;
+
     }
 
     public virtual bool CheckWall()
@@ -77,6 +95,15 @@ public class Entity : MonoBehaviour
         return Physics2D.Raycast(_playerCheck.position, aliveGO.transform.right, entityData.maxAgroDistance, entityData.whatIsPlayer);
     }
 
+    public bool CheckPlayerInCloseRangeAction()
+    {
+        return Physics2D.Raycast(_playerCheck.position, aliveGO.transform.right, entityData.closeRangeActionDistance, entityData.whatIsPlayer);
+    }
+    public virtual bool CheckGround()
+    {
+        return Physics2D.OverlapCircle(_groundCheck.position, entityData.groundCheckRadius, entityData.whatIsGround);
+    }
+
     public virtual void Flip()
     {
         facingDirection *= -1;
@@ -88,12 +115,21 @@ public class Entity : MonoBehaviour
         tempVelocity.Set(rb.velocity.x, velocity);
         rb.velocity = tempVelocity;
     }
+
+    public virtual void ResetStunResistance()
+    {
+        isStunned = false;
+        currentStunResistance = entityData.stunResistance;
+    }
     public virtual void TakeDamage(float playerXPox, int damage)
     {
+        lastDamageTime = Time.time;
+        currentStunResistance--;
         currentHealth -= damage;
-        Debug.Log("Current enemy health: " + currentHealth);
 
         DamageHop(entityData.damageHopSpeed);
+
+        Instantiate(entityData.hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
 
         if(playerXPox > aliveGO.transform.position.x)
         {
@@ -104,6 +140,11 @@ public class Entity : MonoBehaviour
             lastDamageDirection = 1;
         }
 
+        if (currentStunResistance <= 0)
+            isStunned = true;
+
+        if(currentHealth <= 0)
+            isDead = true;
     }
 
 #if UNITY_EDITOR 
@@ -122,9 +163,5 @@ public class Entity : MonoBehaviour
     }
 #endif
 
-    public bool CheckPlayerInCloseRangeAction()
-    {
-        return Physics2D.Raycast(_playerCheck.position, aliveGO.transform.right, entityData.closeRangeActionDistance, entityData.whatIsPlayer);
-    }
 
 }

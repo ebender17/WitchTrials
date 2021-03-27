@@ -43,6 +43,7 @@ public class EntityChargeState : EntityState
     {
         base.Execute();
 
+        //TODO: Causing short charge? Change till player pos instead?
         if (Time.time >= startTime + stateData.chargeTime)
             isChargeTimeOver = true; 
     }

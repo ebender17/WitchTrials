@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemy_LookForPlayer : EntityLookForPlayer
+public class ChargingEnemy_LookForPlayer : EntityLookForPlayer
 {
-    private BasicEnemy enemy; 
-    public BasicEnemy_LookForPlayer(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityLookForPlayerStateSO stateData, BasicEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    private ChargingEnemy enemy; 
+    public ChargingEnemy_LookForPlayer(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityLookForPlayerStateSO stateData, ChargingEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy; 
     }
@@ -23,20 +23,21 @@ public class BasicEnemy_LookForPlayer : EntityLookForPlayer
     public override void Execute()
     {
         base.Execute();
+
+        if (isPlayerInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.detectionState);
+        }
+        else if (isAllTurnsDoneTime)
+        {
+            stateMachine.ChangeState(enemy.moveState);
+        }
     }
 
     public override void ExecutePhysics()
     {
         base.ExecutePhysics();
-
-        if(isPlayerInMinAgroRange)
-        {
-            stateMachine.ChangeState(enemy.detectionState);
-        }
-        else if(isAllTurnsTimeDone)
-        {
-            stateMachine.ChangeState(enemy.moveState);
-        }
+        
     }
 
     public override void Exit()

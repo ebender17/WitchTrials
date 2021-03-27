@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [Header("Listening on channels")]
     [SerializeField] private GameResultChannelSO _gameResultEvent = default;
 
+    private bool gameHasEnded = false;
+
     private void OnEnable()
     {
         //picked up from Player Controller when game is won or death occurs

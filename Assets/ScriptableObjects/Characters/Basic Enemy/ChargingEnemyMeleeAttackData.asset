@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06bd7f0d755852b499dff9850ec2766f, type: 3}
-  m_Name: BasicEnemy_MeleeAttackData
+  m_Name: ChargingEnemyMeleeAttackData
   m_EditorClassIdentifier: 
-  attackRadius: 0.7
+  attackRadius: 1
   attackDamage: 10

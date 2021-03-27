@@ -10,7 +10,7 @@ public class EntityLookForPlayer : EntityState
 
     protected bool isPlayerInMinAgroRange;
     protected bool isAllTurnsDone;
-    protected bool isAllTurnsTimeDone;
+    protected bool isAllTurnsDoneTime;
 
     protected float lastTurnTime;
 
@@ -33,7 +33,7 @@ public class EntityLookForPlayer : EntityState
         base.Enter();
 
         isAllTurnsDone = false;
-        isAllTurnsTimeDone = false;
+        isAllTurnsDoneTime = false;
 
         lastTurnTime = startTime;
         amountOfTurnsDone = 0;
@@ -59,13 +59,13 @@ public class EntityLookForPlayer : EntityState
             amountOfTurnsDone++; 
         }
 
-        //Check if all turn are done 
+        //Check if all turns are done 
         if (amountOfTurnsDone >= stateData.amountOfTurns)
             isAllTurnsDone = true;
 
         //Final turn is done and has looked in last dir for alloted time
         if(Time.time >= lastTurnTime + stateData.timeBetweenTurns && isAllTurnsDone)
-            isAllTurnsTimeDone = true; 
+            isAllTurnsDoneTime = true; 
     }
 
     public override void ExecutePhysics()

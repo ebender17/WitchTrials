@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d51d9b340cec0274486260d20753012d, type: 3}
-  m_Name: BasicEnemy_DetectionData
+  m_Name: ChargingEnemyDetectionData
   m_EditorClassIdentifier: 
   longRangeActionTime: 1.5

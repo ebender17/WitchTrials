@@ -7,11 +7,11 @@ using UnityEngine;
 /// Handles transitions to different basic enemy states 
 /// from basic enemy charge state. 
 /// </summary>
-public class BasicEnemy_Charge : EntityChargeState
+public class ChargingEnemy_Charge : EntityChargeState
 {
-    private BasicEnemy enemy; 
+    private ChargingEnemy enemy; 
 
-    public BasicEnemy_Charge(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityChargeStateSO stateData, BasicEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public ChargingEnemy_Charge(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityChargeStateSO stateData, ChargingEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy; 
     }

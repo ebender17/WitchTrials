@@ -32,7 +32,7 @@ MonoBehaviour:
   whatIsDamagable:
     serializedVersion: 2
     m_Bits: 512
-  attackDamage: 20
+  attackDamage: 10
   knockBackDuration: 0.2
   knockBackSpeed: {x: 10, y: 5}
   groundCheckRadius: 0.3

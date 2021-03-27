@@ -10,16 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f73a8bac599e2843968d69de189a291, type: 3}
-  m_Name: BasicEnemy_BaseData
+  m_Name: ChargingEnemyBaseData
   m_EditorClassIdentifier: 
+  health: 50
+  damageHopSpeed: 10
+  hitParticle: {fileID: 4781841793639767574, guid: 4f1c092dd61588340984eae8daa1722a,
+    type: 3}
   wallCheckDistance: 0.2
-  ledgeCheckDistance: 0.8
+  ledgeCheckDistance: 1
+  groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   minAgroDistance: 7
-  maxAgroDistance: 8
+  maxAgroDistance: 9
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  closeRangeActionDistance: 1.9
+  closeRangeActionDistance: 1.2
+  stunResistance: 3
+  stunRecoveryTime: 2

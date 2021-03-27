@@ -6,7 +6,7 @@ using UnityEngine;
 public class EntityChargeStateSO : ScriptableObject
 {
     public float chargeSpeed = 6.0f;
-    public float chargeTime = 0.5f; 
+    public float chargeTime = 2f; 
 
 
 }
