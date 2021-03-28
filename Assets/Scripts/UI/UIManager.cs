@@ -19,10 +19,16 @@ public class UIManager : MonoBehaviour
     [Header("Game Result Events")]
     [SerializeField] private GameResultChannelSO _openGameResultUIEvent = default;
 
+    [Header("HUD Events")]
+    [SerializeField] private FloatEventChannelSO _updateHealthUIEvent = default;
+
     [Header("UI Panels")]
     [SerializeField] private UIDialogueManager _dialoguePanel = default;
     [SerializeField] private UIInteractionManager _interactionPanel = default;
     [SerializeField] private UIGameManager _gamePanel = default;
+    [SerializeField] private UIHUDManager _HUDPanel = default;
+
+  
     private void OnEnable()
     {
         //Check if event exists to avoid null refs 
@@ -35,6 +41,9 @@ public class UIManager : MonoBehaviour
 
         if (_setInteractionEvent != null)
             _setInteractionEvent.OnEventRaised += SetInteractionPanel;
+
+        if (_updateHealthUIEvent != null)
+            _updateHealthUIEvent.OnEventRaised += UpdateHealthPanel;
     }
 
     private void OnDisable()
@@ -48,6 +57,9 @@ public class UIManager : MonoBehaviour
 
         if (_setInteractionEvent != null)
             _setInteractionEvent.OnEventRaised -= SetInteractionPanel;
+
+        if (_updateHealthUIEvent != null)
+            _updateHealthUIEvent.OnEventRaised -= UpdateHealthPanel;
     }
 
     public void OpenUIDialogue(string dialogueLine, ActorSO actor)
@@ -81,5 +93,10 @@ public class UIManager : MonoBehaviour
         _gamePanel.SetGameResults(result, playerScore);
         _gamePanel.gameObject.SetActive(true); 
 
+    }
+
+    private void UpdateHealthPanel(float value)
+    {
+        _HUDPanel.SetValue(value);
     }
 }

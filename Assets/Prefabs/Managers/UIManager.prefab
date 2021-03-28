@@ -53,6 +53,9 @@ MonoBehaviour:
     type: 2}
   _openGameResultUIEvent: {fileID: 11400000, guid: 3ca231bf493e4f442aca1dd66c34bbb1,
     type: 2}
+  _updateHealthUIEvent: {fileID: 11400000, guid: e32ce3bb54e83a0469b112881bbfa0ae,
+    type: 2}
   _dialoguePanel: {fileID: 0}
   _interactionPanel: {fileID: 0}
   _gamePanel: {fileID: 0}
+  _HUDPanel: {fileID: 0}

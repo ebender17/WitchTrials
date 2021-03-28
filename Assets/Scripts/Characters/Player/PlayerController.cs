@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
     #region EventChannels
     [Header("Broadcasting on channels")]
     [SerializeField] private GameResultChannelSO _playerResults;
+    [SerializeField] private FloatEventChannelSO _playerHealth;
 
     #endregion
 
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
         facingDirection = 1;
 
-        currentHealth = playerData.health;
+        currentHealth = playerData.maxHealth;
         playerScore = playerData.score;
         canFlip = true;
 
@@ -410,7 +411,10 @@ public class PlayerController : MonoBehaviour
 
     private void DecreaseHealth(int damage)
     {
-        currentHealth -= damage;
+        //currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, playerData.maxHealth);
+
+        _playerHealth.OnEventRaised(currentHealth / playerData.maxHealth);
 
         Debug.Log(currentHealth);
         //TODO: damage anim 

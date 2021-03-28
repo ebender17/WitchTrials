@@ -18833,6 +18833,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3864697775726029891, guid: 5f0583990bbdf97489c6044e2233dafa,
+        type: 3}
+      propertyPath: _playerHealth
+      value: 
+      objectReference: {fileID: 11400000, guid: e32ce3bb54e83a0469b112881bbfa0ae,
+        type: 2}
     - target: {fileID: 3864697775726029893, guid: 5f0583990bbdf97489c6044e2233dafa,
         type: 3}
       propertyPath: m_RootOrder
