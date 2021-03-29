@@ -6,6 +6,8 @@ using UnityEngine.Audio;
 public enum AudioClipName
 {
     MainTheme,
+    PlayerLand, 
+    PlayerDash,
     PlayerHit,
     EnemyHit
 }
@@ -26,7 +28,6 @@ public class Sound
     public float pitch;
 
     public bool loop = false;
-    //public bool playOnAwake = false;
 
     public void SetSource(AudioSource _source)
     {
@@ -34,7 +35,6 @@ public class Sound
         source.clip = clip;
         source.pitch = pitch;
         source.volume = volume;
-        //source.playOnAwake = playOnAwake;
         source.loop = loop;
         source.outputAudioMixerGroup = audioMixerGroup;
     }
@@ -52,21 +52,12 @@ public class AudioManager : MonoBehaviour
 
     [Header("Listening on channels")]
     [SerializeField] AudioSourceEventChannelSO _playAudioEvent;
+    [SerializeField] AudioSourceEventChannelSO _playSFXAudioEvent;
 
     //public static AudioManager instance;
 
     private void Awake()
     {
-        /*if (instance == null)
-            instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        DontDestroyOnLoad(this.gameObject);*/
-
         foreach(Sound s in sounds)
         {
             s.SetSource(gameObject.AddComponent<AudioSource>());
@@ -77,20 +68,19 @@ public class AudioManager : MonoBehaviour
     {
         if (_playAudioEvent != null)
             _playAudioEvent.OnAudioSourcePlayRequested += Play;
+        if (_playSFXAudioEvent != null)
+            _playSFXAudioEvent.OnAudioSourcePlayRequested += Play;
     }
 
     private void OnDisable()
     {
         if (_playAudioEvent != null)
             _playAudioEvent.OnAudioSourcePlayRequested -= Play;
+        if (_playSFXAudioEvent != null)
+            _playSFXAudioEvent.OnAudioSourcePlayRequested += Play;
     }
 
-    private void Start()
-    {
-        //Play(AudioClipName.MainTheme);
-    }
-
-
+   
     public void Play(AudioClipName name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -102,6 +92,5 @@ public class AudioManager : MonoBehaviour
         }
 
         s.Play();
-        
     }
 }

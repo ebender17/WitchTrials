@@ -16,6 +16,7 @@ MonoBehaviour:
   damageHopSpeed: 10
   hitParticle: {fileID: 4781841793639767574, guid: 4f1c092dd61588340984eae8daa1722a,
     type: 3}
+  SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}
   wallCheckDistance: 0.2
   ledgeCheckDistance: 1
   groundCheckRadius: 0.3

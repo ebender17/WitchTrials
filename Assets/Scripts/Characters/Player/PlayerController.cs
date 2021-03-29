@@ -91,8 +91,12 @@ public class PlayerController : MonoBehaviour
 
     #region EventChannels
     [Header("Broadcasting on channels")]
+    [Tooltip("Event for communicating game result")]
     [SerializeField] private GameResultChannelSO _playerResults;
+    [Tooltip("Event for communicating health")]
     [SerializeField] private FloatEventChannelSO _playerHealth;
+    //[Tooltip("Event for communicating SFX music")]
+    //public AudioSourceEventChannelSO _SFXEventChannel;
 
     #endregion
 
@@ -414,7 +418,11 @@ public class PlayerController : MonoBehaviour
         //currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, playerData.maxHealth);
 
+        //Raising event to change healthbar UI
         _playerHealth.OnEventRaised(currentHealth / playerData.maxHealth);
+
+        //Raising event to play player hit SFX
+        playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
 
         Debug.Log(currentHealth);
         //TODO: damage anim 

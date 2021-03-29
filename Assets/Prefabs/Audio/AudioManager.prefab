@@ -44,10 +44,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: MainTheme
+  - name: 0
     audioMixerGroup: {fileID: -7932794254709633300, guid: 7f905c6780b36d5449faac1511e1e49e,
       type: 2}
     clip: {fileID: 8300000, guid: d695697bc6d06944db3c09aebef047a0, type: 3}
     volume: 1
     pitch: 1
     loop: 1
+  - name: 4
+    audioMixerGroup: {fileID: -1094072309102745788, guid: 7f905c6780b36d5449faac1511e1e49e,
+      type: 2}
+    clip: {fileID: 8300000, guid: 22075ae14f4cb51459e0aa08a8481f1c, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+  - name: 3
+    audioMixerGroup: {fileID: -1094072309102745788, guid: 7f905c6780b36d5449faac1511e1e49e,
+      type: 2}
+    clip: {fileID: 8300000, guid: 22075ae14f4cb51459e0aa08a8481f1c, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+  - name: 1
+    audioMixerGroup: {fileID: -1094072309102745788, guid: 7f905c6780b36d5449faac1511e1e49e,
+      type: 2}
+    clip: {fileID: 8300000, guid: f38b522e69b2baf4c89cd4d2b6e4f6a9, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+  - name: 2
+    audioMixerGroup: {fileID: -1094072309102745788, guid: 7f905c6780b36d5449faac1511e1e49e,
+      type: 2}
+    clip: {fileID: 8300000, guid: 5cd3842a800159547b9075c67768f639, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+  _playAudioEvent: {fileID: 11400000, guid: 76ca9fb4a3f937949839128870b4f9ed, type: 2}
+  _playSFXAudioEvent: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}

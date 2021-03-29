@@ -24,6 +24,7 @@ public class PlayerJumpState : PlayerAbilityState
         isAbilityDone = true;
         _numJumpsLeft--;
         player.inAirState.SetIsJumping();
+
     }
 
     public bool CanJump()

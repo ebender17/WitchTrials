@@ -9,6 +9,13 @@ public class PlayerLandState : PlayerGroundedState
         this.stateName = StateNames.Land;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+
+        playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerLand);
+    }
+
     public override void Execute()
     {
         base.Execute();

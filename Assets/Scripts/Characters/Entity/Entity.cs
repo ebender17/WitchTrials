@@ -29,7 +29,7 @@ public class Entity : MonoBehaviour
    private float lastDamageTime;
    protected bool isStunned; //flag used to transition in enemy specific stun state
    protected bool isDead; //flag used to transition in enemy specific dead state
-    public int lastDamageDirection { get; private set; }
+   public int lastDamageDirection { get; private set; }
 
 
     public virtual void Start()
@@ -129,6 +129,10 @@ public class Entity : MonoBehaviour
 
         DamageHop(entityData.damageHopSpeed);
 
+        //Broadcasting SFX sound
+        entityData.SFXEventChannel.RaisePlayEvent(AudioClipName.EnemyHit);
+
+        //Instantiating hitparticles
         Instantiate(entityData.hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
 
         if(playerXPox > aliveGO.transform.position.x)

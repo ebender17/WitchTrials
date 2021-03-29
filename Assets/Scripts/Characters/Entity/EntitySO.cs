@@ -10,6 +10,9 @@ public class EntitySO : ScriptableObject
     public float damageHopSpeed = 10f;
     public GameObject hitParticle;
 
+    [Header("Broadcasting on")]
+    public AudioSourceEventChannelSO SFXEventChannel;
+
     [Header("Check Variables")]
     public float wallCheckDistance = 0.2f;
     public float ledgeCheckDistance = 0.4f;

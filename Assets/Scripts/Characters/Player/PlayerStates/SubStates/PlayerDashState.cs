@@ -77,6 +77,8 @@ public class PlayerDashState : PlayerAbilityState
                     player.rigidBody.drag = playerData.drag;
                     player.SetVelocity(playerData.dashVelocity, _dashDirection);
                     player.dashDirectionIndicator.gameObject.SetActive(false);
+
+                    playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerDash);
                 }
 
             }
