@@ -10,11 +10,15 @@ public class GameManager : MonoBehaviour
 {
     [Header("Broadcasting on channels")]
     [SerializeField] private GameResultChannelSO _openUIGameEvent = default;
+    [SerializeField] private LoadEventChannelSO _onFinalCutsceneEnded = default;
 
     [Header("Listening on channels")]
     [SerializeField] private GameResultChannelSO _gameResultEvent = default;
 
-    private bool gameHasEnded = false;
+    public GameSceneSO[] locationsToLoad;
+    public bool showLoadScreen;
+
+    
 
     private void OnEnable()
     {
@@ -34,5 +38,16 @@ public class GameManager : MonoBehaviour
         Debug.Log("Handle Game Result Triggered");
         //picked up by UI Manager
         _openUIGameEvent.RaiseEvent(isWon, playerScore);
+
+        //TODO: start courotine and then load final end menu
+        StartCoroutine(RaiseLoadEndMenuEvent());
+    }
+
+    IEnumerator RaiseLoadEndMenuEvent()
+    {
+        yield return new WaitForSeconds(5f);
+
+
+        _onFinalCutsceneEnded.RaiseEvent(locationsToLoad, showLoadScreen);
     }
 }

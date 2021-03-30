@@ -46,7 +46,6 @@ public class EntityIdleState : EntityState
         //TODO: Is Idle being set correctly? Stuck in idle when player behind
         if (Time.time >= startTime + idleTime)
         {
-            Debug.Log("Idle Time Over set to true.");
             isIdleTimeOver = true;
         }
     }

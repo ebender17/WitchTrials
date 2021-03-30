@@ -17,9 +17,6 @@ public class PlayerPrimAtkState : PlayerAbilityState
 
         canPrimAtk = false;
         player.UsePrimAtkInput();
-
-        Debug.Log("Entered Attack State!");
-        
     }
 
     public override void Execute()
@@ -41,8 +38,6 @@ public class PlayerPrimAtkState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-
-        Debug.Log("Exited Attack State!");
     }
 
     public bool CheckIfCanPrimAtk()

@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 public class CutsceneTrigger : MonoBehaviour
 {
     [SerializeField] private PlayableDirector _playableDirector = default;
+    [SerializeField] private bool isEndingCutscene = default;
     [SerializeField] private bool _playOnStart = default;
     [SerializeField] private bool _playOnce = default;
 
@@ -17,21 +18,28 @@ public class CutsceneTrigger : MonoBehaviour
     {
         if (_playOnStart)
             if (_playCutsceneEvent != null)
-                _playCutsceneEvent.RaiseEvent(_playableDirector);
+                _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
 
         //Removes this trigger cutscene script
         if (_playOnce)
-            Destroy(this);
+        {
+            //Destroy(this);
+        }
+            
     }
 
     //Trigger if attached to game object with collision and IsTrigger checked
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Cutscene trigger entered!");
         if (_playCutsceneEvent != null)
-            _playCutsceneEvent.RaiseEvent(_playableDirector);
+            _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
 
-        //Removes this trigger custscene script
+        //Removes this trigger cutscene script
         if (_playOnce)
-            Destroy(this);
+        {
+            //Destroy(this);
+        }
+
     }
 }

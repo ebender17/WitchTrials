@@ -37,7 +37,6 @@ public class PlayerAbilityState : PlayerState
              * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
              * move to in air state
              */
-            Debug.Log("Ability is done.");
             if (isGrounded && player.currVelocity.y < 0.01f)
             {
                 stateMachine.ChangeState(player.idleState);

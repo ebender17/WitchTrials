@@ -9,17 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2091a0edccf39478a1968d059e6ffd, type: 3}
-  m_Name: LevelOne
+  m_Script: {fileID: 11500000, guid: 498ea3b9700346c4295899451ea29088, type: 3}
+  m_Name: EndMenu
   m_EditorClassIdentifier: 
-  _guid: 2952c4111ccee5d4494eb702f5274594
-  description: 'The first level of the game. Loaded on start button press. '
-  sceneType: 0
+  _guid: 7eaf4fe3f1d9b1947a6b9ccab2c59ec0
+  description: Main menu. Game switches here after game is lost or won.
+  sceneType: 1
   sceneRefernce:
-    m_AssetGUID: f3bd3e503fe3037499bab680334698ee
+    m_AssetGUID: 55e10ff276bd75a48850f1a779de2104
     m_SubObjectName: 
     m_SubObjectType: 
   musicTrack: {fileID: 0}
-  locationName: Level One
-  musicTrack: {fileID: 0}
-  enemiesCount: 0

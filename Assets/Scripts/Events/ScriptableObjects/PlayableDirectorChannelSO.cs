@@ -5,11 +5,11 @@ using UnityEngine.Playables;
 [CreateAssetMenu(menuName = "Events/Playable Director Channel")]
 public class PlayableDirectorChannelSO : ScriptableObject
 {
-    public UnityAction<PlayableDirector> OnEventRaised;
+    public UnityAction<PlayableDirector, bool> OnEventRaised;
 
-    public void RaiseEvent(PlayableDirector playable)
+    public void RaiseEvent(PlayableDirector playable, bool isEndingCutscene)
     {
         if (OnEventRaised != null)
-            OnEventRaised.Invoke(playable);
+            OnEventRaised.Invoke(playable, isEndingCutscene);
     }
 }

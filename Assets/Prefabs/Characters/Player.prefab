@@ -359,6 +359,7 @@ MonoBehaviour:
   _ceilingCheck: {fileID: 3864697776055853031}
   attackPoint: {fileID: 1777403679}
   _playerResults: {fileID: 11400000, guid: 6b300f2c67aef064f9f413e56461cf63, type: 2}
+  _playerHealth: {fileID: 11400000, guid: e32ce3bb54e83a0469b112881bbfa0ae, type: 2}
 --- !u!95 &3864697775726029890
 Animator:
   serializedVersion: 3
