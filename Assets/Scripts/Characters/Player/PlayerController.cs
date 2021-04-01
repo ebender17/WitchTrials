@@ -84,9 +84,16 @@ public class PlayerController : MonoBehaviour
     public float knockBackStartTime { get; private set; }
     public bool canFlip { get; private set; }
 
-    public float currentHealth { get; private set; }
+    private float _currentHealth;
 
     public float playerScore { get; private set; }
+
+    private Vector2 _currentCheckpoint; 
+    public Vector2 CurrentCheckpoint
+    {
+        get { return _currentCheckpoint; }
+        set { _currentCheckpoint = value; }
+    }
     #endregion
 
     #region EventChannels
@@ -157,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
         facingDirection = 1;
 
-        currentHealth = playerData.maxHealth;
+        _currentHealth = playerData.maxHealth;
         playerScore = playerData.score;
         canFlip = true;
 
@@ -172,7 +179,7 @@ public class PlayerController : MonoBehaviour
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
         CheckKnockback();
-        CheckPlayerFall();
+        CheckPlayerPosition();
     }
 
     private void FixedUpdate()
@@ -305,7 +312,7 @@ public class PlayerController : MonoBehaviour
     #region Check Functions
     public void CheckIfShouldFlip(int xInput)
     {
-        if(canFlip && xInput != 0 && xInput != facingDirection)
+        if(xInput != 0 && xInput != facingDirection)
         {
             Flip();
         }
@@ -333,10 +340,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void CheckPlayerFall()
+    public void CheckPlayerPosition()
     {
-        if (rigidBody.position.y < -100.0f)
-            DecreaseHealth(50);
+        if (rigidBody.position.y < -50.0f)
+        {
+            DecreaseHealth(playerData.fallDamage);
+
+            if (_currentHealth > 0)
+                LoadLastCheckpoint();
+        }     
     }
 
     //Called during primAtk anim in editor
@@ -385,6 +397,11 @@ public class PlayerController : MonoBehaviour
         boxCollider.size = _tempValue;
         boxCollider.offset = center;
     }
+
+    private void LoadLastCheckpoint()
+    {
+        transform.position = _currentCheckpoint;
+    }
     #endregion
 
     #region Damage Functions
@@ -415,19 +432,20 @@ public class PlayerController : MonoBehaviour
 
     private void DecreaseHealth(int damage)
     {
-        //currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, playerData.maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerData.maxHealth);
 
         //Raising event to change healthbar UI
-        _playerHealth.OnEventRaised(currentHealth / playerData.maxHealth);
+        if(_playerHealth != null)
+            _playerHealth.OnEventRaised(_currentHealth / playerData.maxHealth);
 
         //Raising event to play player hit SFX
-        playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
+        if(playerData.SFXEventChannel != null)
+            playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
 
-        Debug.Log(currentHealth);
+        Debug.Log(_currentHealth);
         //TODO: damage anim 
 
-        if(currentHealth <= 0.0f)
+        if(_currentHealth <= 0.0f)
         {
             Death();
         }

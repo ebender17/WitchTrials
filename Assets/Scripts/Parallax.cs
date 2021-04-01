@@ -56,6 +56,7 @@ public class Parallax : MonoBehaviour
         {
             Vector2 newPos = startPosition + travel * parallaxFactor;
             transform.position = new Vector3(xAxis ? newPos.x : startPosition.x, yAxis ? newPos.y : startPosition.y, startZPos);
+            //transform.position = new Vector3(xAxis ? newPos.x : startPosition.x, yAxis ? (startPosition.y + travel.y) : startPosition.y, startZPos); ;
 
             if (infiniteLoop)
             {

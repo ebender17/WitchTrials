@@ -48,6 +48,7 @@ public class PlayerData : ScriptableObject
     [Header("Player Stats")]
     public float score = 0.0f;
     public float maxHealth = 100.0f;
+    public int fallDamage = 20;
 
     [Header("SFX Channel")]
     public AudioSourceEventChannelSO SFXEventChannel;
