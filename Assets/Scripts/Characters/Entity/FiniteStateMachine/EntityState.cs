@@ -7,7 +7,8 @@ public class EntityState
     protected EntityStateMachine stateMachine;
     protected Entity entity;
 
-    protected float startTime;
+    //TODO: make protected again
+    public float startTime {get; protected set;}
 
     protected string animBoolName; 
     public EntityState(Entity entity, EntityStateMachine stateMachine, string animBoolName)

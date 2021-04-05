@@ -41,7 +41,7 @@ public class ChargingEnemy_Charge : EntityChargeState
         else if(isChargeTimeOver)
         {
             if (isPlayerInMinAgroRange)
-                stateMachine.ChangeState(enemy.detectionState);
+                stateMachine.ChangeState(enemy.playerDetectedState);
             else
                 stateMachine.ChangeState(enemy.lookForPlayerState);
         }

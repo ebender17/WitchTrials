@@ -31,7 +31,7 @@ public class ChargingEnemy_Move : EntityMoveState
 
         if(isPlayerInMinAgroRange)
         {
-            stateMachine.ChangeState(enemy.detectionState);
+            stateMachine.ChangeState(enemy.playerDetectedState);
         }
         else if (!isDetectingLedge || isDetectingWall)
         {

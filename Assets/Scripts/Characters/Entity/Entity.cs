@@ -50,6 +50,8 @@ public class Entity : MonoBehaviour
     {
         stateMachine.currentState.Execute();
 
+        anim.SetFloat("yVelocity", rb.velocity.y);
+
         if (Time.time >= lastDamageTime + entityData.stunRecoveryTime && isStunned)
             ResetStunResistance();
     }
@@ -160,9 +162,9 @@ public class Entity : MonoBehaviour
         Gizmos.DrawLine(_ledgeCheck.position, _ledgeCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.ledgeCheckDistance));
 
         //Close range action distance, min agro distance and max agro distance
-        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * entityData.closeRangeActionDistance), 0.2f);
-        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * entityData.minAgroDistance), 0.2f);
-        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * entityData.maxAgroDistance), 0.2f);
+        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.closeRangeActionDistance), 0.2f);
+        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.minAgroDistance), 0.2f);
+        Gizmos.DrawWireSphere(_playerCheck.position + (Vector3)(Vector2.right * facingDirection * entityData.maxAgroDistance), 0.2f);
         
     }
 #endif

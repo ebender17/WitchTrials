@@ -7,8 +7,8 @@ using UnityEngine;
 public class LocationsSO : GameSceneSO
 {
     public string locationName;
-    public AudioClip musicTrack;
+    //public AudioClip musicTrack;
 
-    public int enemiesCount; 
+    //public int enemiesCount; 
     
 }

@@ -6,7 +6,7 @@ public class ChargingEnemy : Entity
 {
     public ChargingEnemy_Idle idleState { get; private set; }
     public ChargingEnemy_Move moveState { get; private set; }
-    public ChargingEnemy_Detection detectionState { get; private set; }
+    public ChargingEnemy_PlayerDetected playerDetectedState { get; private set; }
     public ChargingEnemy_Charge chargeState { get; private set; }
     public ChargingEnemy_LookForPlayer lookForPlayerState { get; private set; }
     public ChargingEnemy_MeleeAttack meleeAttackState { get; private set;}
@@ -30,7 +30,7 @@ public class ChargingEnemy : Entity
 
         idleState = new ChargingEnemy_Idle(this, stateMachine, "Idle", _idleStateData, this);
         moveState = new ChargingEnemy_Move(this, stateMachine, "Move", _moveStateData, this);
-        detectionState = new ChargingEnemy_Detection(this, stateMachine, "PlayerDetected", _detectionStateData, this);
+        playerDetectedState = new ChargingEnemy_PlayerDetected(this, stateMachine, "PlayerDetected", _detectionStateData, this);
         chargeState = new ChargingEnemy_Charge(this, stateMachine, "Charge", _chargeStateData, this);
         lookForPlayerState = new ChargingEnemy_LookForPlayer(this, stateMachine, "LookForPlayer", _lookForPlayerStateData, this);
         meleeAttackState = new ChargingEnemy_MeleeAttack(this, stateMachine, "MeleeAttack", _meleeAttackPosition, _meleeAttackStateData, this);

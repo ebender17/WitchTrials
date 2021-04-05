@@ -7,10 +7,10 @@ using UnityEngine;
 /// Handles transitions to different basic enemy states 
 /// from basic enemy detection state. 
 /// </summary>
-public class ChargingEnemy_Detection : EntityDetectionState
+public class ChargingEnemy_PlayerDetected : EntityPlayerDetectedState
 {
     private ChargingEnemy enemy; 
-    public ChargingEnemy_Detection(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData, ChargingEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public ChargingEnemy_PlayerDetected(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData, ChargingEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
     }

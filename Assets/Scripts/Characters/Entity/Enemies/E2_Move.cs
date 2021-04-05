@@ -25,9 +25,11 @@ public class E2_Move : EntityMoveState
     {
         base.Execute();
 
-        //TODO: Transition to player detected state 
-
-        if(isDetectingWall || !isDetectingLedge)
+        if (isPlayerInMinAgroRange)
+        {
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        }
+         else if(isDetectingWall || !isDetectingLedge)
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);

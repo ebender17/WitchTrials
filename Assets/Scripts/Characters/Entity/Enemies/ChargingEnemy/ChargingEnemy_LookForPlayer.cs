@@ -26,7 +26,7 @@ public class ChargingEnemy_LookForPlayer : EntityLookForPlayer
 
         if (isPlayerInMinAgroRange)
         {
-            stateMachine.ChangeState(enemy.detectionState);
+            stateMachine.ChangeState(enemy.playerDetectedState);
         }
         else if (isAllTurnsDoneTime)
         {

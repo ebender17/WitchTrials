@@ -25,12 +25,10 @@ public class E2_Idle : EntityIdleState
     {
         base.Execute();
 
-        //TODO: player detected state transition
-
-        if(isIdleTimeOver)
-        {
+        if (isPlayerInMinAgroRange)
+            stateMachine.ChangeState(enemy.playerDetectedState);
+        else if(isIdleTimeOver)
             stateMachine.ChangeState(enemy.moveState);
-        }
     }
 
     public override void ExecutePhysics()

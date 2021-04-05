@@ -7,7 +7,7 @@ using UnityEngine;
 /// Player detected when within min agro range. 
 /// Remains detected while inside max agro range. 
 /// </summary>
-public class EntityDetectionState : EntityState
+public class EntityPlayerDetectedState : EntityState
 {
     protected bool isPlayerInMinAgroRange;
     protected bool isPlayerInMaxAgroRange;
@@ -16,7 +16,7 @@ public class EntityDetectionState : EntityState
     protected bool isDetectingLedge;
 
     protected EntityDetectionStateSO stateData;
-    public EntityDetectionState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData) : base(entity, stateMachine, animBoolName)
+    public EntityPlayerDetectedState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData) : base(entity, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }

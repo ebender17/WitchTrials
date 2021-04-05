@@ -27,7 +27,7 @@ public class ChargingEnemy_MeleeAttack : EntityMeleeAttackState
         if(isAnimationFinished)
         {
             if (isPlayerInMinAgroRange)
-                stateMachine.ChangeState(enemy.detectionState);
+                stateMachine.ChangeState(enemy.playerDetectedState);
             else
                 stateMachine.ChangeState(enemy.lookForPlayerState);
         }

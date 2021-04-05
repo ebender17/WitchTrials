@@ -25,7 +25,7 @@ public class ChargingEnemy_Idle : EntityIdleState
         base.Execute();
 
         if (isPlayerInMinAgroRange)
-            stateMachine.ChangeState(enemy.detectionState);
+            stateMachine.ChangeState(enemy.playerDetectedState);
         else if (isIdleTimeOver)
             stateMachine.ChangeState(enemy.moveState);
     }

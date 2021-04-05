@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private VoidEventChannelSO _closeUIDialogueEvent = default;
 
     [Header("Interaction Events")]
-    [SerializeField] private VoidEventChannelSO _onInteractionEndedEvent = default;
+    //[SerializeField] private VoidEventChannelSO _onInteractionEndedEvent = default;
     [SerializeField] private InteractionUIEventChannelSO _setInteractionEvent = default;
 
     [Header("Game Result Events")]
