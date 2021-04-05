@@ -5,6 +5,9 @@ using UnityEngine;
 public class EntityRangedAttackState : EntityAttackState
 {
     protected EntityRangedAttackStateSO stateData;
+
+    protected GameObject projectile;
+    protected Projectile projectileScript;
     public EntityRangedAttackState(Entity entity, EntityStateMachine stateMachine, string animBoolName, Transform attackPosition, EntityRangedAttackStateSO stateData) : base(entity, stateMachine, animBoolName, attackPosition)
     {
         this.stateData = stateData;
@@ -43,5 +46,10 @@ public class EntityRangedAttackState : EntityAttackState
     public override void TriggerAttack()
     {
         base.TriggerAttack();
+
+        projectile = GameObject.Instantiate(stateData.projectile, attackPosition.position, attackPosition.rotation);
+        projectileScript = projectile.gameObject.GetComponent<Projectile>();
+
+        projectileScript.FireProjectile(stateData.projectileSpeed, stateData.projectileTravelDistance, stateData.projectileDamage);
     }
 }

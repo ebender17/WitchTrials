@@ -34,6 +34,10 @@ public class E2_DodgeState : EntityDodgeState
             {
                 stateMachine.ChangeState(_enemy.meleeAttackState);
             }
+            else if(isPlayerInMaxAgroRange && !performCloseRangeAction)
+            {
+                stateMachine.ChangeState(_enemy.rangeAttackState);
+            }
             else if(!isPlayerInMaxAgroRange)
             {
                 //TODO: can add turn if wanted

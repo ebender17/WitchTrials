@@ -36,6 +36,10 @@ public class E2_PlayerDetected : EntityPlayerDetectedState
                 stateMachine.ChangeState(enemy.meleeAttackState);
             }
         }
+        else if(performLongRangeAction)
+        {
+            stateMachine.ChangeState(enemy.rangeAttackState);
+        }
         else if(!isPlayerInMaxAgroRange)
         {
             stateMachine.ChangeState(enemy.lookForPlayerState);

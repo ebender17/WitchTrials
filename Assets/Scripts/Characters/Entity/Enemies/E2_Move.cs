@@ -33,7 +33,10 @@ public class E2_Move : EntityMoveState
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);
+
+            Debug.Log(isDetectingWall);
         }
+
     }
 
     public override void ExecutePhysics()

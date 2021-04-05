@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f73a8bac599e2843968d69de189a291, type: 3}
   m_Name: Enemy2BaseData
   m_EditorClassIdentifier: 
-  health: 30
+  health: 40
   damageHopSpeed: 10
   hitParticle: {fileID: 4781841793639767574, guid: 4f1c092dd61588340984eae8daa1722a,
     type: 3}
@@ -23,8 +23,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  minAgroDistance: 3
-  maxAgroDistance: 4
+  minAgroDistance: 7.5
+  maxAgroDistance: 8.5
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
