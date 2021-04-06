@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_Move : EntityMoveState
+public class Archer_IdleState : EntityIdleState
 {
-    private Enemy2 enemy;
+    private ArcherEnemy enemy; 
 
-    public E2_Move(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityMoveStateSO stateData, Enemy2 enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public Archer_IdleState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityIdleStateSO stateData, ArcherEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
-        this.enemy = enemy; 
+        this.enemy = enemy;
     }
 
     public override void DoChecks()
@@ -26,17 +26,9 @@ public class E2_Move : EntityMoveState
         base.Execute();
 
         if (isPlayerInMinAgroRange)
-        {
             stateMachine.ChangeState(enemy.playerDetectedState);
-        }
-         else if(isDetectingWall || !isDetectingLedge)
-        {
-            enemy.idleState.SetFlipAfterIdle(true);
-            stateMachine.ChangeState(enemy.idleState);
-
-            Debug.Log(isDetectingWall);
-        }
-
+        else if(isIdleTimeOver)
+            stateMachine.ChangeState(enemy.moveState);
     }
 
     public override void ExecutePhysics()

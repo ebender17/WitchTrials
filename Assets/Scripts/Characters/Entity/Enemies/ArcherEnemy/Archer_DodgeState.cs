@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_DodgeState : EntityDodgeState
+public class Archer_DodgeState : EntityDodgeState
 {
-    private Enemy2 _enemy;
+    private ArcherEnemy _enemy;
 
     public float dodgeTime { get; private set; }
-    public E2_DodgeState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDodgeStateSO stateData, Enemy2 enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public Archer_DodgeState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDodgeStateSO stateData, ArcherEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this._enemy = enemy;
     }
@@ -43,8 +43,6 @@ public class E2_DodgeState : EntityDodgeState
                 //TODO: can add turn if wanted
                 stateMachine.ChangeState(_enemy.lookForPlayerState);
             }
-
-            //TODO: range attack state
 
         }
 

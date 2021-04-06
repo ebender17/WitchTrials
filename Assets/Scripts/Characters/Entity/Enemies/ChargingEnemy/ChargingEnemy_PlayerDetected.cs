@@ -24,7 +24,6 @@ public class ChargingEnemy_PlayerDetected : EntityPlayerDetectedState
     {
         base.Execute();
 
-        //TODO: Check
         if (performCloseRangeAction)
             stateMachine.ChangeState(enemy.meleeAttackState);
         else if (performLongRangeAction)

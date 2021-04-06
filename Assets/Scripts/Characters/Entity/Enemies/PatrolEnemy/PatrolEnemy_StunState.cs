@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatrolEnemy_Idle : EntityIdleState
+public class PatrolEnemy_StunState : EntityStunState
 {
     private PatrolEnemy _enemy;
-    public PatrolEnemy_Idle(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityIdleStateSO stateData, PatrolEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public PatrolEnemy_StunState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityStunStateSO stateData, PatrolEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this._enemy = enemy;
     }
@@ -24,10 +24,9 @@ public class PatrolEnemy_Idle : EntityIdleState
     {
         base.Execute();
 
-        _enemy.CheckTouchDamage();
-
-        if (isIdleTimeOver)
+        if(isStunTimeOver)
         {
+            //TODO: this may cause bugs
             stateMachine.ChangeState(_enemy.moveState);
         }
     }

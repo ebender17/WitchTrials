@@ -194,7 +194,6 @@ public class PlayerController : MonoBehaviour
         rawMovementInput = movement;
 
         // Normalize input so player moves with same speed on different input types
-        // TODO: Check with controller. Also possible to do with input system.
         if (Mathf.Abs(rawMovementInput.x) > 0.5f)
         {
             normInputX = (int)(rawMovementInput * Vector2.right).normalized.x;

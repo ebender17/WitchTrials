@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f73a8bac599e2843968d69de189a291, type: 3}
   m_Name: PatrolEnemyBaseData
   m_EditorClassIdentifier: 
-  health: 30
+  health: 40
   damageHopSpeed: 10
-  hitParticle: {fileID: 0}
+  hitParticle: {fileID: 4781841793639767574, guid: 4f1c092dd61588340984eae8daa1722a,
+    type: 3}
   SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
@@ -28,5 +29,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   closeRangeActionDistance: 1
+  touchDamage: 5
   stunResistance: 3
   stunRecoveryTime: 2

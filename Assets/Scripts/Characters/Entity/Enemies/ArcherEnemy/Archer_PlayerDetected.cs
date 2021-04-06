@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_PlayerDetected : EntityPlayerDetectedState
+public class Archer_PlayerDetected : EntityPlayerDetectedState
 {
-    private Enemy2 enemy;
-    public E2_PlayerDetected(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData, Enemy2 enemy) : base(entity, stateMachine, animBoolName, stateData)
+    private ArcherEnemy enemy;
+    public Archer_PlayerDetected(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDetectionStateSO stateData, ArcherEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
     }
@@ -26,8 +26,8 @@ public class E2_PlayerDetected : EntityPlayerDetectedState
 
         if (performCloseRangeAction)
         {
-            //TODO: replace with variable dodgeTime from dodgeState
-            if(Time.time >= enemy.dodgeState.startTime + enemy._dodgeStateData.dodgeCooldown)
+       
+            if(Time.time >= enemy.dodgeState.dodgeTime)
             {
                 stateMachine.ChangeState(enemy.dodgeState);
             }

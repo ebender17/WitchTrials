@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_StunState : EntityStunState
+public class Archer_RangedAttack : EntityRangedAttackState
 {
-    private Enemy2 _enemy;
-    public E2_StunState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityStunStateSO stateData, Enemy2 enemy) : base(entity, stateMachine, animBoolName, stateData)
+    private ArcherEnemy _enemy;
+    public Archer_RangedAttack(Entity entity, EntityStateMachine stateMachine, string animBoolName, Transform attackPosition, EntityRangedAttackStateSO stateData, ArcherEnemy enemy) : base(entity, stateMachine, animBoolName, attackPosition, stateData)
     {
         this._enemy = enemy;
     }
@@ -24,16 +24,12 @@ public class E2_StunState : EntityStunState
     {
         base.Execute();
 
-        if(isStunTimeOver)
+        if(isAnimationFinished)
         {
-            if(isPlayerInMinAgroRange)
-            {
+            if (isPlayerInMinAgroRange)
                 stateMachine.ChangeState(_enemy.playerDetectedState);
-            }
             else
-            {
                 stateMachine.ChangeState(_enemy.lookForPlayerState);
-            }
         }
     }
 
@@ -45,5 +41,15 @@ public class E2_StunState : EntityStunState
     public override void Exit()
     {
         base.Exit();
+    }
+
+    public override void FinishAttack()
+    {
+        base.FinishAttack();
+    }
+
+    public override void TriggerAttack()
+    {
+        base.TriggerAttack();
     }
 }

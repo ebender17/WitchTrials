@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E2_LookForPlayerState : EntityLookForPlayer
-
+public class Archer_DeadState : EntityDeadState
 {
-    private Enemy2 _enemy;
-    public E2_LookForPlayerState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityLookForPlayerStateSO stateData, Enemy2 enemy) : base(entity, stateMachine, animBoolName, stateData)
+    private ArcherEnemy _enemy;
+    public Archer_DeadState(Entity entity, EntityStateMachine stateMachine, string animBoolName, EntityDeadStateSO stateData, ArcherEnemy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this._enemy = enemy;
     }
@@ -24,11 +23,6 @@ public class E2_LookForPlayerState : EntityLookForPlayer
     public override void Execute()
     {
         base.Execute();
-
-        if (isPlayerInMinAgroRange)
-            stateMachine.ChangeState(_enemy.playerDetectedState);
-        else if (isAllTurnsDoneTime)
-            stateMachine.ChangeState(_enemy.moveState);
     }
 
     public override void ExecutePhysics()

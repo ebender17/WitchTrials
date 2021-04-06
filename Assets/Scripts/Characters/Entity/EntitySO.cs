@@ -24,6 +24,7 @@ public class EntitySO : ScriptableObject
     public float maxAgroDistance = 4.0f;
     public LayerMask whatIsPlayer;
     public float closeRangeActionDistance = 1.0f;
+    public int touchDamage = 5;
 
     [Header("Stun variables")]
     public int stunResistance = 3; //indicates number of hits before stun
