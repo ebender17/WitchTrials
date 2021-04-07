@@ -20,25 +20,18 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 1684304223175151964, guid: 1ff2e24c6b5156e418bf72cc77f58d3c,
-        type: 3}
-    - time: 0.1
-      value: {fileID: -7106077621363497131, guid: 1ff2e24c6b5156e418bf72cc77f58d3c,
-        type: 3}
-    - time: 0.2
-      value: {fileID: 8991690321404396714, guid: 1ff2e24c6b5156e418bf72cc77f58d3c,
-        type: 3}
-    - time: 0.3
-      value: {fileID: 3380753689235674462, guid: 1ff2e24c6b5156e418bf72cc77f58d3c,
-        type: 3}
-    - time: 0.4
-      value: {fileID: 1684304223175151964, guid: 1ff2e24c6b5156e418bf72cc77f58d3c,
-        type: 3}
+      value: {fileID: 21300000, guid: 820277006e36e6c4bb49cc8d7ebc6fc5, type: 3}
+    - time: 0.125
+      value: {fileID: 21300000, guid: 04e258e01114a304c9ce4f2809ed5f7b, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: c8b9386d05044b84ca9df4dbd11096f2, type: 3}
+    - time: 0.375
+      value: {fileID: 21300000, guid: 267a74f30988dad4799b932dd2356bf0, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 10
+  m_SampleRate: 8
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -53,11 +46,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1684304223175151964, guid: 1ff2e24c6b5156e418bf72cc77f58d3c, type: 3}
-    - {fileID: -7106077621363497131, guid: 1ff2e24c6b5156e418bf72cc77f58d3c, type: 3}
-    - {fileID: 8991690321404396714, guid: 1ff2e24c6b5156e418bf72cc77f58d3c, type: 3}
-    - {fileID: 3380753689235674462, guid: 1ff2e24c6b5156e418bf72cc77f58d3c, type: 3}
-    - {fileID: 1684304223175151964, guid: 1ff2e24c6b5156e418bf72cc77f58d3c, type: 3}
+    - {fileID: 21300000, guid: 820277006e36e6c4bb49cc8d7ebc6fc5, type: 3}
+    - {fileID: 21300000, guid: 04e258e01114a304c9ce4f2809ed5f7b, type: 3}
+    - {fileID: 21300000, guid: c8b9386d05044b84ca9df4dbd11096f2, type: 3}
+    - {fileID: 21300000, guid: 267a74f30988dad4799b932dd2356bf0, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -83,28 +75,28 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1
+  - time: 0
     functionName: DisableFlip
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2
+  - time: 0.125
     functionName: CheckAttackHitBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.3
+  - time: 0.375
     functionName: EnableFlip
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.4
+  - time: 0.375
     functionName: AnimationFinishTrigger
     data: 
     objectReferenceParameter: {fileID: 0}
