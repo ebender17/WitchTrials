@@ -8,7 +8,7 @@ public class PlayerPrimAtkState : PlayerAbilityState
     private float _lastPrimAtkTime;
     public PlayerPrimAtkState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
-        
+        this.stateName = StateNames.PrimAttack;
     }
 
     public override void Enter()
@@ -16,18 +16,36 @@ public class PlayerPrimAtkState : PlayerAbilityState
         base.Enter();
 
         canPrimAtk = false;
-        player.UseAtkInput();
+        _lastPrimAtkTime = Time.time;
+        player.UsePrimAtkInput();
+        Debug.Log("Enter player prim attack state.");
+    }
 
-        Debug.Log("Entered Attack State!");
-        
+    public override void Execute()
+    {
+        base.Execute();
+
+        if (isAnimationFinished)
+        {
+            isAbilityDone = true;
+        }
+    }
+
+    public override void ExecutePhysics()
+    {
+        base.ExecutePhysics();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
     }
 
     public bool CheckIfCanPrimAtk()
     {
-        return canPrimAtk && Time.time >= _lastPrimAtkTime + playerData.primAtkCoolDown;
+        return Time.time >= _lastPrimAtkTime + playerData.primAtkCoolDown;
     }
 
     public void ResetCanPrimAtk() => canPrimAtk = true;
 
-   
 }

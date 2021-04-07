@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: LevelScenes
+  m_EditorClassIdentifier: 
+  m_GroupName: LevelScenes
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d07e8b6bd58a5af49a8933590b070cec
+  m_SerializeEntries:
+  - m_GUID: f3bd3e503fe3037499bab680334698ee
+    m_Address: Assets/Scenes/Locations/Level1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 102900000, guid: f3bd3e503fe3037499bab680334698ee, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: f3bd3e503fe3037499bab680334698ee, type: 3}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d80c63b3980dc864a90a0fd1303d44ca, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6eb2898fd4571f14e9e0f53d90543442, type: 2}
+    - {fileID: 11400000, guid: 61c1ad5cfb7059c48af03746417f6f81, type: 2}

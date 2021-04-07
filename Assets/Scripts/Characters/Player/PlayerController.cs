@@ -62,12 +62,15 @@ public class PlayerController : MonoBehaviour
     private float primAtkInputStartTime;
     #endregion
 
-    #region Check Transforms
+
+    #region Check & Attack Transforms
 
     [SerializeField]
     private Transform _groundCheck;
     [SerializeField]
     private Transform _ceilingCheck;
+
+    public Transform attackPoint;
 
     #endregion
 
@@ -77,6 +80,31 @@ public class PlayerController : MonoBehaviour
     private Vector2 _tempValue;
 
     public int facingDirection { get; private set; }
+    public bool knockBack { get; private set; } = false;
+    public float knockBackStartTime { get; private set; }
+    public bool canFlip { get; private set; }
+
+    private float _currentHealth;
+
+    public float playerScore { get; private set; }
+
+    private Vector2 _currentCheckpoint; 
+    public Vector2 CurrentCheckpoint
+    {
+        get { return _currentCheckpoint; }
+        set { _currentCheckpoint = value; }
+    }
+    #endregion
+
+    #region EventChannels
+    [Header("Broadcasting on channels")]
+    [Tooltip("Event for communicating game result")]
+    [SerializeField] private GameResultChannelSO _playerResults;
+    [Tooltip("Event for communicating health")]
+    [SerializeField] private FloatEventChannelSO _playerHealth;
+    //[Tooltip("Event for communicating SFX music")]
+    //public AudioSourceEventChannelSO _SFXEventChannel;
+
     #endregion
 
     #region Unity Callback Functions
@@ -92,7 +120,7 @@ public class PlayerController : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, playerData, "InAir");
         crouchIdleState = new PlayerCrouchIdleState(this, stateMachine, playerData, "IdleCrouch");
         crouchMoveState = new PlayerCrouchState(this, stateMachine, playerData, "MoveCrouch");
-        primAtkState = new PlayerPrimAtkState(this, stateMachine, playerData, "PrimAtk");
+        primAtkState = new PlayerPrimAtkState(this, stateMachine, playerData, "PrimAttack");
 
     }
 
@@ -104,8 +132,8 @@ public class PlayerController : MonoBehaviour
         inputReader.dashEvent += OnDash;
         inputReader.dashCanceledEvent += OnDashCanceled;
         inputReader.dashDirectionEvent += OnDashDirection;
-        inputReader.attackEvent += OnAttack;
-        inputReader.attackCanceledEvent += OnAttackCanceled;
+        inputReader.attackEvent += OnPrimAttack;
+        inputReader.attackCanceledEvent += OnPrimAttackCanceled;
         
     }
 
@@ -117,8 +145,8 @@ public class PlayerController : MonoBehaviour
         inputReader.dashEvent -= OnDash;
         inputReader.dashCanceledEvent -= OnDashCanceled;
         inputReader.dashDirectionEvent -= OnDashDirection;
-        inputReader.attackEvent -= OnAttack;
-        inputReader.attackCanceledEvent -= OnAttackCanceled;
+        inputReader.attackEvent -= OnPrimAttack;
+        inputReader.attackCanceledEvent -= OnPrimAttackCanceled;
     }
 
     // Start is called before the first frame update
@@ -136,6 +164,10 @@ public class PlayerController : MonoBehaviour
 
         facingDirection = 1;
 
+        _currentHealth = playerData.maxHealth;
+        playerScore = playerData.score;
+        canFlip = true;
+
     }
 
     // Update is called once per frame
@@ -146,6 +178,8 @@ public class PlayerController : MonoBehaviour
 
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
+        CheckKnockback();
+        CheckPlayerPosition();
     }
 
     private void FixedUpdate()
@@ -160,7 +194,6 @@ public class PlayerController : MonoBehaviour
         rawMovementInput = movement;
 
         // Normalize input so player moves with same speed on different input types
-        // TODO: Check with controller. Also possible to do with input system.
         if (Mathf.Abs(rawMovementInput.x) > 0.5f)
         {
             normInputX = (int)(rawMovementInput * Vector2.right).normalized.x;
@@ -232,21 +265,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnAttack()
+    private void OnPrimAttack()
     {
-        //TODO
         primAtkInput = true;
         primAtkInputStop = false;
         primAtkInputStartTime = Time.time;
     }
 
-    private void OnAttackCanceled()
-    {
-        //TODO
-        primAtkInputStop = true;
-    }
+    private void OnPrimAttackCanceled() => primAtkInput = false; 
 
-    public void UseAtkInput() => primAtkInput = false;
+    public void UsePrimAtkInput() => primAtkInput = false;
 
     #endregion
 
@@ -276,6 +304,7 @@ public class PlayerController : MonoBehaviour
         rigidBody.velocity = _tempValue;
         currVelocity = _tempValue;
     }
+
     
     #endregion
 
@@ -288,6 +317,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void EnableFlip() => canFlip = true;
+
+    public void DisableFlip() => canFlip = false;
     public bool CheckIfGrounded()
     {
         return Physics2D.OverlapCircle(_groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
@@ -296,6 +328,41 @@ public class PlayerController : MonoBehaviour
     public bool CheckForCeiling()
     {
         return Physics2D.OverlapCircle(_ceilingCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+    }
+
+    public void CheckKnockback()
+    {
+        if(Time.time >= knockBackStartTime + playerData.knockBackDuration && knockBack)
+        {
+            knockBack = false;
+            SetVelocityX(0.0f);
+        }
+    }
+
+    public void CheckPlayerPosition()
+    {
+        if (rigidBody.position.y < -50.0f)
+        {
+            DecreaseHealth(playerData.fallDamage);
+
+            if (_currentHealth > 0)
+                LoadLastCheckpoint();
+        }     
+    }
+
+    //Called during primAtk anim in editor
+    private void CheckAttackHitBox()
+    {
+        //Detect enemies in range of attack
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, playerData.primAtkRange, playerData.whatIsDamagable);
+
+        //Damage enemies
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Entity entity = enemy.GetComponentInParent<Entity>();
+            if (entity != null)
+                entity.TakeDamage(gameObject.transform.position.x, playerData.attackDamage);
+        }
     }
 
     #endregion
@@ -312,8 +379,11 @@ public class PlayerController : MonoBehaviour
     private void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger(); 
     private void Flip()
     {
-        facingDirection *= -1;
-        transform.Rotate(0.0f, 180.0f, 0.0f);
+        if(canFlip && !knockBack)
+        {
+            facingDirection *= -1;
+            transform.Rotate(0.0f, 180.0f, 0.0f);
+        }
     }
 
     public void SetColliderHeight(float height)
@@ -326,6 +396,77 @@ public class PlayerController : MonoBehaviour
         boxCollider.size = _tempValue;
         boxCollider.offset = center;
     }
+
+    private void LoadLastCheckpoint()
+    {
+        transform.position = _currentCheckpoint;
+    }
     #endregion
-    
+
+    #region Damage Functions
+    public void TakeDamage(float enemyXPos, int damage)
+    {
+        if (stateMachine.currentState.stateName != StateNames.Dash)
+        {
+            int knockbackDirection;
+
+            DecreaseHealth(damage);
+
+            if (enemyXPos < transform.position.x)
+                knockbackDirection = 1;
+            else
+                knockbackDirection = -1;
+
+            KnockBack(knockbackDirection);
+
+        }
+    }
+    private void KnockBack(int knockbackDirection)
+    {
+        knockBack = true;
+        knockBackStartTime = Time.time;
+
+        SetVelocity(knockbackDirection, playerData.knockBackSpeed);
+    }
+
+    private void DecreaseHealth(int damage)
+    {
+        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerData.maxHealth);
+
+        //Raising event to change healthbar UI
+        if(_playerHealth != null)
+            _playerHealth.OnEventRaised(_currentHealth / playerData.maxHealth);
+
+        //Raising event to play player hit SFX
+        if(playerData.SFXEventChannel != null)
+            playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
+
+        Debug.Log(_currentHealth);
+        //TODO: damage anim 
+
+        if(_currentHealth <= 0.0f)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        //TODO: player death particles
+        _playerResults.RaiseEvent(false, playerScore.ToString());
+        Destroy(gameObject);
+    }
+    #endregion
+
+    #region Gizmos 
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return; 
+
+        Gizmos.DrawWireSphere(attackPoint.position, playerData.primAtkRange);
+
+    }
+    #endregion
+
 }

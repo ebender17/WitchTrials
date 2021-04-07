@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f73a8bac599e2843968d69de189a291, type: 3}
+  m_Name: ChargingEnemyBaseData
+  m_EditorClassIdentifier: 
+  health: 50
+  damageHopSpeed: 10
+  hitParticle: {fileID: 4781841793639767574, guid: 4f1c092dd61588340984eae8daa1722a,
+    type: 3}
+  SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}
+  wallCheckDistance: 0.2
+  ledgeCheckDistance: 1
+  groundCheckRadius: 0.3
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  minAgroDistance: 7
+  maxAgroDistance: 9
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  closeRangeActionDistance: 1.2
+  stunResistance: 3
+  stunRecoveryTime: 2

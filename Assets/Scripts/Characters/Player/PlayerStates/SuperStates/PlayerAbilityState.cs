@@ -9,6 +9,7 @@ public class PlayerAbilityState : PlayerState
     private bool isGrounded; 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Ability;
     }
 
     public override void DoChecks()
@@ -36,11 +37,11 @@ public class PlayerAbilityState : PlayerState
              * Therefore if grounded and velocity is greater than 0.01 (meaning we just jumped) we
              * move to in air state
              */
-           
-            if (isGrounded && player.currVelocity.y < 0.01f )
+            if (isGrounded && player.currVelocity.y < 0.01f)
             {
                 stateMachine.ChangeState(player.idleState);
             }
+            //TODO: Transition to move state?
             else
             {
                 stateMachine.ChangeState(player.inAirState);

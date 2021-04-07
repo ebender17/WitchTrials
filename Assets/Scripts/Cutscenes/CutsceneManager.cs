@@ -14,8 +14,12 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private DialogueLineChannelSO _playDialogueEvent = default;
     [SerializeField] private VoidEventChannelSO _pauseTimelineEvent = default;
 
+    [Header("Broadcasting on channels")]
+    [SerializeField] private GameResultChannelSO _gameEndEvent;
+
     private PlayableDirector _activePlayableDirector;
     private bool _isPaused;
+    private bool _isEndingCutscene; //flag for raising load end menu
 
     bool IsCutscenePlaying => _activePlayableDirector.playableGraph.GetRootPlayable(0).GetSpeed() != 0d;
 
@@ -40,13 +44,14 @@ public class CutsceneManager : MonoBehaviour
             _pauseTimelineEvent.OnEventRaised += PauseTimeline;
     }
 
-    void PlayCutscene(PlayableDirector activePlayableDirector)
+    void PlayCutscene(PlayableDirector activePlayableDirector, bool isEndingCutscene)
     {
         _inputReader.EnableDialogueInput();
 
         _activePlayableDirector = activePlayableDirector;
 
         _isPaused = false;
+        _isEndingCutscene = isEndingCutscene;
         _activePlayableDirector.Play();
         //When cutscene ends
         _activePlayableDirector.stopped += HandleDirectorStopped;
@@ -57,8 +62,16 @@ public class CutsceneManager : MonoBehaviour
         if (_activePlayableDirector != null)
             _activePlayableDirector.stopped -= HandleDirectorStopped;
 
-        _inputReader.EnableGameplayInput();
-        _dialogueManager.DialogueEndedAndCloseDialogueUI();
+        if(_isEndingCutscene)
+        {
+            //TODO: Game Result remove player score
+            _gameEndEvent.RaiseEvent(true, "0");
+        }
+        else
+        {
+            _inputReader.EnableGameplayInput();
+            _dialogueManager.DialogueEndedAndCloseDialogueUI();
+        }
     }
 
     private void HandleDirectorStopped(PlayableDirector director) => CutsceneEnded();

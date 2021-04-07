@@ -6,6 +6,7 @@ public class PlayerCrouchIdleState : PlayerGroundedState
 {
     public PlayerCrouchIdleState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.CrouchIdle;
     }
 
     public override void Enter()

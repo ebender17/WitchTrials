@@ -19,6 +19,7 @@ MonoBehaviour:
     m_AssetGUID: f3bd3e503fe3037499bab680334698ee
     m_SubObjectName: 
     m_SubObjectType: 
+  musicTrack: {fileID: 0}
   locationName: Level One
   musicTrack: {fileID: 0}
   enemiesCount: 0

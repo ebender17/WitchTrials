@@ -17,32 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3dea351b07d57284d81631ec60869a6c
   m_SerializeEntries:
-  - m_GUID: 041bd79cfbcf05e4cb48ba6fda39c8bf
-    m_Address: Assets/Scenes/MainMenu.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: a81c289e78f48444ea36bb0edd09c11b
-    m_Address: Assets/Scenes/Managers/PersistentManagers.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: 2a6fa6ce4d34df3498cb485159f5b750
-    m_Address: Assets/ScriptableObjects/EventChannels/LoadMenu_Channel.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: 6c7a352c9bc8f1e4882dc348e2ca1c06
-    m_Address: Assets/Scenes/Managers/GameplayManagers.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: f3bd3e503fe3037499bab680334698ee
-    m_Address: Assets/Scenes/Locations/Level1.unity
+  - m_GUID: 55e10ff276bd75a48850f1a779de2104
+    m_Address: Assets/Scenes/EndMenu.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}

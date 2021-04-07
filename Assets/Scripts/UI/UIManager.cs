@@ -13,22 +13,37 @@ public class UIManager : MonoBehaviour
     [SerializeField] private VoidEventChannelSO _closeUIDialogueEvent = default;
 
     [Header("Interaction Events")]
-    [SerializeField] private VoidEventChannelSO _onInteractionEndedEvent = default; 
-    [SerializeField] private InteractionUIEventChannelSO _setInteractionEvent = default; 
+    //[SerializeField] private VoidEventChannelSO _onInteractionEndedEvent = default;
+    [SerializeField] private InteractionUIEventChannelSO _setInteractionEvent = default;
+
+    [Header("Game Result Events")]
+    [SerializeField] private GameResultChannelSO _openGameResultUIEvent = default;
+
+    [Header("HUD Events")]
+    [SerializeField] private FloatEventChannelSO _updateHealthUIEvent = default;
 
     [Header("UI Panels")]
     [SerializeField] private UIDialogueManager _dialoguePanel = default;
-    [SerializeField] private UIInteractionManager _interactionPanel = default; 
+    [SerializeField] private UIInteractionManager _interactionPanel = default;
+    [SerializeField] private UIGameManager _gamePanel = default;
+    [SerializeField] private UIHUDManager _HUDPanel = default;
+
+  
     private void OnEnable()
     {
-        //Check if event exits to avoid null refs 
+        //Check if event exists to avoid null refs 
         if (_openUIDialogueEvent != null)
             _openUIDialogueEvent.OnEventRaised += OpenUIDialogue;
         if (_closeUIDialogueEvent != null)
             _closeUIDialogueEvent.OnEventRaised += CloseUIDialogue;
+        if (_openGameResultUIEvent != null)
+            _openGameResultUIEvent.OnEventRaised += OpenUIGameResult;
 
         if (_setInteractionEvent != null)
             _setInteractionEvent.OnEventRaised += SetInteractionPanel;
+
+        if (_updateHealthUIEvent != null)
+            _updateHealthUIEvent.OnEventRaised += UpdateHealthPanel;
     }
 
     private void OnDisable()
@@ -37,9 +52,14 @@ public class UIManager : MonoBehaviour
             _openUIDialogueEvent.OnEventRaised -= OpenUIDialogue;
         if (_closeUIDialogueEvent != null)
             _closeUIDialogueEvent.OnEventRaised -= CloseUIDialogue;
+        if (_openGameResultUIEvent != null)
+            _openGameResultUIEvent.OnEventRaised -= OpenUIGameResult;
 
         if (_setInteractionEvent != null)
             _setInteractionEvent.OnEventRaised -= SetInteractionPanel;
+
+        if (_updateHealthUIEvent != null)
+            _updateHealthUIEvent.OnEventRaised -= UpdateHealthPanel;
     }
 
     public void OpenUIDialogue(string dialogueLine, ActorSO actor)
@@ -57,7 +77,26 @@ public class UIManager : MonoBehaviour
     {
         if (isOpen)
             _interactionPanel.FillInteractionPanel(interactionType);
-        
+
         _interactionPanel.gameObject.SetActive(isOpen);
+    }
+
+    public void OpenUIGameResult(bool isWon, string playerScore)
+    {
+        string result;
+
+        if (isWon)
+            result = "Won";
+        else
+            result = "Lost";
+
+        _gamePanel.SetGameResults(result, playerScore);
+        _gamePanel.gameObject.SetActive(true); 
+
+    }
+
+    private void UpdateHealthPanel(float value)
+    {
+        _HUDPanel.SetValue(value);
     }
 }

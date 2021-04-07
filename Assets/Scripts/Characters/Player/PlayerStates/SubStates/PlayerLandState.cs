@@ -6,6 +6,14 @@ public class PlayerLandState : PlayerGroundedState
 {
     public PlayerLandState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Land;
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerLand);
     }
 
     public override void Execute()

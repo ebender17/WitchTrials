@@ -31,10 +31,25 @@ public class PlayerData : ScriptableObject
     public float standColliderHeight = 1.8f;
 
     [Header("Primary Attack State")]
-    public float primAtkCoolDown = 0.5f; 
+    public float primAtkCoolDown = 0.5f;
+    public float primAtkRange = 0.5f;
+    public LayerMask whatIsDamagable;
+    public int attackDamage = 20;
+
+    [Header("Knockback")]
+    public float knockBackDuration = 0.2f;
+    public Vector2 knockBackSpeed = new Vector2(10.0f, 5.0f);
 
 
     [Header("Check Variables")]
     public float groundCheckRadius = 0.3f;
     public LayerMask whatIsGround;
+
+    [Header("Player Stats")]
+    public float score = 0.0f;
+    public float maxHealth = 100.0f;
+    public int fallDamage = 20;
+
+    [Header("SFX Channel")]
+    public AudioSourceEventChannelSO SFXEventChannel;
 }

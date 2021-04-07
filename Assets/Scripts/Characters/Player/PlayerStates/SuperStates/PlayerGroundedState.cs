@@ -15,6 +15,7 @@ public class PlayerGroundedState : PlayerState
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animName) : base(player, stateMachine, playerData, animName)
     {
+        this.stateName = StateNames.Grounded;
     }
 
     public override void DoChecks()
@@ -48,7 +49,8 @@ public class PlayerGroundedState : PlayerState
 
 
         //Jump 
-        if (_jumpInput && player.jumpState.CanJump())
+        //Make sure movement cannot override knockback 
+        if (_jumpInput && player.jumpState.CanJump() && !player.knockBack)
         {
             //player.UseJumpInput();
             stateMachine.ChangeState(player.jumpState);
@@ -60,12 +62,13 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.inAirState);
         }
         //Dash
-        else if (_dashInput && player.dashState.CheckIfCanDash() && !isTouchingCeiling)
+        //TODO: do we want to dash from ground?
+        else if (_dashInput && player.dashState.CheckIfCanDash() && !isTouchingCeiling && !player.knockBack)
         {
             stateMachine.ChangeState(player.dashState);
         }
         //Primary Attack
-        else if(_primAtkInput && player.primAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling)
+        else if(_primAtkInput && player.primAtkState.CheckIfCanPrimAtk() && !isTouchingCeiling && !player.knockBack)
         {
             stateMachine.ChangeState(player.primAtkState);
         }

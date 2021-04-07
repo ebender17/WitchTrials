@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private LoadEventChannelSO _loadMenu = default;
 
     [Header("Broadcasting on")]
-    [SerializeField] private BoolEventChannelSO _toggleLoadingScreen = default; // ////////////////////////
+    [SerializeField] private BoolEventChannelSO _toggleLoadingScreen = default; 
     [SerializeField] private VoidEventChannelSO _onSceneReady = default;
 
     private List<AsyncOperationHandle<SceneInstance>> _loadingOperationHandles = new List<AsyncOperationHandle<SceneInstance>>();
@@ -143,7 +143,7 @@ public class SceneLoader : MonoBehaviour
         {
             for(int i = 0; i < _loadingOperationHandles.Count; ++i)
             {
-                if(_loadingOperationHandles[i].Status != AsyncOperationStatus.Succeeded) //////////////////////////////
+                if(_loadingOperationHandles[i].Status != AsyncOperationStatus.Succeeded) 
                 {
                     break;
                 }
