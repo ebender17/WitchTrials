@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
 
     [Header("HUD Events")]
     [SerializeField] private FloatEventChannelSO _updateHealthUIEvent = default;
+    [SerializeField] private IntEventChannelSO _updateScoreUIEvent = default;
 
     [Header("UI Panels")]
     [SerializeField] private UIDialogueManager _dialoguePanel = default;
@@ -44,6 +45,8 @@ public class UIManager : MonoBehaviour
 
         if (_updateHealthUIEvent != null)
             _updateHealthUIEvent.OnEventRaised += UpdateHealthPanel;
+        if (_updateScoreUIEvent != null)
+            _updateScoreUIEvent.OnEventRaised += UpdateScorePanel;
     }
 
     private void OnDisable()
@@ -60,6 +63,8 @@ public class UIManager : MonoBehaviour
 
         if (_updateHealthUIEvent != null)
             _updateHealthUIEvent.OnEventRaised -= UpdateHealthPanel;
+        if (_updateScoreUIEvent != null)
+            _updateScoreUIEvent.OnEventRaised -= UpdateScorePanel;
     }
 
     public void OpenUIDialogue(string dialogueLine, ActorSO actor)
@@ -91,6 +96,7 @@ public class UIManager : MonoBehaviour
             result = "Lost";
 
         _gamePanel.SetGameResults(result, playerScore);
+        _HUDPanel.gameObject.SetActive(false);
         _gamePanel.gameObject.SetActive(true); 
 
     }
@@ -98,5 +104,10 @@ public class UIManager : MonoBehaviour
     private void UpdateHealthPanel(float value)
     {
         _HUDPanel.SetValue(value);
+    }
+
+    private void UpdateScorePanel(int value)
+    {
+        _HUDPanel.SetScore(value);
     }
 }

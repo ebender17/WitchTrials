@@ -664,6 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1273401553}
   - component: {fileID: 1273401552}
+  - component: {fileID: 1273401554}
   m_Layer: 0
   m_Name: GameExitListener
   m_TagString: Untagged
@@ -686,7 +687,19 @@ MonoBehaviour:
   _channel: {fileID: 11400000, guid: 23d64dba9515fe049869b1f0d88f2fa3, type: 2}
   OnEventRaised:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1273401554}
+        m_TargetAssemblyTypeName: QuitGame, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1273401553
 Transform:
   m_ObjectHideFlags: 0
@@ -701,6 +714,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1273401554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273401551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08af5811f45d564e8f5456f1836b08c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1789158754
 GameObject:
   m_ObjectHideFlags: 0

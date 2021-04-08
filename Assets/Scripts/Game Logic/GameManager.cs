@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleGameResult(bool isWon, string playerScore)
     {
-        Debug.Log("Handle Game Result Triggered");
         //picked up by UI Manager
         _openUIGameEvent.RaiseEvent(isWon, playerScore);
 

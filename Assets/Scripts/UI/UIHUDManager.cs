@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIHUDManager : MonoBehaviour
 {
     public Image mask;
     float originialSize;
+
+    [SerializeField] private TextMeshProUGUI _scoreText = default;
 
     private void Start()
     {
@@ -16,5 +17,11 @@ public class UIHUDManager : MonoBehaviour
     public void SetValue(float value)
     {
         mask.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originialSize * value);
+    }
+
+    public void SetScore(int scoreText)
+    {
+        Debug.Log("Inside UIHUDManager set score.");
+        _scoreText.SetText(scoreText.ToString());
     }
 }

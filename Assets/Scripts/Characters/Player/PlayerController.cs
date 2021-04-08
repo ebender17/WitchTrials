@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     private float _currentHealth;
 
-    public float playerScore { get; private set; }
+    private int _playerScore;
 
     private Vector2 _currentCheckpoint; 
     public Vector2 CurrentCheckpoint
@@ -98,12 +98,14 @@ public class PlayerController : MonoBehaviour
 
     #region EventChannels
     [Header("Broadcasting on channels")]
+
     [Tooltip("Event for communicating game result")]
     [SerializeField] private GameResultChannelSO _playerResults;
-    [Tooltip("Event for communicating health")]
-    [SerializeField] private FloatEventChannelSO _playerHealth;
-    //[Tooltip("Event for communicating SFX music")]
-    //public AudioSourceEventChannelSO _SFXEventChannel;
+
+    [Tooltip("Events for updating HUD")]
+    [SerializeField] private FloatEventChannelSO _playerHealthUI;
+    [SerializeField] private IntEventChannelSO _playerScoreUI;
+
 
     #endregion
 
@@ -153,7 +155,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _cam = Camera.main;
-        //inputHandler = GetComponent<PlayerInputHandler>();
         anim = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -165,7 +166,7 @@ public class PlayerController : MonoBehaviour
         facingDirection = 1;
 
         _currentHealth = playerData.maxHealth;
-        playerScore = playerData.score;
+        _playerScore = 0;
         canFlip = true;
 
     }
@@ -401,6 +402,20 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = _currentCheckpoint;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Collectable")
+        {
+            _playerScore++;
+
+            _playerScoreUI.RaiseEvent(_playerScore);
+
+            Destroy(collision.gameObject);
+        }
+
+    }
+
     #endregion
 
     #region Damage Functions
@@ -434,14 +449,13 @@ public class PlayerController : MonoBehaviour
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerData.maxHealth);
 
         //Raising event to change healthbar UI
-        if(_playerHealth != null)
-            _playerHealth.OnEventRaised(_currentHealth / playerData.maxHealth);
+        if(_playerHealthUI != null)
+            _playerHealthUI.OnEventRaised(_currentHealth / playerData.maxHealth);
 
         //Raising event to play player hit SFX
         if(playerData.SFXEventChannel != null)
             playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
 
-        Debug.Log(_currentHealth);
         //TODO: damage anim 
 
         if(_currentHealth <= 0.0f)
@@ -453,7 +467,7 @@ public class PlayerController : MonoBehaviour
     private void Death()
     {
         //TODO: player death particles
-        _playerResults.RaiseEvent(false, playerScore.ToString());
+        _playerResults.RaiseEvent(false, _playerScore.ToString());
         Destroy(gameObject);
     }
     #endregion

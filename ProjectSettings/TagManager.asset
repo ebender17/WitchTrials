@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NPC
   - Enemy
+  - Collectable
   layers:
   - Default
   - TransparentFX

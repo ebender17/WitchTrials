@@ -26,7 +26,6 @@ public class PatrolEnemy_StunState : EntityStunState
 
         if(isStunTimeOver)
         {
-            //TODO: this may cause bugs
             stateMachine.ChangeState(_enemy.moveState);
         }
     }

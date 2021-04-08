@@ -46,7 +46,6 @@ public class PlayerData : ScriptableObject
     public LayerMask whatIsGround;
 
     [Header("Player Stats")]
-    public float score = 0.0f;
     public float maxHealth = 100.0f;
     public int fallDamage = 20;
 

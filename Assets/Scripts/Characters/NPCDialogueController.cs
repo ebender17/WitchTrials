@@ -16,8 +16,21 @@ public class NPCDialogueController : MonoBehaviour
 
     [Header("Broadcasting on channels")]
     [SerializeField] private DialogueDataChannelSO _startDialogueEvent = default;
-   
 
+    [SerializeField] private Transform player;
+    private int facingDirection;
+
+    private void Start()
+    {
+        facingDirection = 1;
+    }
+    private void Update()
+    {
+        if (player.position.x < transform.position.x)
+            facingDirection = -1;
+        else
+            facingDirection = 1;
+    }
     public void InteractWithCharacter()
     {
         if(_dialogue != null)
@@ -31,5 +44,10 @@ public class NPCDialogueController : MonoBehaviour
     {
         if (_startDialogueEvent != null)
             _startDialogueEvent.RaiseEvent(_dialogue);
+    }
+
+    private void Flip()
+    {
+        transform.Rotate(0, 180f, 0);
     }
 }
