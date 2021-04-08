@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Manages world interactions between player and other non-combative objects.
 /// </summary>
-public enum InteractionType {  None = 0, PickUp, Talk }
+public enum InteractionType {  None = 0, PickUp, Talk, Read }
 
 public class Interaction
 {
@@ -50,17 +50,16 @@ public class InteractionManager : MonoBehaviour
 
     private void OnInteractionButtonPress()
     {
-        Debug.Log("Interaction Button Pressed");
         if (_potentialInteractions.Count == 0)
             return;
 
         currentInteractionType = _potentialInteractions.First.Value.type;
 
-        if(currentInteractionType == InteractionType.Talk)
+        if(currentInteractionType == InteractionType.Talk || currentInteractionType == InteractionType.Read)
         {
             if(_startTalking != null)
             {
-                _potentialInteractions.First.Value.interactableObject.GetComponent<NPCDialogueController>().InteractWithCharacter();
+                _potentialInteractions.First.Value.interactableObject.GetComponent<DialogueController>().InteractWithCharacter();
                 _inputReader.EnableDialogueInput();
             }
         }
@@ -89,6 +88,10 @@ public class InteractionManager : MonoBehaviour
         if(obj.CompareTag("NPC"))
         {
             newPotentialInteraction.type = InteractionType.Talk;
+        }
+        else if(obj.CompareTag("Sign"))
+        {
+            newPotentialInteraction.type = InteractionType.Read;
         }
 
         if(newPotentialInteraction.type != InteractionType.None)

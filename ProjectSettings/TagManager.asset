@@ -7,6 +7,7 @@ TagManager:
   - NPC
   - Enemy
   - Collectable
+  - Sign
   layers:
   - Default
   - TransparentFX

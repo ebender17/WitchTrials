@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Place on NPC Actors for Dialogue. 
+/// Place on NPC Actors or other objects for Dialogue. 
 /// </summary>
-public class NPCDialogueController : MonoBehaviour
+public class DialogueController : MonoBehaviour
 {
     [Header("Data")]
     //[SerializeField] private ActorSO _actor = default;
@@ -17,20 +17,6 @@ public class NPCDialogueController : MonoBehaviour
     [Header("Broadcasting on channels")]
     [SerializeField] private DialogueDataChannelSO _startDialogueEvent = default;
 
-    [SerializeField] private Transform player;
-    private int facingDirection;
-
-    private void Start()
-    {
-        facingDirection = 1;
-    }
-    private void Update()
-    {
-        if (player.position.x < transform.position.x)
-            facingDirection = -1;
-        else
-            facingDirection = 1;
-    }
     public void InteractWithCharacter()
     {
         if(_dialogue != null)
@@ -46,8 +32,4 @@ public class NPCDialogueController : MonoBehaviour
             _startDialogueEvent.RaiseEvent(_dialogue);
     }
 
-    private void Flip()
-    {
-        transform.Rotate(0, 180f, 0);
-    }
 }

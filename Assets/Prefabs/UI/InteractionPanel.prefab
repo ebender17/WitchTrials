@@ -363,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _listInteractions:
   - {fileID: 11400000, guid: 6cd4347836de1fa459deb64b8442d7bd, type: 2}
+  - {fileID: 11400000, guid: 89e6d897a15adac46a215ab4c4d0ceac, type: 2}
   _interactionItem: {fileID: 5756763397468674460}
 --- !u!1 &5756763398026133825
 GameObject:
