@@ -21,7 +21,6 @@ public class UIHUDManager : MonoBehaviour
 
     public void SetScore(int scoreText)
     {
-        Debug.Log("Inside UIHUDManager set score.");
         _scoreText.SetText(scoreText.ToString());
     }
 }

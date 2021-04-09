@@ -530,7 +530,7 @@ MonoBehaviour:
   m_Name: DialogueClip
   m_EditorClassIdentifier: 
   _template:
-    _dialogueLine: 
+    _dialogueLine: No, I can do this. I can't let my negative thoughts manifest themself.
     _actor: {fileID: 0}
     _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
@@ -575,7 +575,9 @@ MonoBehaviour:
   m_Name: DialogueClip
   m_EditorClassIdentifier: 
   _template:
-    _dialogueLine: I can do this.
+    _dialogueLine: Now I will run into my new neighbors. I wonder what they will
+      think of me... Probably that I am some weirdo who talks to herself and never
+      comes out of her house.
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,

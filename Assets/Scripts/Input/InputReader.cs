@@ -24,6 +24,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public event UnityAction dashEvent = delegate { };
     public event UnityAction dashCanceledEvent = delegate { };
     public event UnityAction<Vector2, bool> dashDirectionEvent = delegate { };
+    public event UnityAction openMenuEvent = delegate { };
 
     //Menus 
     public event UnityAction menuConfirmEvent = delegate { };
@@ -101,6 +102,12 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             attackCanceledEvent.Invoke();
     }
 
+    public void OnOpenMenu(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            openMenuEvent.Invoke(); 
+    }
+
     private bool IsDeviceMouse(InputAction.CallbackContext context) => context.control.device.name == "Mouse"; 
     public void EnableGameplayInput()
     {
@@ -131,4 +138,5 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Dialogue.Disable();
         _gameInput.Gameplay.Disable();
     }
+
 }
