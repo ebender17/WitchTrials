@@ -14,8 +14,9 @@ public class VolumeControl : MonoBehaviour
     [SerializeField] private Toggle _toggle;
     private bool _disableToggleEvent;
 
-    private void OnAwake()
+    private void OnEnable()
     {
+        Debug.Log("OnAwake VolumeControls");
         _slider.onValueChanged.AddListener(HandleSliderValueChanged);
         _toggle.onValueChanged.AddListener(HandleToggleValueChanged);
     }
@@ -33,6 +34,7 @@ public class VolumeControl : MonoBehaviour
 
     private void HandleSliderValueChanged(float value)
     {
+        Debug.Log("Handle Slide Value Changed");
         _mixer.SetFloat(_volumeParameter, Mathf.Log10(value) * _multiplier);
 
         //Using flag to disable toggle callback when slider value is changed 
@@ -43,6 +45,7 @@ public class VolumeControl : MonoBehaviour
 
     private void HandleToggleValueChanged(bool enableSound)
     {
+        Debug.Log("Handle toggle value changed.");
         if (_disableToggleEvent)
             return;
 
