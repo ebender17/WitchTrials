@@ -7,5 +7,5 @@ using UnityEngine;
 public class EntityMeleeAttackStateSO : ScriptableObject
 {
     public float attackRadius = 0.5f;
-    public int attackDamage = 10;
+    public uint attackDamage = 10;
 }

@@ -94,6 +94,12 @@ public class PlayerController : MonoBehaviour
         get { return _currentCheckpoint; }
         set { _currentCheckpoint = value; }
     }
+
+    [SerializeField] private float _fallHeight;
+
+    bool isInvincible;
+    float invincibleTimer; //used to regulate how player can be hurt
+
     #endregion
 
     #region EventChannels
@@ -174,14 +180,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currVelocity = rigidBody.velocity; 
+        currVelocity = rigidBody.velocity;
         stateMachine.currentState.Execute();
 
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
         CheckKnockback();
         CheckPlayerPosition();
+        CheckInvincible();
     }
+
 
     private void FixedUpdate()
     {
@@ -342,7 +350,7 @@ public class PlayerController : MonoBehaviour
 
     public void CheckPlayerPosition()
     {
-        if (rigidBody.position.y < -50.0f)
+        if (rigidBody.position.y < playerData.fallHeightCutoff)
         {
             DecreaseHealth(playerData.fallDamage);
 
@@ -403,26 +411,39 @@ public class PlayerController : MonoBehaviour
         transform.position = _currentCheckpoint;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void CollectableGathered()
     {
-        if (collision.gameObject.tag == "Collectable")
-        {
-            _playerScore++;
+        _playerScore++;
 
-            _playerScoreUI.RaiseEvent(_playerScore);
-
-            Destroy(collision.gameObject);
-        }
+        _playerScoreUI.RaiseEvent(_playerScore);
 
     }
 
     #endregion
 
-    #region Damage Functions
-    public void TakeDamage(float enemyXPos, int damage)
+    #region Damage and Health Functions
+    private void CheckInvincible()
+    {
+        if (isInvincible)
+        {
+            invincibleTimer -= Time.deltaTime;
+            if (invincibleTimer < 0)
+                isInvincible = false;
+        }
+    }
+
+    public void TakeDamage(float enemyXPos, uint damage)
     {
         if (stateMachine.currentState.stateName != StateNames.Dash)
         {
+            Debug.Log("Take Damage called.");
+
+            if (isInvincible)
+                return;
+
+            isInvincible = true;
+            invincibleTimer = playerData.timeInvincible;
+
             int knockbackDirection;
 
             DecreaseHealth(damage);
@@ -444,8 +465,10 @@ public class PlayerController : MonoBehaviour
         SetVelocity(knockbackDirection, playerData.knockBackSpeed);
     }
 
-    private void DecreaseHealth(int damage)
+    private void DecreaseHealth(uint damage)
     {
+        Debug.Log("Inside decrease health.");
+
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerData.maxHealth);
 
         //Raising event to change healthbar UI
@@ -466,6 +489,7 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
+        Debug.Log("Inside Death.");
         //TODO: player death particles
         _playerResults.RaiseEvent(false, _playerScore.ToString());
         Destroy(gameObject);

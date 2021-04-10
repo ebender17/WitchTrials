@@ -47,7 +47,10 @@ public class PlayerData : ScriptableObject
 
     [Header("Player Stats")]
     public float maxHealth = 100.0f;
-    public int fallDamage = 20;
+    public uint fallDamage = 20;
+    public float fallHeightCutoff = 30f;
+    [Tooltip("Time player is invincible between damage.")]
+    public float timeInvincible = 2.0f;
 
     [Header("SFX Channel")]
     public AudioSourceEventChannelSO SFXEventChannel;

@@ -78,6 +78,7 @@ public class PatrolEnemy : Entity
         } 
     }
 
+
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

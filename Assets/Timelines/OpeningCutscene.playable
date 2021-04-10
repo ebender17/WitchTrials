@@ -251,8 +251,99 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: DialogueClip
+  - m_Version: 1
+    m_Start: 5.616666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: -3914202084028568907}
+    m_Duration: 1.7833333333333332
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -6302065658047998709}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: DialogueClip
   m_Markers:
     m_Objects: []
+  PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
+  PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
+--- !u!114 &-3914202084028568907
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dbde55a58586c44905f4072a201ea0, type: 3}
+  m_Name: DialogueClip(Clone)
+  m_EditorClassIdentifier: 
+  _template:
+    _dialogueLine: No, I can do this. I can't let my negative thoughts manifest themself.
+    _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
+    _pauseWhenClipEnds: 0
+    PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
+      type: 2}
+    PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
+      type: 2}
   PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
   PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
 --- !u!114 &-362504385838121568
@@ -530,8 +621,8 @@ MonoBehaviour:
   m_Name: DialogueClip
   m_EditorClassIdentifier: 
   _template:
-    _dialogueLine: No, I can do this. I can't let my negative thoughts manifest themself.
-    _actor: {fileID: 0}
+    _dialogueLine: Hmmm
+    _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
@@ -576,8 +667,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _template:
     _dialogueLine: Now I will run into my new neighbors. I wonder what they will
-      think of me... Probably that I am some weirdo who talks to herself and never
-      comes out of her house.
+      think of me... Pr
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
@@ -633,7 +723,7 @@ MonoBehaviour:
     m_Start: 0.85
     m_ClipIn: 0
     m_Asset: {fileID: 7857789925674647473}
-    m_Duration: 4.7666666666666675
+    m_Duration: 7.199999999999999
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5130194670087241501}
     m_EaseInDuration: 0
@@ -750,7 +840,7 @@ MonoBehaviour:
   m_Name: DialogueClip
   m_EditorClassIdentifier: 
   _template:
-    _dialogueLine: Oh now I've really done it. Why did I wander so far from home?
+    _dialogueLine: ve really done it. Why did I wander so far from home?rom home?
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,

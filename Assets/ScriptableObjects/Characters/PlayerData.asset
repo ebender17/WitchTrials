@@ -39,6 +39,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  score: 0
   maxHealth: 100
+  fallDamage: 20
+  fallHeightCutoff: -20
+  timeInvincible: 0.3
   SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}

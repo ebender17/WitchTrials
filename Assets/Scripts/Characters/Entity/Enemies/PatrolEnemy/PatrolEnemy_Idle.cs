@@ -24,7 +24,7 @@ public class PatrolEnemy_Idle : EntityIdleState
     {
         base.Execute();
 
-        _enemy.CheckTouchDamage();
+        //_enemy.CheckTouchDamage();
 
         if (isIdleTimeOver)
         {

@@ -24,7 +24,7 @@ public class PatrolEnemy_Move : EntityMoveState
     {
         base.Execute();
 
-        _enemy.CheckTouchDamage();
+       // _enemy.CheckTouchDamage();
 
         if (isDetectingWall || !isDetectingLedge)
         {
