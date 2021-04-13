@@ -20,10 +20,10 @@ public class CutsceneTrigger : MonoBehaviour
             if (_playCutsceneEvent != null)
                 _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
 
-        //Removes this trigger cutscene script
-        if (_playOnce)
+        //Removes this trigger cutscene script if it was played and was only suppose to be played once
+        if (_playOnce && _playOnStart)
         {
-            //Destroy(this);
+            Destroy(this);
         }
             
     }
@@ -38,7 +38,8 @@ public class CutsceneTrigger : MonoBehaviour
         //Removes this trigger cutscene script
         if (_playOnce)
         {
-            //Destroy(this);
+            Debug.Log("Cutscene trigger destroyed!");
+            Destroy(this);
         }
 
     }

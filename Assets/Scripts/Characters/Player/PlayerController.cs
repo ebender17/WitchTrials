@@ -172,6 +172,7 @@ public class PlayerController : MonoBehaviour
         facingDirection = 1;
 
         _currentHealth = playerData.maxHealth;
+        _currentCheckpoint = transform.position;
         _playerScore = 0;
         canFlip = true;
 
