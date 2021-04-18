@@ -433,7 +433,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float enemyXPos, uint damage)
+    public void TakeDamage(float enemyXPos, uint damage, bool isSpike)
     {
         if (stateMachine.currentState.stateName != StateNames.Dash)
         {
@@ -454,16 +454,20 @@ public class PlayerController : MonoBehaviour
             else
                 knockbackDirection = -1;
 
-            KnockBack(knockbackDirection);
+            KnockBack(knockbackDirection, isSpike);
 
         }
     }
-    private void KnockBack(int knockbackDirection)
+    private void KnockBack(int knockbackDirection, bool isSpike)
     {
         knockBack = true;
         knockBackStartTime = Time.time;
 
-        SetVelocity(knockbackDirection, playerData.knockBackSpeed);
+        if(isSpike)
+            SetVelocityY(playerData.knockBackSpeedSpike);
+        else
+            SetVelocity(knockbackDirection, playerData.knockBackSpeed);
+        
     }
 
     private void DecreaseHealth(uint damage)

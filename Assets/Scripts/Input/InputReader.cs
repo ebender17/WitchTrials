@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
+public enum GameSchemas { Gameplay = 0, Menus, Dialogue, None }
 /// <summary>
 /// Made a scriptable object so it can be acessed from anywhere in project. 
 /// </summary>
@@ -10,6 +11,9 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
 {
     //Auto-generated C# class with input actions
     private GameInput _gameInput;
+
+    public GameSchemas CurrentSchema; 
+
 
     //Assign deletgate{} to events to initialize them with an empty delegate
     // so we can skip the null check when we use them 
@@ -115,6 +119,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Dialogue.Disable();
 
         _gameInput.Gameplay.Enable();
+
+        CurrentSchema = GameSchemas.Gameplay;
     }
 
     public void EnableMenuInput()
@@ -123,6 +129,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Dialogue.Disable();
 
         _gameInput.Menus.Enable();
+
+        CurrentSchema = GameSchemas.Menus;
     }
     public void EnableDialogueInput()
     {
@@ -130,6 +138,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Gameplay.Disable();
 
         _gameInput.Dialogue.Enable();
+
+        CurrentSchema = GameSchemas.Dialogue;
     }
 
     public void DisableAllInput()
@@ -137,6 +147,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Menus.Disable();
         _gameInput.Dialogue.Disable();
         _gameInput.Gameplay.Disable();
+
+        CurrentSchema = GameSchemas.None;
     }
 
 }

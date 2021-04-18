@@ -34,7 +34,8 @@ MonoBehaviour:
     m_Bits: 512
   attackDamage: 10
   knockBackDuration: 0.2
-  knockBackSpeed: {x: 10, y: 5}
+  knockBackSpeed: {x: 5, y: 10}
+  knockBackSpeedSpike: 10
   groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2

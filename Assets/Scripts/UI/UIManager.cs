@@ -83,11 +83,15 @@ public class UIManager : MonoBehaviour
     {
         _dialoguePanel.SetDialogue(dialogueLine, actor);
         _dialoguePanel.gameObject.SetActive(true);
+
+        _HUDPanel.gameObject.SetActive(false);
     }
 
     public void CloseUIDialogue()
     {
         _dialoguePanel.gameObject.SetActive(false);
+
+        _HUDPanel.gameObject.SetActive(true);
     }
 
     public void SetInteractionPanel(bool isOpen, InteractionType interactionType)

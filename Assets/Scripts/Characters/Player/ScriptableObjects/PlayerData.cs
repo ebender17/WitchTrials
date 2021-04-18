@@ -39,6 +39,8 @@ public class PlayerData : ScriptableObject
     [Header("Knockback")]
     public float knockBackDuration = 0.2f;
     public Vector2 knockBackSpeed = new Vector2(10.0f, 5.0f);
+    [Tooltip("Amount player's y velocity is adjusted when damaged by damageable tile")]
+    public float knockBackSpeedSpike = 10f;
 
 
     [Header("Check Variables")]

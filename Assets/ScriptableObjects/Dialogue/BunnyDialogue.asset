@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _actor: {fileID: 11400000, guid: fc6a8d7231faf014b8ee84c2bbfcf65e, type: 2}
   _dialogueLines:
-  - You must be new to the neighborhood.
-  - Lets hangout sometime soon!
+  - I'm so glad I ran into you.
+  - Can't wait to get to know one another!
   _dialogueType: 3

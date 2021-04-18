@@ -5,7 +5,7 @@ using UnityEngine;
 public class ColliderDamage : MonoBehaviour
 {
     [SerializeField] private uint _damage;
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -13,7 +13,7 @@ public class ColliderDamage : MonoBehaviour
 
             if (playerController != null)
             {
-                playerController.TakeDamage(transform.position.x, _damage);
+                playerController.TakeDamage(transform.position.x, _damage, true);
             }
 
         }

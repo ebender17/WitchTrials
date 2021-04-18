@@ -74,11 +74,14 @@ public class InteractionManager : MonoBehaviour
     /// <param name="obj"></param>
     public void OnTriggerChangeDetected(bool isWithin, GameObject obj)
     {
-        if (isWithin)
-            AddPotentialInteraction(obj);
-        else
-            RemovePotentialInteraction(obj);
-            
+        //Add this check so interaction UI does not get triggered during a cutscene with dialogue
+        if(_inputReader.CurrentSchema == GameSchemas.Gameplay)
+        {
+            if (isWithin)
+                AddPotentialInteraction(obj);
+            else
+                RemovePotentialInteraction(obj);
+        }     
     }
 
     private void AddPotentialInteraction(GameObject obj)

@@ -13,7 +13,7 @@ public class TriggerDamage : MonoBehaviour
 
             if (playerController != null)
             {
-                playerController.TakeDamage(transform.position.x, _damage);
+                playerController.TakeDamage(transform.position.x, _damage, true);
             }
         }
     }
