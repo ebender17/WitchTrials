@@ -39,14 +39,12 @@ public class CutsceneTrigger : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            Debug.Log("Cutscene trigger entered!");
             if (_playCutsceneEvent != null)
                 _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
 
             //Removes this trigger cutscene script
             if (_playOnce)
             {
-                Debug.Log("Cutscene trigger destroyed!");
                 Destroy(this);
             }
         }

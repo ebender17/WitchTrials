@@ -437,7 +437,6 @@ public class PlayerController : MonoBehaviour
     {
         if (stateMachine.currentState.stateName != StateNames.Dash)
         {
-            Debug.Log("Take Damage called.");
 
             if (isInvincible)
                 return;
@@ -472,7 +471,6 @@ public class PlayerController : MonoBehaviour
 
     private void DecreaseHealth(uint damage)
     {
-        Debug.Log("Inside decrease health.");
 
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerData.maxHealth);
 
@@ -494,7 +492,6 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        Debug.Log("Inside Death.");
         //TODO: player death particles
         _playerResults.RaiseEvent(false, _playerScore.ToString());
         Destroy(gameObject);
