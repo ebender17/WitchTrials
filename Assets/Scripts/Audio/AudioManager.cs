@@ -9,7 +9,8 @@ public enum AudioClipName
     PlayerLand, 
     PlayerDash,
     PlayerHit,
-    EnemyHit
+    EnemyHit, 
+    ForestSounds
 }
 
 [System.Serializable]

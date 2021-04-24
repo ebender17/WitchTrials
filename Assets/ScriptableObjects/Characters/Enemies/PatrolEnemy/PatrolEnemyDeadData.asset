@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e29c75999335db40a5ca68c25cbd306, type: 3}
   m_Name: PatrolEnemyDeadData
   m_EditorClassIdentifier: 
-  deathPartParticle: {fileID: 5948691206395553945, guid: 6dbdf8d3e0ecda24986ab2839e798838,
+  deathParticleOne: {fileID: 3738089077825513376, guid: 85b7ff2aeefbdf846bfac4820840af6e,
     type: 3}
-  deathBloodParticle: {fileID: 8084827777425156374, guid: 6ef9bc303319b804c8711f7cf60733de,
+  deathParticleTwo: {fileID: 3738089077825513376, guid: 85b7ff2aeefbdf846bfac4820840af6e,
     type: 3}
+  deathParticleThree: {fileID: 3738089077825513376, guid: 85b7ff2aeefbdf846bfac4820840af6e,
+    type: 3}
+  deathParticleTwoOffset: {x: -1, y: 2, z: 0}
+  deathParticleThreeOffset: {x: 1, y: 1, z: 0}

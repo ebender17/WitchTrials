@@ -1959,7 +1959,7 @@ MonoBehaviour:
   m_Name: DialogueClip
   m_EditorClassIdentifier: 
   _template:
-    _dialogueLine: Oh and one more thing! Be careful on your way throught the forest.
+    _dialogueLine: Oh and one more thing! Be careful on your way through the forest.
     _actor: {fileID: 11400000, guid: fc6a8d7231faf014b8ee84c2bbfcf65e, type: 2}
     _pauseWhenClipEnds: 0
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,

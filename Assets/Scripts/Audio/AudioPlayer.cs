@@ -20,6 +20,6 @@ public class AudioPlayer : MonoBehaviour
 
     private void PlayMusic()
     {
-        _playMusicOn.RaisePlayEvent(AudioClipName.MainTheme);
+        _playMusicOn.RaisePlayEvent(clipToPlay);
     }
 }

@@ -69,13 +69,20 @@ MonoBehaviour:
     audioMixerGroup: {fileID: -1094072309102745788, guid: 7f905c6780b36d5449faac1511e1e49e,
       type: 2}
     clip: {fileID: 8300000, guid: f38b522e69b2baf4c89cd4d2b6e4f6a9, type: 3}
-    volume: 0.75
+    volume: 1
     pitch: 1
     loop: 0
   - name: 2
     audioMixerGroup: {fileID: -1094072309102745788, guid: 7f905c6780b36d5449faac1511e1e49e,
       type: 2}
     clip: {fileID: 8300000, guid: 5cd3842a800159547b9075c67768f639, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+  - name: 5
+    audioMixerGroup: {fileID: -7932794254709633300, guid: 7f905c6780b36d5449faac1511e1e49e,
+      type: 2}
+    clip: {fileID: 8300000, guid: db45310fd452c604f88277564fe66c3e, type: 3}
     volume: 0.75
     pitch: 1
     loop: 0
