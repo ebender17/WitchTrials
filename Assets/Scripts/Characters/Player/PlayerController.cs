@@ -493,9 +493,18 @@ public class PlayerController : MonoBehaviour
     private void Death()
     {
         //TODO: player death particles
+        anim.SetBool("Death", true);
+    }
+
+    //Called by animation event after death animation is finished
+    public void DestroyPlayer()
+    {
+
         _playerResults.RaiseEvent(false, _playerScore.ToString());
+
         Destroy(gameObject);
     }
+  
     #endregion
 
     #region Gizmos 
