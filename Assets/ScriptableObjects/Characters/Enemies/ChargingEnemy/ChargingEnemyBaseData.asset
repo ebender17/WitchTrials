@@ -16,6 +16,8 @@ MonoBehaviour:
   damageHopSpeed: 10
   hitParticle: {fileID: 4781841793639767574, guid: 4f1c092dd61588340984eae8daa1722a,
     type: 3}
+  hitSkullParticle: {fileID: 4534836952598568240, guid: 15a17484f26632a41bec6e01fe3fdf67,
+    type: 3}
   SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}
   wallCheckDistance: 0.2
   ledgeCheckDistance: 1
@@ -29,5 +31,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   closeRangeActionDistance: 1.2
+  touchDamage: 5
   stunResistance: 3
   stunRecoveryTime: 2

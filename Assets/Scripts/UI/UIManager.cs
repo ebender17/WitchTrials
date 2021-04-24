@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UIHUDManager _HUDPanel = default;
     [SerializeField] private GameObject _pauseMenuPanel = default;
 
+    private bool wasInteractionActive = false; 
   
     private void OnEnable()
     {
@@ -85,6 +86,16 @@ public class UIManager : MonoBehaviour
         _dialoguePanel.gameObject.SetActive(true);
 
         _HUDPanel.gameObject.SetActive(false);
+
+        if(_interactionPanel.gameObject.activeSelf)
+        {
+            wasInteractionActive = true;
+            _interactionPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            wasInteractionActive = false;
+        }
     }
 
     public void CloseUIDialogue()
@@ -92,6 +103,9 @@ public class UIManager : MonoBehaviour
         _dialoguePanel.gameObject.SetActive(false);
 
         _HUDPanel.gameObject.SetActive(true);
+
+        if(wasInteractionActive)
+            _interactionPanel.gameObject.SetActive(true);
     }
 
     public void SetInteractionPanel(bool isOpen, InteractionType interactionType)

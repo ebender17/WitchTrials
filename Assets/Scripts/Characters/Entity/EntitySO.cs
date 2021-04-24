@@ -9,6 +9,7 @@ public class EntitySO : ScriptableObject
     public int health = 30;
     public float damageHopSpeed = 10f;
     public GameObject hitParticle;
+    public GameObject hitSkullParticle;
 
     [Header("Broadcasting on")]
     public AudioSourceEventChannelSO SFXEventChannel;
