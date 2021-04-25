@@ -21,13 +21,19 @@ public class UIManager : MonoBehaviour
 
     [Header("HUD Events")]
     [SerializeField] private FloatEventChannelSO _updateHealthUIEvent = default;
+    [SerializeField] private IntEventChannelSO _updateScoreUIEvent = default;
+
+    [Header("Menu Events")]
+    [SerializeField] private BoolEventChannelSO _setMenuUIEvent = default;
 
     [Header("UI Panels")]
     [SerializeField] private UIDialogueManager _dialoguePanel = default;
     [SerializeField] private UIInteractionManager _interactionPanel = default;
     [SerializeField] private UIGameManager _gamePanel = default;
     [SerializeField] private UIHUDManager _HUDPanel = default;
+    [SerializeField] private GameObject _pauseMenuPanel = default;
 
+    private bool wasInteractionActive = false; 
   
     private void OnEnable()
     {
@@ -36,6 +42,7 @@ public class UIManager : MonoBehaviour
             _openUIDialogueEvent.OnEventRaised += OpenUIDialogue;
         if (_closeUIDialogueEvent != null)
             _closeUIDialogueEvent.OnEventRaised += CloseUIDialogue;
+
         if (_openGameResultUIEvent != null)
             _openGameResultUIEvent.OnEventRaised += OpenUIGameResult;
 
@@ -44,6 +51,11 @@ public class UIManager : MonoBehaviour
 
         if (_updateHealthUIEvent != null)
             _updateHealthUIEvent.OnEventRaised += UpdateHealthPanel;
+        if (_updateScoreUIEvent != null)
+            _updateScoreUIEvent.OnEventRaised += UpdateScorePanel;
+
+        if (_setMenuUIEvent != null)
+            _setMenuUIEvent.OnEventRaised += SetMenuPanel;
     }
 
     private void OnDisable()
@@ -52,6 +64,7 @@ public class UIManager : MonoBehaviour
             _openUIDialogueEvent.OnEventRaised -= OpenUIDialogue;
         if (_closeUIDialogueEvent != null)
             _closeUIDialogueEvent.OnEventRaised -= CloseUIDialogue;
+
         if (_openGameResultUIEvent != null)
             _openGameResultUIEvent.OnEventRaised -= OpenUIGameResult;
 
@@ -60,17 +73,39 @@ public class UIManager : MonoBehaviour
 
         if (_updateHealthUIEvent != null)
             _updateHealthUIEvent.OnEventRaised -= UpdateHealthPanel;
+        if (_updateScoreUIEvent != null)
+            _updateScoreUIEvent.OnEventRaised -= UpdateScorePanel;
+
+        if (_setMenuUIEvent != null)
+            _setMenuUIEvent.OnEventRaised -= SetMenuPanel;
     }
 
     public void OpenUIDialogue(string dialogueLine, ActorSO actor)
     {
         _dialoguePanel.SetDialogue(dialogueLine, actor);
         _dialoguePanel.gameObject.SetActive(true);
+
+        _HUDPanel.gameObject.SetActive(false);
+
+        if(_interactionPanel.gameObject.activeSelf)
+        {
+            wasInteractionActive = true;
+            _interactionPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            wasInteractionActive = false;
+        }
     }
 
     public void CloseUIDialogue()
     {
         _dialoguePanel.gameObject.SetActive(false);
+
+        _HUDPanel.gameObject.SetActive(true);
+
+        if(wasInteractionActive)
+            _interactionPanel.gameObject.SetActive(true);
     }
 
     public void SetInteractionPanel(bool isOpen, InteractionType interactionType)
@@ -91,6 +126,7 @@ public class UIManager : MonoBehaviour
             result = "Lost";
 
         _gamePanel.SetGameResults(result, playerScore);
+        _HUDPanel.gameObject.SetActive(false);
         _gamePanel.gameObject.SetActive(true); 
 
     }
@@ -98,5 +134,15 @@ public class UIManager : MonoBehaviour
     private void UpdateHealthPanel(float value)
     {
         _HUDPanel.SetValue(value);
+    }
+
+    private void UpdateScorePanel(int value)
+    {
+        _HUDPanel.SetScore(value);
+    }
+
+    private void SetMenuPanel(bool isOpen)
+    {
+        _pauseMenuPanel.SetActive(isOpen);
     }
 }

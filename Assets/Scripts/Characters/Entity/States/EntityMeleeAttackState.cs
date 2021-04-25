@@ -47,7 +47,7 @@ public class EntityMeleeAttackState : EntityAttackState
             PlayerController playerController = player.GetComponent<PlayerController>();
 
             if(playerController)
-                playerController.TakeDamage(entity.aliveGO.transform.position.x, stateData.attackDamage);
+                playerController.TakeDamage(entity.aliveGO.transform.position.x, stateData.attackDamage, false);
         }
     }
 }

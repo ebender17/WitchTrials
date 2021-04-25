@@ -34,11 +34,14 @@ MonoBehaviour:
     m_Bits: 512
   attackDamage: 10
   knockBackDuration: 0.2
-  knockBackSpeed: {x: 10, y: 5}
+  knockBackSpeed: {x: 5, y: 10}
+  knockBackSpeedSpike: 10
   groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  score: 0
   maxHealth: 100
+  fallDamage: 20
+  fallHeightCutoff: -20
+  timeInvincible: 0.3
   SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}

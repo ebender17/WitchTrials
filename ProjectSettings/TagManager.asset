@@ -6,6 +6,8 @@ TagManager:
   tags:
   - NPC
   - Enemy
+  - Collectable
+  - Sign
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Confiner
   - NPC
   - Damagable
-  - 
+  - Interaction
   - 
   - 
   - 
@@ -48,4 +50,7 @@ TagManager:
     locked: 0
   - name: Base_Details
     uniqueID: 3917231533
+    locked: 0
+  - name: Player
+    uniqueID: 4255343997
     locked: 0

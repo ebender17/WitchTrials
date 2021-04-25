@@ -64,7 +64,6 @@ public class CutsceneManager : MonoBehaviour
 
         if(_isEndingCutscene)
         {
-            //TODO: Game Result remove player score
             _gameEndEvent.RaiseEvent(true, "0");
         }
         else

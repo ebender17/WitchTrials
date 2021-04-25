@@ -35,12 +35,6 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: 695d0a37636574a48aa3d5a05014b5ec
-    m_Address: Assets/ScriptableObjects/UI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
   - m_GUID: 54d1eb70b1a142c44989c728e5ae3cce
     m_Address: Assets/ScriptableObjects/Interactions
     m_ReadOnly: 0

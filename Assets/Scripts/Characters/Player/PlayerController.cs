@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     private float _currentHealth;
 
-    public float playerScore { get; private set; }
+    private int _playerScore;
 
     private Vector2 _currentCheckpoint; 
     public Vector2 CurrentCheckpoint
@@ -94,16 +94,24 @@ public class PlayerController : MonoBehaviour
         get { return _currentCheckpoint; }
         set { _currentCheckpoint = value; }
     }
+
+    [SerializeField] private float _fallHeight;
+
+    bool isInvincible;
+    float invincibleTimer; //used to regulate how player can be hurt
+
     #endregion
 
     #region EventChannels
     [Header("Broadcasting on channels")]
+
     [Tooltip("Event for communicating game result")]
     [SerializeField] private GameResultChannelSO _playerResults;
-    [Tooltip("Event for communicating health")]
-    [SerializeField] private FloatEventChannelSO _playerHealth;
-    //[Tooltip("Event for communicating SFX music")]
-    //public AudioSourceEventChannelSO _SFXEventChannel;
+
+    [Tooltip("Events for updating HUD")]
+    [SerializeField] private FloatEventChannelSO _playerHealthUI;
+    [SerializeField] private IntEventChannelSO _playerScoreUI;
+
 
     #endregion
 
@@ -153,7 +161,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _cam = Camera.main;
-        //inputHandler = GetComponent<PlayerInputHandler>();
         anim = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -165,7 +172,8 @@ public class PlayerController : MonoBehaviour
         facingDirection = 1;
 
         _currentHealth = playerData.maxHealth;
-        playerScore = playerData.score;
+        _currentCheckpoint = transform.position;
+        _playerScore = 0;
         canFlip = true;
 
     }
@@ -173,14 +181,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currVelocity = rigidBody.velocity; 
+        currVelocity = rigidBody.velocity;
         stateMachine.currentState.Execute();
 
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
         CheckKnockback();
         CheckPlayerPosition();
+        CheckInvincible();
     }
+
 
     private void FixedUpdate()
     {
@@ -341,7 +351,7 @@ public class PlayerController : MonoBehaviour
 
     public void CheckPlayerPosition()
     {
-        if (rigidBody.position.y < -50.0f)
+        if (rigidBody.position.y < playerData.fallHeightCutoff)
         {
             DecreaseHealth(playerData.fallDamage);
 
@@ -401,13 +411,39 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = _currentCheckpoint;
     }
+
+    public void CollectableGathered()
+    {
+        _playerScore++;
+
+        _playerScoreUI.RaiseEvent(_playerScore);
+
+    }
+
     #endregion
 
-    #region Damage Functions
-    public void TakeDamage(float enemyXPos, int damage)
+    #region Damage and Health Functions
+    private void CheckInvincible()
+    {
+        if (isInvincible)
+        {
+            invincibleTimer -= Time.deltaTime;
+            if (invincibleTimer < 0)
+                isInvincible = false;
+        }
+    }
+
+    public void TakeDamage(float enemyXPos, uint damage, bool isSpike)
     {
         if (stateMachine.currentState.stateName != StateNames.Dash)
         {
+
+            if (isInvincible)
+                return;
+
+            isInvincible = true;
+            invincibleTimer = playerData.timeInvincible;
+
             int knockbackDirection;
 
             DecreaseHealth(damage);
@@ -417,31 +453,35 @@ public class PlayerController : MonoBehaviour
             else
                 knockbackDirection = -1;
 
-            KnockBack(knockbackDirection);
+            KnockBack(knockbackDirection, isSpike);
 
         }
     }
-    private void KnockBack(int knockbackDirection)
+    private void KnockBack(int knockbackDirection, bool isSpike)
     {
         knockBack = true;
         knockBackStartTime = Time.time;
 
-        SetVelocity(knockbackDirection, playerData.knockBackSpeed);
+        if(isSpike)
+            SetVelocityY(playerData.knockBackSpeedSpike);
+        else
+            SetVelocity(knockbackDirection, playerData.knockBackSpeed);
+        
     }
 
-    private void DecreaseHealth(int damage)
+    private void DecreaseHealth(uint damage)
     {
+
         _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, playerData.maxHealth);
 
         //Raising event to change healthbar UI
-        if(_playerHealth != null)
-            _playerHealth.OnEventRaised(_currentHealth / playerData.maxHealth);
+        if(_playerHealthUI != null)
+            _playerHealthUI.OnEventRaised(_currentHealth / playerData.maxHealth);
 
         //Raising event to play player hit SFX
         if(playerData.SFXEventChannel != null)
             playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
 
-        Debug.Log(_currentHealth);
         //TODO: damage anim 
 
         if(_currentHealth <= 0.0f)
@@ -453,9 +493,18 @@ public class PlayerController : MonoBehaviour
     private void Death()
     {
         //TODO: player death particles
-        _playerResults.RaiseEvent(false, playerScore.ToString());
+        anim.SetBool("Death", true);
+    }
+
+    //Called by animation event after death animation is finished
+    public void DestroyPlayer()
+    {
+
+        _playerResults.RaiseEvent(false, _playerScore.ToString());
+
         Destroy(gameObject);
     }
+  
     #endregion
 
     #region Gizmos 

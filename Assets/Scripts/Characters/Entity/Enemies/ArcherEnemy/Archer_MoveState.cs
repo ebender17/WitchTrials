@@ -33,8 +33,6 @@ public class Archer_MoveState : EntityMoveState
         {
             enemy.idleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(enemy.idleState);
-
-            Debug.Log(isDetectingWall);
         }
 
     }

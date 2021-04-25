@@ -39,6 +39,8 @@ public class PlayerData : ScriptableObject
     [Header("Knockback")]
     public float knockBackDuration = 0.2f;
     public Vector2 knockBackSpeed = new Vector2(10.0f, 5.0f);
+    [Tooltip("Amount player's y velocity is adjusted when damaged by damageable tile")]
+    public float knockBackSpeedSpike = 10f;
 
 
     [Header("Check Variables")]
@@ -46,9 +48,11 @@ public class PlayerData : ScriptableObject
     public LayerMask whatIsGround;
 
     [Header("Player Stats")]
-    public float score = 0.0f;
     public float maxHealth = 100.0f;
-    public int fallDamage = 20;
+    public uint fallDamage = 20;
+    public float fallHeightCutoff = 30f;
+    [Tooltip("Time player is invincible between damage.")]
+    public float timeInvincible = 2.0f;
 
     [Header("SFX Channel")]
     public AudioSourceEventChannelSO SFXEventChannel;

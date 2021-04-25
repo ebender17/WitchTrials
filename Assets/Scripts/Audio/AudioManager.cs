@@ -9,7 +9,8 @@ public enum AudioClipName
     PlayerLand, 
     PlayerDash,
     PlayerHit,
-    EnemyHit
+    EnemyHit, 
+    ForestSounds
 }
 
 [System.Serializable]
@@ -18,6 +19,7 @@ public class Sound
     public AudioClipName name;
 
     public AudioMixerGroup audioMixerGroup;
+    //public AudioMixer audioMixerGroup;
 
     private AudioSource source;
     public AudioClip clip;

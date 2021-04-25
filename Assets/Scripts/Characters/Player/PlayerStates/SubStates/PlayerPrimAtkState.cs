@@ -18,7 +18,6 @@ public class PlayerPrimAtkState : PlayerAbilityState
         canPrimAtk = false;
         _lastPrimAtkTime = Time.time;
         player.UsePrimAtkInput();
-        Debug.Log("Enter player prim attack state.");
     }
 
     public override void Execute()

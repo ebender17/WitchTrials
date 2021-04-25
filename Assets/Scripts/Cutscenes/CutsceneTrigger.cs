@@ -17,13 +17,19 @@ public class CutsceneTrigger : MonoBehaviour
     void Start()
     {
         if (_playOnStart)
-            if (_playCutsceneEvent != null)
-                _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
-
-        //Removes this trigger cutscene script
-        if (_playOnce)
         {
-            //Destroy(this);
+            if (_playCutsceneEvent != null)
+            {
+                _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
+            }
+                
+        }
+            
+
+        //Removes this trigger cutscene script if it was played and was only suppose to be played once
+        if (_playOnce && _playOnStart)
+        {
+            Destroy(this);
         }
             
     }
@@ -31,15 +37,16 @@ public class CutsceneTrigger : MonoBehaviour
     //Trigger if attached to game object with collision and IsTrigger checked
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Cutscene trigger entered!");
-        if (_playCutsceneEvent != null)
-            _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
-
-        //Removes this trigger cutscene script
-        if (_playOnce)
+        if(other.gameObject.tag == "Player")
         {
-            //Destroy(this);
-        }
+            if (_playCutsceneEvent != null)
+                _playCutsceneEvent.RaiseEvent(_playableDirector, isEndingCutscene);
 
+            //Removes this trigger cutscene script
+            if (_playOnce)
+            {
+                Destroy(this);
+            }
+        }
     }
 }

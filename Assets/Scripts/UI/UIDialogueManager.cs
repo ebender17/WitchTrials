@@ -13,6 +13,6 @@ public class UIDialogueManager : MonoBehaviour
     public void SetDialogue(string dialogueLine, ActorSO actor)
     {
         _lineText.SetText(dialogueLine);
-        _actorNameText.SetText($"{actor.ActorName}:");
+        _actorNameText.SetText($"{actor.ActorName}");
     }
 }

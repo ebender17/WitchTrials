@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
+public enum GameSchemas { Gameplay = 0, Menus, Dialogue, None }
 /// <summary>
 /// Made a scriptable object so it can be acessed from anywhere in project. 
 /// </summary>
@@ -10,6 +11,9 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
 {
     //Auto-generated C# class with input actions
     private GameInput _gameInput;
+
+    public GameSchemas CurrentSchema; 
+
 
     //Assign deletgate{} to events to initialize them with an empty delegate
     // so we can skip the null check when we use them 
@@ -24,6 +28,7 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public event UnityAction dashEvent = delegate { };
     public event UnityAction dashCanceledEvent = delegate { };
     public event UnityAction<Vector2, bool> dashDirectionEvent = delegate { };
+    public event UnityAction openMenuEvent = delegate { };
 
     //Menus 
     public event UnityAction menuConfirmEvent = delegate { };
@@ -101,6 +106,12 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
             attackCanceledEvent.Invoke();
     }
 
+    public void OnOpenMenu(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+            openMenuEvent.Invoke(); 
+    }
+
     private bool IsDeviceMouse(InputAction.CallbackContext context) => context.control.device.name == "Mouse"; 
     public void EnableGameplayInput()
     {
@@ -108,6 +119,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Dialogue.Disable();
 
         _gameInput.Gameplay.Enable();
+
+        CurrentSchema = GameSchemas.Gameplay;
     }
 
     public void EnableMenuInput()
@@ -116,6 +129,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Dialogue.Disable();
 
         _gameInput.Menus.Enable();
+
+        CurrentSchema = GameSchemas.Menus;
     }
     public void EnableDialogueInput()
     {
@@ -123,6 +138,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Gameplay.Disable();
 
         _gameInput.Dialogue.Enable();
+
+        CurrentSchema = GameSchemas.Dialogue;
     }
 
     public void DisableAllInput()
@@ -130,5 +147,8 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
         _gameInput.Menus.Disable();
         _gameInput.Dialogue.Disable();
         _gameInput.Gameplay.Disable();
+
+        CurrentSchema = GameSchemas.None;
     }
+
 }

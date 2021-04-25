@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Patrolling enemy that detects walls and ledges. Utilize <see cref="TriggerDamage"/> to allow enemy to damage player.
+/// </summary>
 public class PatrolEnemy : Entity
 {
     public PatrolEnemy_Move moveState { get; private set; }
@@ -49,35 +52,6 @@ public class PatrolEnemy : Entity
             stateMachine.ChangeState(stunState);
         }
     }
-
-    public void CheckTouchDamage()
-    {
-        if(Time.time >= lastTouchDamage + touchDamageCooldown)
-        {
-            Collider2D player = Physics2D.OverlapCircle(_touchDamagePosition.position, attackRadius, entityData.whatIsPlayer);
-
-            if(player != null)
-            {
-                lastTouchDamage = Time.time;
-
-                PlayerController playerController = player.GetComponent<PlayerController>();
-                
-                if (playerController)
-                    playerController.TakeDamage(aliveGO.transform.position.x, entityData.touchDamage);
-            }
-
-            /*foreach (Collider2D player in detectedObjects)
-            {
-                lastTouchDamage = Time.time;
-
-                PlayerController playerController = player.GetComponent<PlayerController>();
-
-                if (playerController)
-                    playerController.TakeDamage(aliveGO.transform.position.x, entityData.touchDamage);
-            }*/
-        } 
-    }
-
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

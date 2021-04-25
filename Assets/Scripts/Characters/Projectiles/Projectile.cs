@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Transform damagePosition;
     [SerializeField] private float damageRadius;
-    private int damageAmount;
+    private uint damageAmount;
 
     private void Start()
     {
@@ -56,7 +56,7 @@ public class Projectile : MonoBehaviour
                 PlayerController playerController = damageHit.GetComponent<PlayerController>();
 
                 if (playerController)
-                    playerController.TakeDamage(transform.position.x, damageAmount);
+                    playerController.TakeDamage(transform.position.x, damageAmount, false);
               
                 Destroy(gameObject);
             }
@@ -78,7 +78,7 @@ public class Projectile : MonoBehaviour
         
     }
 
-    public void FireProjectile(float speed, float travelDistance, int damage)
+    public void FireProjectile(float speed, float travelDistance, uint damage)
     {
         this.speed = speed;
         this.travelDistance = travelDistance;
