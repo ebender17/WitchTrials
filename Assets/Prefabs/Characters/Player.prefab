@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 3864697775456462673}
   - component: {fileID: 3864697775456462671}
   - component: {fileID: 3864697775456462670}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: InteractionCheck
   m_TagString: NPC
   m_Icon: {fileID: 0}

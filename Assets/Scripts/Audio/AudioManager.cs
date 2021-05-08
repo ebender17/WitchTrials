@@ -1,98 +1,147 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[System.Serializable]
-public enum AudioClipName
-{
-    MainTheme,
-    PlayerLand, 
-    PlayerDash,
-    PlayerHit,
-    EnemyHit, 
-    ForestSounds
-}
-
-[System.Serializable]
-public class Sound
-{
-    public AudioClipName name;
-
-    public AudioMixerGroup audioMixerGroup;
-    //public AudioMixer audioMixerGroup;
-
-    private AudioSource source;
-    public AudioClip clip;
-
-    [Range(0f, 1f)]
-    public float volume;
-    [Range(0.1f, 3f)]
-    public float pitch;
-
-    public bool loop = false;
-
-    public void SetSource(AudioSource _source)
-    {
-        source = _source;
-        source.clip = clip;
-        source.pitch = pitch;
-        source.volume = volume;
-        source.loop = loop;
-        source.outputAudioMixerGroup = audioMixerGroup;
-    }
-
-    public void Play()
-    {
-        source.Play();
-    }
-}
-
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField]
-    Sound[] sounds;
-
     [Header("Listening on channels")]
-    [SerializeField] AudioSourceEventChannelSO _playAudioEvent;
-    [SerializeField] AudioSourceEventChannelSO _playSFXAudioEvent;
+    [SerializeField] private AudioSoundEventChannelSO _playMusicEvent = default;
+    [SerializeField] private AudioSoundEventChannelSO _playSFXEvent = default;
+    [SerializeField] private AudioSoundsEventChannelSO _playSFXRandomEvent = default;
+    [SerializeField] private AudioSoundEventChannelSO _endMusicEvent = default;
 
-    //public static AudioManager instance;
+    [SerializeField]
+    private int objectPoolLength = 20;
 
-    private void Awake()
-    {
-        foreach(Sound s in sounds)
-        {
-            s.SetSource(gameObject.AddComponent<AudioSource>());
-        }
-    }
+    [SerializeField]
+    private bool logSounds = false;
+
+    private List<AudioSource> pool = new List<AudioSource>();
 
     private void OnEnable()
     {
-        if (_playAudioEvent != null)
-            _playAudioEvent.OnAudioSourcePlayRequested += Play;
-        if (_playSFXAudioEvent != null)
-            _playSFXAudioEvent.OnAudioSourcePlayRequested += Play;
+        _playMusicEvent.OnEventRaised += PlaySound;
+        _playSFXEvent.OnEventRaised += PlaySound;
+        _playSFXRandomEvent.OnEventRaised += SelectSound;
+        _endMusicEvent.OnEventRaised += ReturnToPool;
     }
 
     private void OnDisable()
     {
-        if (_playAudioEvent != null)
-            _playAudioEvent.OnAudioSourcePlayRequested -= Play;
-        if (_playSFXAudioEvent != null)
-            _playSFXAudioEvent.OnAudioSourcePlayRequested += Play;
+        _playMusicEvent.OnEventRaised -= PlaySound;
+        _playSFXEvent.OnEventRaised -= PlaySound;
+        _playSFXRandomEvent.OnEventRaised -= SelectSound;
+        _endMusicEvent.OnEventRaised -= ReturnToPool;
     }
 
-   
-    public void Play(AudioClipName name)
+    private void Awake()
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if(s == null)
-        {
-            Debug.LogWarning("Sound: " + name + "not found!");
-            return;
 
+        for (int i = 0; i < objectPoolLength; i++)
+        {
+            GameObject soundObject = new GameObject();
+            soundObject.transform.SetParent(transform);
+            soundObject.name = "Sound Effect";
+            AudioSource audioSource = soundObject.AddComponent<AudioSource>();
+            audioSource.gameObject.SetActive(false);
+            pool.Add(audioSource);
+        }
+    }
+
+    public void PlaySound(Sound audio)
+    {
+        if (!audio.clip)
+        {
+            Debug.Log("Clip is null!");
+            return;
         }
 
-        s.Play();
+        if (logSounds)
+        {
+            Debug.Log("Playing Audio: " + audio.name);
+        }
+
+        for (int i = 0; i < pool.Count; i++)
+        {
+            //Picks first audio source not active in the scene
+            if (!pool[i].gameObject.activeInHierarchy)
+            {
+                SetSource(pool[i], audio);
+
+                pool[i].name = audio.name;
+                pool[i].transform.position = transform.position;
+                pool[i].gameObject.SetActive(true);
+                pool[i].Play();
+
+                if (!audio.loop)
+                    StartCoroutine(ReturnToPool(pool[i].gameObject, audio.clip.length));
+
+                return;
+            }
+        }
+
+        //If we run out of objects in the pool, create another audio source
+        GameObject soundObject = new GameObject();
+        soundObject.transform.SetParent(transform);
+        soundObject.name = audio.name;
+        //soundObject.name = "Sound Effect";
+
+        AudioSource audioSource = soundObject.AddComponent<AudioSource>();
+        pool.Add(audioSource);
+
+        SetSource(audioSource, audio);
+
+        soundObject.transform.position = transform.position;
+        audioSource.Play();
+
+        if (!audio.loop)
+            StartCoroutine(ReturnToPool(soundObject, audio.clip.length));
+
+    }
+
+    private void SetSource(AudioSource source, Sound audio)
+    {
+        source.clip = audio.clip;
+        source.pitch = audio.pitch;
+        source.volume = audio.volume;
+        source.loop = audio.loop;
+        source.outputAudioMixerGroup = audio.audioMixerGroup;
+
+    }
+
+    public void SelectSound(Sound[] clips)
+    {
+        Sound audio = GetRandomClip(clips);
+        PlaySound(audio);
+
+    }
+
+    private Sound GetRandomClip(Sound[] clips)
+    {
+        return clips[UnityEngine.Random.Range(0, clips.Length)];
+    }
+
+    private IEnumerator ReturnToPool(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
+    }
+    
+    public void ReturnToPool(Sound sound)
+    {
+        Debug.Log("Inside return to pool");
+
+        AudioSource audioSource = pool.Find(x => x.gameObject.name == sound.name);
+
+        if(audioSource)
+        {
+            audioSource.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("No audio source with game object name " + sound.name);
+        }
     }
 }

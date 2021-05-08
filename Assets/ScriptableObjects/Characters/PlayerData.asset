@@ -45,3 +45,6 @@ MonoBehaviour:
   fallHeightCutoff: -20
   timeInvincible: 0.3
   SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}
+  SFXChannel: {fileID: 11400000, guid: eea5b5cc7a2545a4d8b9602021ab2d30, type: 2}
+  SFXRandomChannel: {fileID: 11400000, guid: f242e4be9a1a42d4f9e8cd5ef32eb62b, type: 2}
+  playerSounds: {fileID: 11400000, guid: d4d2b46a903d9a14ab64fe3051cef49d, type: 2}

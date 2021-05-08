@@ -12,7 +12,8 @@ public class EntitySO : ScriptableObject
     public GameObject hitSkullParticle;
 
     [Header("Broadcasting on")]
-    public AudioSourceEventChannelSO SFXEventChannel;
+    public AudioSoundEventChannelSO SFXChannel;
+    public Sound takeDamageSound;
 
     [Header("Check Variables")]
     public float wallCheckDistance = 0.2f;

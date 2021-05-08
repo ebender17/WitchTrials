@@ -60606,16 +60606,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3864697775456462672, guid: 5f0583990bbdf97489c6044e2233dafa,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3864697775456462672, guid: 5f0583990bbdf97489c6044e2233dafa,
-        type: 3}
-      propertyPath: m_TagString
-      value: NPC
-      objectReference: {fileID: 0}
     - target: {fileID: 3864697775726029893, guid: 5f0583990bbdf97489c6044e2233dafa,
         type: 3}
       propertyPath: m_RootOrder
@@ -60671,11 +60661,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864697775726029895, guid: 5f0583990bbdf97489c6044e2233dafa,
-        type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3864697775726029897, guid: 5f0583990bbdf97489c6044e2233dafa,
         type: 3}
       propertyPath: m_Name
@@ -60683,6 +60668,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f0583990bbdf97489c6044e2233dafa, type: 3}
+--- !u!1 &3864697776020413343 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3864697775726029897, guid: 5f0583990bbdf97489c6044e2233dafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3864697776020413342}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3864697776020413344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864697776020413343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a4c7fb7e788f34e9f3b1b683ce0ab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFXChannel: {fileID: 11400000, guid: eea5b5cc7a2545a4d8b9602021ab2d30, type: 2}
+  SFXRandomChannel: {fileID: 11400000, guid: f242e4be9a1a42d4f9e8cd5ef32eb62b, type: 2}
+  playerSounds: {fileID: 11400000, guid: d4d2b46a903d9a14ab64fe3051cef49d, type: 2}
 --- !u!1001 &5843633988836202580
 PrefabInstance:
   m_ObjectHideFlags: 0
