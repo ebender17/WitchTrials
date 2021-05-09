@@ -83,7 +83,7 @@ public class UIManager : MonoBehaviour
     public void OpenUIDialogue(string dialogueLine, ActorSO actor)
     {
         _dialoguePanel.SetDialogue(dialogueLine, actor);
-        _dialoguePanel.gameObject.SetActive(true);
+        _dialoguePanel.transform.GetChild(0).gameObject.SetActive(true);
 
         _HUDPanel.gameObject.SetActive(false);
 
@@ -100,7 +100,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseUIDialogue()
     {
-        _dialoguePanel.gameObject.SetActive(false);
+        _dialoguePanel.transform.GetChild(0).gameObject.SetActive(false);
 
         _HUDPanel.gameObject.SetActive(true);
 

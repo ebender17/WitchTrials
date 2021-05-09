@@ -8,11 +8,27 @@ using TMPro;
 public class UIDialogueManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _lineText = default;
-    [SerializeField] private TextMeshProUGUI _actorNameText = default; 
+    [SerializeField] private TextMeshProUGUI _actorNameText = default;
+
+    private TypewriterEffect _typewriterEffect = null;
+
+    private void Start()
+    {
+        _typewriterEffect = GetComponent<TypewriterEffect>();
+    }
 
     public void SetDialogue(string dialogueLine, ActorSO actor)
     {
-        _lineText.SetText(dialogueLine);
+        if (_typewriterEffect)
+        {
+            _typewriterEffect.Run(dialogueLine, _lineText);
+        }
+        else
+        {
+            _lineText.SetText(dialogueLine);
+            Debug.Log("Attached Typewriter component for typewriter effect.");
+        }
+        
         _actorNameText.SetText($"{actor.ActorName}");
     }
 }

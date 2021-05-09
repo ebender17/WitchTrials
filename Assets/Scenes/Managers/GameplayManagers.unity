@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioToPlay: {fileID: 11400000, guid: 9fc976bdeb22b2342a80fbbdf010f0ce, type: 2}
   _onSceneReady: {fileID: 11400000, guid: e7336e8f5b6c4b040b981c68d9a051ac, type: 2}
-  _onSceneUnload: {fileID: 11400000, guid: 0000dce0f5c6f2e4a9272b54b1965e67, type: 2}
   _playMusicOn: {fileID: 11400000, guid: 5de70b8ca85aa5e41a48d3dfa7e92ecb, type: 2}
   _endMusicEvent: {fileID: 11400000, guid: c7e1639ab59eb724c8d14ecc5abb1f81, type: 2}
 --- !u!4 &195656902
@@ -183,7 +182,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 4683801351734589754}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4683801351734589755}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f28b8a5ea3b13c4eaa3d6ae4d4c6fa2, type: 3}
@@ -1197,6 +1196,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1080664034}
     m_Modifications:
+    - target: {fileID: 4683801349776926957, guid: bfdc938e2b313194abcab06be4269e1a,
+        type: 3}
+      propertyPath: m_text
+      value: 'This is an example dialogue text. I need to take up the whole screen. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 4683801350358222462, guid: bfdc938e2b313194abcab06be4269e1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4683801350358222463, guid: bfdc938e2b313194abcab06be4269e1a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1221,6 +1230,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -153.15302
+      objectReference: {fileID: 0}
+    - target: {fileID: 4683801351335712248, guid: bfdc938e2b313194abcab06be4269e1a,
+        type: 3}
+      propertyPath: m_text
+      value: Example Name
       objectReference: {fileID: 0}
     - target: {fileID: 4683801351688477832, guid: bfdc938e2b313194abcab06be4269e1a,
         type: 3}
@@ -1327,6 +1341,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4683801351688477833, guid: bfdc938e2b313194abcab06be4269e1a,
+        type: 3}
+      propertyPath: _typewriterEffect
+      value: 
+      objectReference: {fileID: 4683801351734589756}
     - target: {fileID: 4683801351688477835, guid: bfdc938e2b313194abcab06be4269e1a,
         type: 3}
       propertyPath: m_Name
@@ -1335,10 +1354,29 @@ PrefabInstance:
     - target: {fileID: 4683801351688477835, guid: bfdc938e2b313194abcab06be4269e1a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfdc938e2b313194abcab06be4269e1a, type: 3}
+--- !u!1 &4683801351734589755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4683801351688477835, guid: bfdc938e2b313194abcab06be4269e1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4683801351734589754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4683801351734589756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4683801351734589755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 340d8419555203349aa560d8475ef1a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _writingSpeed: 50
 --- !u!1001 &5420964762993010688
 PrefabInstance:
   m_ObjectHideFlags: 0

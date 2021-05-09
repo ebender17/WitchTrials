@@ -131,7 +131,6 @@ public class AudioManager : MonoBehaviour
     
     public void ReturnToPool(Sound sound)
     {
-        Debug.Log("Inside return to pool");
 
         AudioSource audioSource = pool.Find(x => x.gameObject.name == sound.name);
 
