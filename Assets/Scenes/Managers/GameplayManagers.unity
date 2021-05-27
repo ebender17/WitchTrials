@@ -1118,12 +1118,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3692319342083202504, guid: c7e8409ec67179c47b119cc38ffd2a9a,
         type: 3}
-      propertyPath: _gameEndEvent
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b300f2c67aef064f9f413e56461cf63,
-        type: 2}
-    - target: {fileID: 3692319342083202504, guid: c7e8409ec67179c47b119cc38ffd2a9a,
-        type: 3}
       propertyPath: _dialogueManager
       value: 
       objectReference: {fileID: 223287765}

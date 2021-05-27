@@ -10,7 +10,7 @@ using UnityEngine.Events;
 public class FloatEventChannelSO : EventChannelBaseSO
 {
     public UnityAction<float> OnEventRaised;
-    public void RaiseEvent(int value)
+    public void RaiseEvent(float value)
     {
         if (OnEventRaised != null)
             OnEventRaised.Invoke(value);

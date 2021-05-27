@@ -12,6 +12,7 @@ public class DialogueTrack : PlayableTrack
 {
     [SerializeField] public DialogueLineChannelSO PlayDialogueEvent;
     [SerializeField] public VoidEventChannelSO PauseTimelineEvent;
+    [SerializeField] public RewindTimelineEventChannelSO RewindTimelineEvent;
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
     {
         foreach (TimelineClip clip in GetClips())
@@ -19,6 +20,8 @@ public class DialogueTrack : PlayableTrack
             DialogueClip dialogueControlClip = clip.asset as DialogueClip;
             dialogueControlClip.PlayDialogueEvent = PlayDialogueEvent;
             dialogueControlClip.PauseTimelineEvent = PauseTimelineEvent;
+            dialogueControlClip.RewindTimelineEvent = RewindTimelineEvent;
+
         }
 
         return base.CreateTrackMixer(graph, go, inputCount);

@@ -114,7 +114,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: DialogueClip
   - m_Version: 1
-    m_Start: 12.25
+    m_Start: 13.35
     m_ClipIn: 0
     m_Asset: {fileID: 3222477517604323496}
     m_Duration: 4
@@ -183,7 +183,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: DialogueClip
   - m_Version: 1
-    m_Start: 8.25
+    m_Start: 8.8
     m_ClipIn: 0
     m_Asset: {fileID: 3806332493366485067}
     m_Duration: 4
@@ -252,7 +252,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: DialogueClip
   - m_Version: 1
-    m_Start: 16.25
+    m_Start: 18.116666666666667
     m_ClipIn: 0
     m_Asset: {fileID: -3914202084028568907}
     m_Duration: 4
@@ -324,6 +324,8 @@ MonoBehaviour:
     m_Objects: []
   PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
   PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
+  RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+    type: 2}
 --- !u!114 &-5589649788950525405
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,12 +364,19 @@ MonoBehaviour:
     _dialogueLine: You can do this Eleanor, you can do this.
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
+    _rewindWhenClipEnds: 1
+    _rewindTime: 18.116667
+    _advanceTime: 22.12
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
     PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
       type: 2}
+    RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+      type: 2}
   PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
   PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
+  RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+    type: 2}
 --- !u!114 &-362504385838121568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -412,6 +421,7 @@ MonoBehaviour:
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
+    m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 3795763165328622328}
 --- !u!114 &286817299689494985
@@ -463,6 +473,7 @@ MonoBehaviour:
     m_Objects: []
   PlayDialogueEvent: {fileID: 0}
   PauseTimelineEvent: {fileID: 0}
+  RewindTimelineEvent: {fileID: 0}
 --- !u!74 &2178118764611227976
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -865,12 +876,19 @@ MonoBehaviour:
       have to talk to someone to find my way home though.
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
+    _rewindWhenClipEnds: 1
+    _rewindTime: 13.35
+    _advanceTime: 17.36
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
     PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
       type: 2}
+    RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+      type: 2}
   PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
   PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
+  RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+    type: 2}
 --- !u!114 &3614518301136505857
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -933,12 +951,19 @@ MonoBehaviour:
       stay inside all the time...
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
+    _rewindWhenClipEnds: 1
+    _rewindTime: 8.8
+    _advanceTime: 12.9
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
     PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
       type: 2}
+    RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+      type: 2}
   PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
   PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
+  RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+    type: 2}
 --- !u!114 &4953171570633267543
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1121,7 +1146,7 @@ MonoBehaviour:
     m_Start: 3.783333333333333
     m_ClipIn: 0
     m_Asset: {fileID: 3614518301136505857}
-    m_Duration: 16.46666666666667
+    m_Duration: 18.400000000000013
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5130194670087241501}
     m_EaseInDuration: 0
@@ -1354,12 +1379,19 @@ MonoBehaviour:
     _dialogueLine: Where am I? I knew I shouldn't have wandered far from home.
     _actor: {fileID: 11400000, guid: 95c4e379399a5114aabb97e6d54b5367, type: 2}
     _pauseWhenClipEnds: 0
+    _rewindWhenClipEnds: 1
+    _rewindTime: 4.25
+    _advanceTime: 8.26
     PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32,
       type: 2}
     PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
       type: 2}
+    RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+      type: 2}
   PlayDialogueEvent: {fileID: 11400000, guid: ebbc3bf6650267447b80887659590d32, type: 2}
   PauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a, type: 2}
+  RewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+    type: 2}
 --- !u!114 &8867922817786973215
 MonoBehaviour:
   m_ObjectHideFlags: 1
