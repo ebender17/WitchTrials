@@ -49,3 +49,6 @@ MonoBehaviour:
   _playDialogueEvent: {fileID: 11400000, guid: 7668fad9625f28044969f367d6f2fb37, type: 2}
   _pauseTimelineEvent: {fileID: 11400000, guid: 2250c19347248cb4e94207abffb43a0a,
     type: 2}
+  _rewindTimelineEvent: {fileID: 11400000, guid: b1a725cdb6f147246ae5a569a44b414c,
+    type: 2}
+  _gameEndEvent: {fileID: 11400000, guid: 6b300f2c67aef064f9f413e56461cf63, type: 2}

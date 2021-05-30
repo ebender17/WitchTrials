@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf7feed3b8993148bf697e3493232da, type: 3}
   m_Name: PauseTimelineEvent
   m_EditorClassIdentifier: 
-  description: 
+  description: Raises event to pause timeline.

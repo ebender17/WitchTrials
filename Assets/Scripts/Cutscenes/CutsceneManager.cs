@@ -13,12 +13,16 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private PlayableDirectorChannelSO _playCutsceneEvent;
     [SerializeField] private DialogueLineChannelSO _playDialogueEvent = default;
     [SerializeField] private VoidEventChannelSO _pauseTimelineEvent = default;
+    [SerializeField] private RewindTimelineEventChannelSO _rewindTimelineEvent = default;
 
     [Header("Broadcasting on channels")]
     [SerializeField] private GameResultChannelSO _gameEndEvent;
 
     private PlayableDirector _activePlayableDirector;
-    private bool _isPaused;
+    private bool _isPaused = false;
+    private bool _stopLooping = false; //flag to indicate when advanceDialogueEvent has been pressed
+    private uint _loopingCounter = 0;
+    private float _advanceTime = 0;
     private bool _isEndingCutscene; //flag for raising load end menu
 
     bool IsCutscenePlaying => _activePlayableDirector.playableGraph.GetRootPlayable(0).GetSpeed() != 0d;
@@ -26,23 +30,56 @@ public class CutsceneManager : MonoBehaviour
     private void OnEnable()
     {
         _inputReader.advanceDialogueEvent += OnAdvance;
+
+        if (_playCutsceneEvent != null)
+        {
+            // Play cutscene when event is broadcasted on PlayableDirectorChannel
+            _playCutsceneEvent.OnEventRaised += PlayCutscene;
+        }
+
+        if (_playDialogueEvent != null)
+        {
+            _playDialogueEvent.OnEventRaised += PlayDialogueFromClip;
+        }
+
+        if (_pauseTimelineEvent != null)
+        {
+            _pauseTimelineEvent.OnEventRaised += PauseTimeline;
+        }
+
+        if (_rewindTimelineEvent != null)
+        {
+            _rewindTimelineEvent.OnEventRaised += RewindTimeline;
+        }
     }
 
     private void OnDisable()
     {
         _inputReader.advanceDialogueEvent -= OnAdvance;
+
+
+        if (_playCutsceneEvent != null)
+        {
+            // Play cutscene when event is broadcasted on PlayableDirectorChannel
+            _playCutsceneEvent.OnEventRaised -= PlayCutscene;
+        }
+
+        if (_playDialogueEvent != null)
+        {
+            _playDialogueEvent.OnEventRaised -= PlayDialogueFromClip;
+        }
+
+        if (_pauseTimelineEvent != null)
+        {
+            _pauseTimelineEvent.OnEventRaised -= PauseTimeline;
+        }
+
+        if (_rewindTimelineEvent != null)
+        {
+            _rewindTimelineEvent.OnEventRaised -= RewindTimeline;
+        }
     }
 
-    private void Start()
-    {
-        if (_playCutsceneEvent != null)
-            // Play cutscene when event is broadcasted on PlayableDirectorChannel
-            _playCutsceneEvent.OnEventRaised += PlayCutscene;
-        if (_playDialogueEvent != null)
-            _playDialogueEvent.OnEventRaised += PlayDialogueFromClip;
-        if (_pauseTimelineEvent != null)
-            _pauseTimelineEvent.OnEventRaised += PauseTimeline;
-    }
 
     void PlayCutscene(PlayableDirector activePlayableDirector, bool isEndingCutscene)
     {
@@ -84,8 +121,14 @@ public class CutsceneManager : MonoBehaviour
     private void OnAdvance()
     {
         if (_isPaused)
-            ResumeTimeline();
-
+        {
+           ResumeTimeline();
+        }
+        else if(_loopingCounter > 1)
+        {
+            
+            AdvanceTimeline(_advanceTime);
+        }
     }
 
     private void PauseTimeline()
@@ -98,6 +141,40 @@ public class CutsceneManager : MonoBehaviour
     {
         _isPaused = false;
         _activePlayableDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
+    }
+
+    private void AdvanceTimeline(float time)
+    {
+        Debug.Log("Advance time + " + time);
+
+        _activePlayableDirector.playableGraph.GetRootPlayable(0).SetTime(time);
+        _stopLooping = true;
+        _loopingCounter = 0;
+        
+    }
+
+    /// <summary>
+    /// Triggered by OnBehaviorPause in <see cref="DialgueBehavior"/>. 
+    /// </summary>
+    /// <param name="rewindTime"></param>
+    /// <param name="advanceTime"></param>
+    private void RewindTimeline(float rewindTime, float advanceTime)
+    {
+        //RewindTimeline will be called after AdvanceTimeline b/c AdvanceTimeline causes clip to deactivate and OnBehaviorPause to be called.
+        //Therefore, we set _stopLooping to false after RewindTimeline has been called once (right after AdvanceTimeline).
+        if(_loopingCounter == 1)
+        {
+            _stopLooping = false;
+        }
+
+        if(!_stopLooping)
+        {
+            Debug.Log("Inside Rewind Timeline");
+
+            _advanceTime = advanceTime;
+            _activePlayableDirector.playableGraph.GetRootPlayable(0).SetTime(rewindTime);
+        }
+        _loopingCounter++;
     }
 
 }

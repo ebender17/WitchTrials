@@ -13,7 +13,7 @@ public class PlayerLandState : PlayerGroundedState
     {
         base.Enter();
 
-        playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerLand);
+        //playerData.SFXChannel.RaiseEvent(playerData.playerSounds.land);
     }
 
     public override void Execute()

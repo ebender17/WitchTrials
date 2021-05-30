@@ -8,7 +8,6 @@ public class GameSceneSO : DescriptionBaseSO
 {
     public GameSceneType sceneType;
     public AssetReference sceneRefernce; //Used at runtime to load the scene from the right AssetBundle
-    public AudioCueSO musicTrack;
 
     /*
      * Used by the SceneSelector tool to discern what type of scene it needs to load

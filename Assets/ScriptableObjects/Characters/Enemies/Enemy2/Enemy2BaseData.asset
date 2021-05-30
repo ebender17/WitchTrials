@@ -18,7 +18,8 @@ MonoBehaviour:
     type: 3}
   hitSkullParticle: {fileID: 4534836952598568240, guid: 15a17484f26632a41bec6e01fe3fdf67,
     type: 3}
-  SFXEventChannel: {fileID: 11400000, guid: b76539b61f596844cb697ca7d34fecfb, type: 2}
+  SFXChannel: {fileID: 11400000, guid: eea5b5cc7a2545a4d8b9602021ab2d30, type: 2}
+  takeDamageSound: {fileID: 11400000, guid: d5cbba48584859f4dbd00dd2289163e9, type: 2}
   wallCheckDistance: 0.2
   ledgeCheckDistance: 0.4
   groundCheckRadius: 0.3

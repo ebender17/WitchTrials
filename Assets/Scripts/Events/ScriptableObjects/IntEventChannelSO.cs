@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "newAudioSourceEventChannel", menuName = "Events/Int Event Channel")]
+[CreateAssetMenu(fileName = "newIntEventChannel", menuName = "Events/Int Event Channel")]
 public class IntEventChannelSO : EventChannelBaseSO
 {
     public IntAction OnEventRaised;

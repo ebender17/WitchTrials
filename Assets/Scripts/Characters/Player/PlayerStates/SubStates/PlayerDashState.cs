@@ -78,7 +78,7 @@ public class PlayerDashState : PlayerAbilityState
                     player.SetVelocity(playerData.dashVelocity, _dashDirection);
                     player.dashDirectionIndicator.gameObject.SetActive(false);
 
-                    playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerDash);
+                    playerData.SFXChannel.RaiseEvent(playerData.playerSounds.dash);
                 }
 
             }

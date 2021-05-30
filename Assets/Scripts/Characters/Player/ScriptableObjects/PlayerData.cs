@@ -54,6 +54,9 @@ public class PlayerData : ScriptableObject
     [Tooltip("Time player is invincible between damage.")]
     public float timeInvincible = 2.0f;
 
-    [Header("SFX Channel")]
-    public AudioSourceEventChannelSO SFXEventChannel;
+    [Header("SFX Channels")]
+    public AudioSoundEventChannelSO SFXChannel;
+    [Tooltip("Use to play random audio clips from list")]
+    public AudioSoundsEventChannelSO SFXRandomChannel;
+    public PlayerSounds playerSounds;
 }

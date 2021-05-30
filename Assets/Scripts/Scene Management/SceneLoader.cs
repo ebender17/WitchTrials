@@ -84,6 +84,7 @@ public class SceneLoader : MonoBehaviour
      * Summary:
      * Prepares to load the main menu scene, first removing the Gameplay scene in case the game is coming back from 
      * gamplay to menus. 
+     * 
      */
     private void LoadMenu(GameSceneSO[] menusToLoad, bool showLoadingScreen)
     {
@@ -104,10 +105,10 @@ public class SceneLoader : MonoBehaviour
      */
     private void UnloadPreviousScenes()
     {
-        for(int i = 0; i < _currentlyLoadedScenes.Length; i++)
+        
+        for (int i = 0; i < _currentlyLoadedScenes.Length; i++)
         {
-            _currentlyLoadedScenes[i].sceneRefernce.UnLoadScene(); 
-
+            _currentlyLoadedScenes[i].sceneRefernce.UnLoadScene();
         }
 
         LoadNewScenes();

@@ -132,7 +132,7 @@ public class Entity : MonoBehaviour
         DamageHop(entityData.damageHopSpeed);
 
         //Broadcasting SFX sound
-        entityData.SFXEventChannel.RaisePlayEvent(AudioClipName.EnemyHit);
+        entityData.SFXChannel.RaiseEvent(entityData.takeDamageSound);
 
         //Instantiating hitparticles
         Instantiate(entityData.hitParticle, aliveGO.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));

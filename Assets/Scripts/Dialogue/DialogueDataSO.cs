@@ -24,7 +24,7 @@ public enum ChoiceActionType
 public class DialogueDataSO : ScriptableObject
 {
     [SerializeField] private ActorSO _actor = default;
-    [SerializeField] private List<string> _dialogueLines = default;
+    [SerializeField] [TextArea] private List<string> _dialogueLines = default;
     [SerializeField] private DialogueType _dialogueType = default;
 
     public ActorSO Actor => _actor;

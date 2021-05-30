@@ -476,15 +476,24 @@ public class PlayerController : MonoBehaviour
 
         //Raising event to change healthbar UI
         if(_playerHealthUI != null)
+        {
             _playerHealthUI.OnEventRaised(_currentHealth / playerData.maxHealth);
-
+        }
+            
         //Raising event to play player hit SFX
-        if(playerData.SFXEventChannel != null)
-            playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
+        //if(playerData.SFXEventChannel != null)
+            //playerData.SFXEventChannel.RaisePlayEvent(AudioClipName.PlayerHit);
+
+        if(playerData.SFXChannel != null)
+        {
+            Debug.Log("SFX Channel Raise Event player take damage");
+            playerData.SFXChannel.RaiseEvent(playerData.playerSounds.takeDamage);
+        }
+       
 
         //TODO: damage anim 
 
-        if(_currentHealth <= 0.0f)
+        if (_currentHealth <= 0.0f)
         {
             Death();
         }
